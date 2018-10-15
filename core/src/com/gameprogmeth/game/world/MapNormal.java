@@ -1,49 +1,20 @@
 package com.gameprogmeth.game.world;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public class MapNormal implements Screen {
+public abstract class MapNormal {
 
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void render(float delta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
+	public abstract void render(OrthographicCamera camera);
+	public abstract void update(float delta);
+	public abstract void dispose();
+	
+	public TileType getTileTypeByLocation(int layer, float x, float y) {
+		return this.getTileTypeByCoordinate(layer, (int)(x / TileType.TILE_SIZE) , (int)(y / TileType.TILE_SIZE));
 	}
 	
+	public abstract TileType getTileTypeByCoordinate(int layer, int col, int row);
+	
+	public abstract int getWidth();
+	public abstract int getHeight();
+	public abstract int getLayer();
 }
