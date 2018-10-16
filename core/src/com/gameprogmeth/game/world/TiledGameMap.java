@@ -1,13 +1,26 @@
 package com.gameprogmeth.game.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class TiledGameMap extends MapNormal{
 
+	TiledMap tiledMap;
+	OrthogonalTiledMapRenderer tiledMapRenderer;
+	
+	public TiledGameMap() {
+		tiledMap = new TmxMapLoader().load("map.tmx");
+		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		
+	}
+	
 	@Override
 	public void render(OrthographicCamera camera) {
-		// TODO Auto-generated method stub
-		
+		tiledMapRenderer.setView(camera);
+		tiledMapRenderer.render();
+	
 	}
 
 	@Override
@@ -18,7 +31,7 @@ public class TiledGameMap extends MapNormal{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		tiledMap.dispose();
 		
 	}
 
