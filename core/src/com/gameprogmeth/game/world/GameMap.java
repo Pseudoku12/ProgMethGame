@@ -2,7 +2,7 @@ package com.gameprogmeth.game.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public abstract class MapNormal {
+public abstract class GameMap {
 
 	public abstract void render(OrthographicCamera camera);
 	public abstract void update(float delta);
@@ -17,4 +17,5 @@ public abstract class MapNormal {
 	public abstract int getWidth();
 	public abstract int getHeight();
 	public abstract int getLayer();
+	
 }
