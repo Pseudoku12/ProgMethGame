@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-public class TiledGameMap extends MapNormal{
+public class TiledGameMap extends GameMap{
 
 	TiledMap tiledMap;
 	OrthogonalTiledMapRenderer tiledMapRenderer;
