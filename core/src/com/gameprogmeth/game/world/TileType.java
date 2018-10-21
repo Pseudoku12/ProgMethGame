@@ -68,13 +68,14 @@ public enum TileType {
 		return collidable;
 	}
 	
-	static {
-		for(TileType tileType : TileType.values()) {
-			tileMap.put(tileType.getId(), tileType);
-		}
-	}
-	
-	public static TileType getTileTypeById(int id) {
-		return tileMap.get(id);
-	}
+//	static {
+//		TileType[] type = TileType.values();
+//		for(TileType tileType : type) {
+//			tileMap.put(tileType.getId(), tileType);
+//		}
+//	}
+//	
+//	public static TileType getTileTypeById(int id) {
+//		return tileMap.get(id);
+//	}
 }
