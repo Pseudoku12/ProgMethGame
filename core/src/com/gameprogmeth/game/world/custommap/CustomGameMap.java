@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.gameprogmeth.game.world.GameMap;
 import com.gameprogmeth.game.world.TileType;
-import com.gameprogmeth.game.world.TileTypeMap;
 
 public class CustomGameMap extends GameMap{
 
