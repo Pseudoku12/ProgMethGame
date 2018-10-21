@@ -69,9 +69,9 @@ public class CustomGameMap extends GameMap{
 		if(col < 0 || col >= getWidth() || row < 0 || row >= getHeight()) {
 			return null;
 		}
-		TileTypeMap tileTypeMap = new TileTypeMap();
-		return tileTypeMap.getTileTypeById(map[layer][getHeight() - row - 1][col]);
-//		return TileType.getTileTypeById(map[layer][getHeight() - row - 1][col]);
+//		TileTypeMap tileTypeMap = new TileTypeMap();
+//		return tileTypeMap.getTileTypeById(map[layer][getHeight() - row - 1][col]);
+		return TileType.getTileTypeById(map[layer][getHeight() - row - 1][col]);
 	}
 
 	@Override
