@@ -88,6 +88,18 @@ public class TestCharacter extends State implements Screen {
 		} else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 			character.setVelocity(character.getSpeed(), 0);
 			character.setRoll(2);
+		} else if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && character.getRoll()%4 == 0) {
+			character.setVelocity(0, 0);
+			character.setRoll(4);
+		} else if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && character.getRoll()%4 == 1) {
+			character.setVelocity(0, 0);
+			character.setRoll(5);
+		} else if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && character.getRoll()%4 == 2) {
+			character.setVelocity(0, 0);
+			character.setRoll(6);
+		} else if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && character.getRoll()%4 == 3) {
+			character.setVelocity(0, 0);
+			character.setRoll(7);
 		} else {
 			character.setVelocity(0, 0);
 		}
@@ -111,8 +123,8 @@ public class TestCharacter extends State implements Screen {
 		sb.begin();
 		sb.draw(character.getAnimation().getKeyFrame(stateTime, true), character.getPosition().x,
 				character.getPosition().y, character.getRenderWidth(), character.getRenderHeight());
-		sb.draw(enemy1.getAnimation().getKeyFrame(stateTime, true), enemy1.getPosition().x,
-				enemy1.getPosition().y, enemy1.getRenderWidth(), enemy1.getRenderHeight());
+		sb.draw(enemy1.getAnimation().getKeyFrame(stateTime, true), enemy1.getPosition().x, enemy1.getPosition().y,
+				enemy1.getRenderWidth(), enemy1.getRenderHeight());
 		sb.end();
 	}
 
