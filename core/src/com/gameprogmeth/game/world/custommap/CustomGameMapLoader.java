@@ -1,5 +1,6 @@
 package com.gameprogmeth.game.world.custommap;
 
+import java.util.PriorityQueue;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -12,6 +13,8 @@ public class CustomGameMapLoader {
 	
 	private static Json json = new Json();
 	private static final int SIZE = 100;
+	private static int[][] randomMap, chkMap;
+	private static PriorityQueue<Triple> pqMap;
 	
 	public static CustomGameMapData loadMap(String id, String name) {
 		Gdx.files.local("maps/").file().mkdirs();
@@ -38,17 +41,24 @@ public class CustomGameMapLoader {
 	}
 	
 	public static CustomGameMapData generateRandomMap (String id, String name) {
+		randomMap = new int[SIZE][SIZE];
+		chkMap = new int[SIZE][SIZE];
+		pqMap = new PriorityQueue<Triple>();
+		
 		CustomGameMapData mapData = new CustomGameMapData();
 		mapData.id = id;
 		mapData.name = name;
 		mapData.map = new int[2][SIZE][SIZE];
 		
 		Random random = new Random();
-		int originX = random.nextInt(99);
-		int originY = random.nextInt(99);
+		randomValue();
 		
-		randomBase(mapData, 5000, originX, originY);
+		int originX = 50;
+		int originY = 50;
 		
+		findTheWay(originX, originY, 3000);
+		
+		mapData.map[0] = chkMap;
 		
 		for (int row = 0; row < SIZE; row++) {
 			for (int col = 0; col < SIZE; col++) {
@@ -84,73 +94,60 @@ public class CustomGameMapLoader {
 		
 		return mapData;
 	}
-	
-//	public static void randomMap(CustomGameMapData mapData, int num){
-//		if(num == 0) return;
-//		Random random = new Random();
-//		
-//		int originX = random.nextInt(99);
-//		int originY = random.nextInt(99);
-//		randomDungeon(mapData, num, originX, originY);
-//	}
-	
-//	public static void randomDungeon(CustomGameMapData mapData, int num, int x, int y) {
-//		if(num == 0) return;
-//		mapData.map[0][x][y] = 1;
-//		num--;
-//		if(x-1 >= 0) randomDungeon(mapData, num, x-1, y);
-//		if(y-1 >= 0) randomDungeon(mapData, num, x, y-1);
-//		if(x+1 < SIZE) randomDungeon(mapData, num, x+1, y);
-//		if(y+1 < SIZE) randomDungeon(mapData, num, x, y+1);
-//	}	
 		
-		
-		
-		
-		
-		
-		
-	public static void randomBase(CustomGameMapData mapData, int num, int x, int y) {
-		if(num == 0) {
-			return;
-		}
-		if(x - 2 < 0) {
-			randomBase(mapData, num, 2, y);
-			return;
-		} 
-		if(x + 2 >= SIZE) {
-			randomBase(mapData, num, SIZE-3, y);
-			return;
-		}
-		if(y - 1 < 0) {
-			randomBase(mapData, num, x, 1);
-			return;
-		}
-		if(y + 1 >= SIZE) {
-			randomBase(mapData, num, x, SIZE-2);
-			return;
-		}
+	public static void randomValue() {
 		Random random = new Random();
-		mapData.map[0][x][y] = 1;
-		mapData.map[0][x-1][y] = 1;
-		mapData.map[0][x][y-1] = 1;
-		mapData.map[0][x+1][y] = 1;
-		mapData.map[0][x][y+1] = 1;
-		num-=5;
-		int d = random.nextInt(3);
-		if(d == 0) {
-			randomBase(mapData, num, x-1, y);
+		for (int row = 0; row < SIZE; row++) {
+			for (int col = 0; col < SIZE; col++) {
+				randomMap[row][col] = random.nextInt(1000);
+				chkMap[row][col] = 0;
+			}
 		}
-		else if(d == 1) {
-			randomBase(mapData, num, x, y-1);
-		}
-		else if(d == 2) {
-			randomBase(mapData, num, x+1, y);
-		}
-		else if(d == 3) {
-			randomBase(mapData, num, x, y+1);
-		}
-	}		
+	}
 	
+	public static void findTheWay(int originX, int originY, int number) {
+		if(number == 0) {
+			return;
+		}
+		if(chkMap[originX][originY] == 1) {
+			Triple point = pqMap.poll();
+			findTheWay(point.coX, point.coY, number);
+			return;
+		}
+		chkMap[originX][originY] = 1;
+
+		if(originX-1 >= 0) {
+			int x = originX;
+			x--;
+			Triple pairCo = new Triple(randomMap[x][originY],x,originY);
+//			chkMap[originX-1][originY] = 1;
+			pqMap.add(pairCo);	
+		}
+		if(originX+1 < SIZE) {
+			int x = originX;
+			x++;
+			Triple pairCo = new Triple(randomMap[x][originY],x,originY);
+//			chkMap[originX+1][originY] = 1;
+			pqMap.add(pairCo);
+		}
+		if(originY-1 >=0) {
+			int y = originY;
+			y--;
+			Triple pairCo = new Triple(randomMap[originX][y],originX,y);
+//			chkMap[originX][originY-1] = 1;
+			pqMap.add(pairCo);
+		}
+		if(originY+1 < SIZE) {
+			int y = originY;
+			y++;
+			Triple pairCo = new Triple(randomMap[originX][y],originX,y);
+//			chkMap[originX][originY+1] = 1;
+			pqMap.add(pairCo);
+			
+		}
+		Triple point = pqMap.poll();
+		findTheWay(point.coX, point.coY, number-1);
+		
+	}
 		
 }

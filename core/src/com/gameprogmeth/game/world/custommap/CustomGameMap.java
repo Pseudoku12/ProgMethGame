@@ -19,7 +19,7 @@ public class CustomGameMap extends GameMap{
 	private TextureRegion[][] stones;
 	
 	public CustomGameMap() {
-		CustomGameMapData data = CustomGameMapLoader.loadMap("level5", "Easy");
+		CustomGameMapData data = CustomGameMapLoader.loadMap("level7", "Easy");
 		this.id = data.id;
 		this.name = data.name;
 		this.map = data.map;
