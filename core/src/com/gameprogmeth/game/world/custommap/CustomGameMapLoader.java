@@ -57,8 +57,10 @@ public class CustomGameMapLoader {
 		int originX = 50;
 		int originY = 50;
 		
-		findTheWay(originX, originY, 100);
+		findTheWay(originX, originY, 120);
 		
+		checkHole();
+		addSide(100);
 		
 		for (int row = 0; row < SIZE; row++) {
 			for (int col = 0; col < SIZE; col++) {
@@ -78,7 +80,7 @@ public class CustomGameMapLoader {
 					else if(a <= 42) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK6.getId();
 					else if(a <= 45) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK7.getId();
 					else if(a <= 48) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK8.getId();
-					else if(a <= 50) 	mapData.map[1][row][col] = StoneAndGem.COPPER_ROCK.getId();
+					else if(a <= 51) 	mapData.map[1][row][col] = StoneAndGem.COPPER_ROCK.getId();
 				}
 			}
 		}
@@ -87,6 +89,38 @@ public class CustomGameMapLoader {
 	}
 
 		
+	public static void addSide(int num) {
+		for(int row = 1; row < SIZE - 1; row++) {
+			for(int col = 1; col < SIZE - 1; col++) {
+				if(num == 0) {
+					return ;
+				}
+				if(chkMap[row - 1][col] == 1 && chkMap[row][col] == 0) {
+					chkMap[row][col] = 1;
+					num--;
+				}
+				
+			}
+		}
+		
+	}
+
+	public static void checkHole() {
+		for(int row = 1; row < SIZE - 1; row++) {
+			for(int col = 1; col < SIZE - 1; col++) {
+				if(((chkMap[row + 1][col] == 1 && chkMap[row][col - 1] == 1 && chkMap[row][col + 1] == 1) || 
+				   (chkMap[row - 1][col] == 1 && chkMap[row][col - 1] == 1 && chkMap[row][col + 1] == 1) ||
+				   (chkMap[row + 1][col] == 1 && chkMap[row - 1][col] == 1 && chkMap[row][col + 1] == 1) ||
+				   (chkMap[row + 1][col] == 1 && chkMap[row - 1][col] == 1 && chkMap[row][col - 1] == 1)) && 
+				    chkMap[row][col] == 0) {
+					chkMap[row][col] = 1;
+				}
+				
+			}
+		}
+		
+	}
+
 	public static void randomValue() {
 		Random random = new Random();
 		for (int row = 0; row < SIZE; row++) {
