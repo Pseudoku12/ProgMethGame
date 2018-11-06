@@ -18,4 +18,7 @@ public abstract class GameMap {
 	public abstract int getHeight();
 	public abstract int getLayer();
 	
+	public void update() {
+		
+	}
 }
