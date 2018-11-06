@@ -20,7 +20,7 @@ public class CustomGameMap extends GameMap{
 	
 	public CustomGameMap() {
 
-		CustomGameMapData data = CustomGameMapLoader.loadMap("level2", "Begin");
+		CustomGameMapData data = CustomGameMapLoader.loadMap("level3", "Begin");
 
 		this.id = data.id;
 		this.name = data.name;

@@ -57,7 +57,7 @@ public class CustomGameMapLoader {
 		int originX = 50;
 		int originY = 50;
 		
-		findTheWay(originX, originY, 100);
+		findTheWay(originX, originY, 150);
 		
 		
 		for (int row = 0; row < SIZE; row++) {
