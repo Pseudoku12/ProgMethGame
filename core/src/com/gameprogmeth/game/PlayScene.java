@@ -1,22 +1,24 @@
 package com.gameprogmeth.game;
 
 import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gameprogmeth.game.world.GameMap;
 import com.gameprogmeth.game.world.custommap.CustomGameMap;
 
-public class PlayScene implements Screen {
+import states.GameStateManager;
+import states.State;
 
-	private GameProgMeth game;
+public class PlayScene extends State implements Screen {
 	
 	OrthographicCamera cam;
 	GameMap gameMap;
 	
-	public PlayScene(GameProgMeth game) {
-		this.game = game;
-		
+	public PlayScene(GameStateManager gsm) {
+		super(gsm);
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/4);
 		cam.update();
@@ -33,7 +35,7 @@ public class PlayScene implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		if(Gdx.input.isTouched()) {
@@ -70,6 +72,24 @@ public class PlayScene implements Screen {
 
 	@Override
 	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void handleInput() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(float dt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(SpriteBatch sb) {
 		// TODO Auto-generated method stub
 		
 	}
