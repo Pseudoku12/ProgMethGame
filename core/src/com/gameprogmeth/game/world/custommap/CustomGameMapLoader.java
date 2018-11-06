@@ -6,6 +6,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
+import com.gameprogmeth.game.world.StoneAndGem;
 import com.gameprogmeth.game.world.TileType;
 
 public class CustomGameMapLoader {
@@ -56,26 +57,28 @@ public class CustomGameMapLoader {
 		int originX = 50;
 		int originY = 50;
 		
-		findTheWay(originX, originY, 3000);
-		
-		mapData.map[0] = chkMap;
+		findTheWay(originX, originY, 100);
 		
 		
 		for (int row = 0; row < SIZE; row++) {
 			for (int col = 0; col < SIZE; col++) {
-				mapData.map[0][row][col] = TileType.GROUND_CIRCLE.getId();
-				
-				if (row > SIZE - 3 - 1) {
-					mapData.map[1][row][col] = TileType.GROUND_NORMAL.getId();
-				} else if (row > SIZE - 20) {
-					mapData.map[1][row][col] = TileType.GROUND_NORMAL.getId();
-				} else if (row > SIZE - 25) {
-					mapData.map[1][row][col] = TileType.GROUND_NORMAL.getId();
-				} else if (row > SIZE - 26) {
-					mapData.map[1][row][col] = TileType.GROUND_NORMAL.getId();
-				} else {
-					if (random.nextInt(50) == 0)//1 chance out of 50 of being a cloud
-						mapData.map[1][row][col] = TileType.GROUND_NORMAL.getId();
+				if(chkMap[row][col] == 1) {
+					int a = random.nextInt(100);
+					if(a <= 45)			mapData.map[0][row][col] = TileType.GROUND_NORMAL.getId();
+					else if(a <= 90)	mapData.map[0][row][col] = TileType.GROUND_ROUGH.getId();
+					else if(a <= 98)	mapData.map[0][row][col] = TileType.GROUND_CIRCLE.getId();
+					else if(a <= 100)	mapData.map[0][row][col] = TileType.GROUND_HOLE.getId();
+					
+					a = random.nextInt(100);
+					if(a <= 7) 			mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK1.getId();
+					else if(a <= 14) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK2.getId();
+					else if(a <= 21) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK3.getId();
+					else if(a <= 28) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK4.getId();
+					else if(a <= 35) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK5.getId();
+					else if(a <= 42) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK6.getId();
+					else if(a <= 45) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK7.getId();
+					else if(a <= 48) 	mapData.map[1][row][col] = StoneAndGem.NORMAL_ROCK8.getId();
+					else if(a <= 50) 	mapData.map[1][row][col] = StoneAndGem.COPPER_ROCK.getId();
 				}
 			}
 		}

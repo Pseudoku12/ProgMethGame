@@ -12,7 +12,13 @@ public abstract class GameMap {
 		return this.getTileTypeByCoordinate(layer, (int)(x / TileType.TILE_SIZE) , (int)(y / TileType.TILE_SIZE));
 	}
 	
+	public StoneAndGem getStoneAndGemByLocation(int layer, float x, float y) {
+		return this.getStoneAndGemByCoordinate(layer, (int)(x / TileType.TILE_SIZE) , (int)(y / TileType.TILE_SIZE));
+	}
+	
 	public abstract TileType getTileTypeByCoordinate(int layer, int col, int row);
+	
+	public abstract StoneAndGem getStoneAndGemByCoordinate(int layer, int col, int row);
 	
 	public abstract int getWidth();
 	public abstract int getHeight();

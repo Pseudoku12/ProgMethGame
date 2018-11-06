@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.gameprogmeth.game.world.GameMap;
+import com.gameprogmeth.game.world.StoneAndGem;
 import com.gameprogmeth.game.world.TileType;
 
 public class CustomGameMap extends GameMap{
@@ -15,10 +16,11 @@ public class CustomGameMap extends GameMap{
 	
 	private SpriteBatch batch;
 	private TextureRegion[][] tiles;
+	private TextureRegion[][] stones;
 	
 	public CustomGameMap() {
 
-		CustomGameMapData data = CustomGameMapLoader.loadMap("level7", "Easy");
+		CustomGameMapData data = CustomGameMapLoader.loadMap("level2", "Begin");
 
 		this.id = data.id;
 		this.name = data.name;
@@ -26,7 +28,7 @@ public class CustomGameMap extends GameMap{
 		
 		batch = new SpriteBatch();
 		tiles = TextureRegion.split(new Texture("GameProgMeth_Tile.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
-		
+		stones = TextureRegion.split(new Texture("StoneandGem.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
 	}
 
 	@Override
@@ -37,9 +39,17 @@ public class CustomGameMap extends GameMap{
 		for(int layer = 0; layer < getLayer(); layer++) {
 			for(int row = 0; row < getHeight(); row++) {
 				for(int col = 0; col < getWidth(); col++) {
-					TileType type = this.getTileTypeByCoordinate(layer, col, row);
-					if(type != null) {
-						batch.draw(tiles[(type.getId() - 1) / 7][(type.getId() - 1) % 7], col * TileType.TILE_SIZE, row * TileType.TILE_SIZE);
+					if(layer == 0) {
+						TileType type = this.getTileTypeByCoordinate(layer, col, row);
+						if(type != null) {
+							batch.draw(tiles[(type.getId() - 1) / 7][(type.getId() - 1) % 7], col * TileType.TILE_SIZE, row * TileType.TILE_SIZE);
+						}
+					}
+					else if(layer == 1) {
+						StoneAndGem stone = this.getStoneAndGemByCoordinate(layer, col, row);
+						if(stone != null) {
+							batch.draw(stones[(stone.getId() - 1) / 3][(stone.getId() - 1) % 3], col * TileType.TILE_SIZE, row * TileType.TILE_SIZE);
+						}
 					}
 				}
 			}
@@ -88,6 +98,17 @@ public class CustomGameMap extends GameMap{
 	@Override
 	public int getLayer() {
 		return map.length;
+	}
+
+	@Override
+	public StoneAndGem getStoneAndGemByCoordinate(int layer, int col, int row) {
+		// TODO Auto-generated method stub
+		if(col < 0 || col >= getWidth() || row < 0 || row >= getHeight()) {
+			return null;
+		}
+//		TileTypeMap tileTypeMap = new TileTypeMap();
+//		return tileTypeMap.getTileTypeById(map[layer][getHeight() - row - 1][col]);
+		return StoneAndGem.getStoneAndGemById(map[layer][getHeight() - row - 1][col]);
 	}
 
 }
