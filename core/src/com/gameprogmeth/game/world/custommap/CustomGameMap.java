@@ -17,10 +17,11 @@ public class CustomGameMap extends GameMap{
 	private SpriteBatch batch;
 	private TextureRegion[][] tiles;
 	private TextureRegion[][] stones;
+	private OrthographicCamera cam;
 	
 	public CustomGameMap() {
 
-		CustomGameMapData data = CustomGameMapLoader.loadMap("level6", "Begin");
+		CustomGameMapData data = CustomGameMapLoader.loadMap("level1", "Begin");
 
 		this.id = data.id;
 		this.name = data.name;
@@ -33,6 +34,7 @@ public class CustomGameMap extends GameMap{
 
 	@Override
 	public void render(OrthographicCamera camera) {
+		cam = camera;
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
@@ -111,4 +113,18 @@ public class CustomGameMap extends GameMap{
 		return StoneAndGem.getStoneAndGemById(map[layer][getHeight() - row - 1][col]);
 	}
 
+	public int changeXToCol(float x) {
+		return (int)(x / TileType.TILE_SIZE);
+	}
+	
+	public int changeYToRow(float y) {
+		return (int)(y / TileType.TILE_SIZE);
+	}
+	
+	public void setValueToMap(int layer, int col, int row, int val) {
+		map[1][getHeight() - row - 1][col] = val;
+		System.out.println("Stone Destroy!!!");
+		System.out.println(map[layer][row][col]);
+	}
+	
 }

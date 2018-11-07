@@ -27,4 +27,5 @@ public abstract class GameMap {
 	public void update() {
 		
 	}
+	
 }
