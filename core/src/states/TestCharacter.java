@@ -1,6 +1,8 @@
 package states;
 
 import com.badlogic.gdx.Gdx;
+
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,13 +20,11 @@ import characters.MainCharacter;
 public class TestCharacter extends State implements Screen {
 
 	private float stateTime;
-	private GameProgMeth game;
 	private Character character;
 	private Character enemy1;
 
 	public TestCharacter(GameStateManager gsm) {
 		super(gsm);
-		this.game = game;
 		character = new MainCharacter(100, 100, 300);
 //		enemy1 = new Ghost(200, 200, 400, character);
 	}

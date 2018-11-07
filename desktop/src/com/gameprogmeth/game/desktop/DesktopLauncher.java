@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.foregroundFPS = 60;
 		config.width = GameProgMeth.WIDTH;
 		config.height = GameProgMeth.HEIGHT;
-		config.fullscreen = true;
+//		config.fullscreen = true;
 		new LwjglApplication(new GameProgMeth(), config);
 	}
 }
