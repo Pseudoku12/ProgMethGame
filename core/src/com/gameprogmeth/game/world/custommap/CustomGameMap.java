@@ -123,8 +123,8 @@ public class CustomGameMap extends GameMap{
 	
 	public void setValueToMap(int layer, int col, int row, int val) {
 		map[1][getHeight() - row - 1][col] = val;
-		System.out.println("Stone Destroy!!!");
-		System.out.println(map[layer][row][col]);
+//		System.out.println("Stone Destroy!!!");
+//		System.out.println(map[1][getHeight() - row - 1][col]);
 	}
 	
 }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.gameprogmeth.game.world.GameMap;
 import com.gameprogmeth.game.world.StoneAndGem;
 import com.gameprogmeth.game.world.custommap.CustomGameMap;
@@ -89,21 +91,33 @@ public class PlayScene extends State implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		
 		if(Gdx.input.isTouched()) {
 			cam.translate(Gdx.input.getDeltaX(),Gdx.input.getDeltaY());
 			cam.update();
 		}
 		if(Gdx.input.justTouched()) {
-			Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+			final Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 			StoneAndGem stone = gameMap.getStoneAndGemByLocation(1, pos.x, pos.y);
 			
+			
+			
 			if(stone != null) {
-				((CustomGameMap)gameMap).setValueToMap(1,((CustomGameMap)gameMap).changeXToCol(pos.x), ((CustomGameMap)gameMap).changeYToRow(pos.y), 100);
+				int destroy = stone.getDestroy();
+				((CustomGameMap)gameMap).setValueToMap(1,((CustomGameMap)gameMap).changeXToCol(pos.x), ((CustomGameMap)gameMap).changeYToRow(pos.y), destroy);
+//				System.out.println(stone.getDestroy());
+				Timer.schedule(new Task() {
+					public void run() {
+						((CustomGameMap)gameMap).setValueToMap(1,((CustomGameMap)gameMap).changeXToCol(pos.x), ((CustomGameMap)gameMap).changeYToRow(pos.y), 100);
+					}
+				},1);
 			}
-		
+			
 		}
 		
 		gameMap.render(cam);
+		
+		
 	}
 
 }
