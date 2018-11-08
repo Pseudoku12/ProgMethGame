@@ -10,13 +10,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.gameprogmeth.game.GameProgMeth;
 
 public class MainCharacter extends Character {
+	
+	private int stamina;
 
 	public MainCharacter(int x, int y, int speed) {
-		animationSpeed = 0.1f;
-		renderWidth = 176;
-		renderHeight = 160;
-		widthPixel = 44;
-		heightPixel = 40;
+		animationSpeed = 0.5f;
+		renderWidth = 63;
+		renderHeight = 63;
+		widthPixel = 126;
+		heightPixel = 126;
 
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
@@ -36,6 +38,16 @@ public class MainCharacter extends Character {
 		animation[5] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[5]);
 		animation[6] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[6]);
 		animation[7] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[7]);
+		
+		stamina = 100;
+	}
+	
+	public int getStamina() {
+		return stamina;
+	}
+	
+	public void setStamina(int stamina) {
+		this.stamina = stamina;
 	}
 
 }
