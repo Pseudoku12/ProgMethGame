@@ -18,7 +18,7 @@ public class CustomGameMap extends GameMap {
 	private float stateTime;
 	private float attackAnimationTime;
 	private int level;
-	private int rowStart, colStart;
+	private int rowStart, colStart, levelToNewName;
 
 	String id;
 	String name;
@@ -32,11 +32,12 @@ public class CustomGameMap extends GameMap {
 
 	public CustomGameMap() {
 		
-		level = 2;
-		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, "Ground");
+		level = 1;
+		levelToNewName = 5;
+		getNameMap();
+		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, name);
 
 		this.id = data.id;
-		this.name = data.name;
 		this.map = data.map;
 
 		batch = new SpriteBatch();
@@ -45,7 +46,7 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 		
-		mainCharacter = new MainCharacter(colStart, rowStart*16, 300);
+		mainCharacter = new MainCharacter(colStart*16, rowStart*16, 300);
 
 
 
@@ -241,5 +242,34 @@ public class CustomGameMap extends GameMap {
 				break;
 			}
 		}
+	}
+	
+	public void toNextLevel() {
+		
+		level += 1;
+		getNameMap();
+		CustomGameMapData newdata = CustomGameMapLoader.loadMap("level" + level, name);
+		
+		this.id = newdata.id;
+		this.map = newdata.map;
+		
+		findStartPoint();
+		
+		mainCharacter = new MainCharacter(colStart*16, rowStart*16, 300);
+		
+	}
+	
+	public void getNameMap() {
+		if(level <= levelToNewName)			name = "Ground";
+		else if(level <= levelToNewName*2)	name = "UnderGround";
+		else if(level <= levelToNewName*3)	name = "Ice";
+		else if(level <= levelToNewName*4)	name = "UnderIce";
+		else if(level <= levelToNewName*5)	name = "Lava";
+		else if(level <= levelToNewName*6)	name = "UnderLava";
+	}
+	
+	public void destroyLadder(int col, int row) {
+		map[2][getHeight() - row - 1][col] = 0;
+		System.out.println("Ladder destroy");
 	}
 }
