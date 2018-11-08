@@ -28,4 +28,12 @@ public abstract class GameMap {
 		
 	}
 	
+	public int changeXToCol(float x) {
+		return (int)(x / TileType.TILE_SIZE);
+	}
+	
+	public int changeYToRow(float y) {
+		return (int)(y / TileType.TILE_SIZE);
+	}
+	
 }

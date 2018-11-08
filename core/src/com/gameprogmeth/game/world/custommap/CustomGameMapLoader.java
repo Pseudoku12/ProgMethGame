@@ -13,8 +13,9 @@ public class CustomGameMapLoader {
 	
 	private static Json json = new Json();
 	private static final int SIZE = 100;
-	private static int[][] randomMap, chkMap;
+	private static int[][] randomMap, chkMap, startAndLadderMap;
 	private static PriorityQueue<Triple> pqMap;
+	private static int numberOfStone, numberOfGround;
 	
 	public static CustomGameMapData loadMap(String id, String name) {
 		Gdx.files.local("maps/").file().mkdirs();
@@ -44,11 +45,14 @@ public class CustomGameMapLoader {
 		randomMap = new int[SIZE/4][SIZE/4];
 		chkMap = new int[SIZE/4][SIZE/4];
 		pqMap = new PriorityQueue<Triple>();
+		startAndLadderMap = new int[SIZE][SIZE];
+		numberOfStone = 0;
+		numberOfGround = 0;
 		
 		CustomGameMapData mapData = new CustomGameMapData();
 		mapData.id = id;
 		mapData.name = name;
-		mapData.map = new int[2][SIZE][SIZE];
+		mapData.map = new int[3][SIZE][SIZE];
 		
 		Random random = new Random();
 
@@ -70,64 +74,39 @@ public class CustomGameMapLoader {
 						int colT = (int)(i%4) + 2*col;
 						
 						if(mapData.map[0][rowT][colT] != 0) continue;
+						
 						int a = random.nextInt(100);
-						if(a <= 45)			mapData.map[0][rowT][colT] = TileType.GROUND_NORMAL.getId();
-						else if(a <= 97)	mapData.map[0][rowT][colT] = TileType.GROUND_ROUGH.getId();
-						else if(a <= 99)	mapData.map[0][rowT][colT] = TileType.GROUND_CIRCLE.getId();
-						else if(a <= 100)	mapData.map[0][rowT][colT] = TileType.GROUND_HOLE.getId();
+						if(a <= 45)			mapData.map[1][rowT][colT] = TileType.GROUND_NORMAL.getId();
+						else if(a <= 97)	mapData.map[1][rowT][colT] = TileType.GROUND_ROUGH.getId();
+						else if(a <= 99)	mapData.map[1][rowT][colT] = TileType.GROUND_CIRCLE.getId();
+						else if(a <= 100)	mapData.map[1][rowT][colT] = TileType.GROUND_HOLE.getId();
 						
 						a = random.nextInt(100);
-						if(a <= 3) 			mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK1.getId();
-						else if(a <= 6) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK2.getId();
-						else if(a <= 9) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK3.getId();
-						else if(a <= 12) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK4.getId();
-						else if(a <= 15) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK5.getId();
-						else if(a <= 18) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK6.getId();
-						else if(a <= 21) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK7.getId();
-						else if(a <= 24) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK8.getId();
-						else if(a <= 27) 	mapData.map[1][rowT][colT] = StoneAndGem.COPPER_ROCK.getId();
-						else				mapData.map[1][rowT][colT] = 100;
+						if(a <= 3) 			mapData.map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK1.getId();
+						else if(a <= 6) 	mapData.map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK2.getId();
+						else if(a <= 9) 	mapData.map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK3.getId();
+						else if(a <= 12) 	mapData.map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK4.getId();
+						else if(a <= 15) 	mapData.map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK5.getId();
+						else if(a <= 18) 	mapData.map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK6.getId();
+						else if(a <= 21) 	mapData.map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK7.getId();
+						else if(a <= 24) 	mapData.map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK8.getId();
+						else if(a <= 27) 	mapData.map[2][rowT][colT] = StoneAndGem.COPPER_ROCK.getId();
+						else				mapData.map[2][rowT][colT] = 100;
+						
+						if(mapData.map[2][rowT][colT] == 100)		numberOfStone++;
+						else				numberOfGround++;
+
 					}
 					
 				}
 			}
 		}
 		
+		findStartAndLadderPoint(random, mapData.map[2]);
+		mapData.map[0] = startAndLadderMap;
+		
 		return mapData;
 	}
-
-//		
-//	public static void addSide(int num) {
-//		for(int row = 1; row < SIZE - 1; row++) {
-//			for(int col = 1; col < SIZE - 1; col++) {
-//				if(num == 0) {
-//					return ;
-//				}
-//				if(chkMap[row - 1][col] == 1 && chkMap[row][col] == 0) {
-//					chkMap[row][col] = 1;
-//					num--;
-//				}
-//				
-//			}
-//		}
-//		
-//	}
-
-//	public static void checkHole() {
-//		for(int row = 1; row < SIZE - 1; row++) {
-//			for(int col = 1; col < SIZE - 1; col++) {
-//				if(((chkMap[row + 1][col] == 1 && chkMap[row][col - 1] == 1 && chkMap[row][col + 1] == 1) || 
-//				   (chkMap[row - 1][col] == 1 && chkMap[row][col - 1] == 1 && chkMap[row][col + 1] == 1) ||
-//				   (chkMap[row + 1][col] == 1 && chkMap[row - 1][col] == 1 && chkMap[row][col + 1] == 1) ||
-//				   (chkMap[row + 1][col] == 1 && chkMap[row - 1][col] == 1 && chkMap[row][col - 1] == 1)) && 
-//				    chkMap[row][col] == 0) {
-//					chkMap[row][col] = 1;
-//				}
-//				
-//			}
-//		}
-//		
-//	}
 
 	public static void randomValue() {
 		Random random = new Random();
@@ -178,6 +157,101 @@ public class CustomGameMapLoader {
 		Triple point = pqMap.poll();
 		findTheWay(point.coX, point.coY, number-1);
 		
-	}		
+	}
+	
+	public static void findStartAndLadderPoint(Random random, int[][] map) {
+		int ladder = random.nextInt(numberOfStone-1);		//ladder = 1
+//		System.out.println(numberOfGround + " " + numberOfStone);
+		int start = random.nextInt(numberOfGround-1);		//start = 2
+		
+		
+		for (int row = 0; row < SIZE; row++) {
+			for (int col = 0; col < SIZE; col++) {
+				if(map[row][col] != 100 && map[row][col] != 0 && ladder > -1) {
+					if(ladder == 0) {
+						startAndLadderMap[row][col] = 1;
+						System.out.println("ladder : " + row + " " + col);
+					}
+					ladder--;
+					
+				}
+				else if(map[row][col] == 100 && start > -1) {
+					if(start == 0) {
+						startAndLadderMap[row][col] = 2;
+						System.out.println("start : " + row + " " + col);
+					}
+					start--;
+					
+				}
+				else startAndLadderMap[row][col] = 0;
+			}
+		}
+	}
 	
 }
+
+
+
+
+
+
+//Algorithm for generate Ice
+//int a = random.nextInt(100);
+//if(a <= 45)			mapData.map[0][rowT][colT] = TileType.ICE_NORMAL.getId();
+//else if(a <= 97)	mapData.map[0][rowT][colT] = TileType.ICE_ROUGH.getId();
+//else if(a <= 99)	mapData.map[0][rowT][colT] = TileType.ICE_CIRCLE.getId();
+//else if(a <= 100)	mapData.map[0][rowT][colT] = TileType.ICE_HOLE.getId();
+//
+//a = random.nextInt(100);
+//if(a <= 5) 			mapData.map[1][rowT][colT] = StoneAndGem.ICE_ROCK1.getId();
+//else if(a <= 10) 	mapData.map[1][rowT][colT] = StoneAndGem.ICE_ROCK2.getId();
+//else if(a <= 15) 	mapData.map[1][rowT][colT] = StoneAndGem.ICE_ROCK3.getId();
+//else if(a <= 20) 	mapData.map[1][rowT][colT] = StoneAndGem.ICE_ROCK4.getId();
+//else if(a <= 21) 	mapData.map[1][rowT][colT] = StoneAndGem.COPPER_ROCK.getId();
+//else if(a <= 22)	mapData.map[1][rowT][colT] = StoneAndGem.SILVER_ROCK.getId();
+//else				mapData.map[1][rowT][colT] = 100;
+
+
+//Algorithm for generate UnderGround
+//int a = random.nextInt(100);
+//if(a <= 14)			mapData.map[0][rowT][colT] = TileType.ROCK_GROUND_BIGNORMAL.getId();
+//else if(a <= 28)	mapData.map[0][rowT][colT] = TileType.ROCK_GROUND_ONEROCK.getId();
+//else if(a <= 42)	mapData.map[0][rowT][colT] = TileType.ROCK_GROUND_TWOROCK.getId();
+//else if(a <= 56)	mapData.map[0][rowT][colT] = TileType.ROCK_GROUND_THREEROCK.getId();
+//else if(a <= 72)	mapData.map[0][rowT][colT] = TileType.ROCK_GROUND_NORMAL.getId();
+//else if(a <= 86)	mapData.map[0][rowT][colT] = TileType.ROCK_GROUND_CIRCLE.getId();
+//else if(a <= 100)	mapData.map[0][rowT][colT] = TileType.ROCK_GROUND_BIGCIRCLE.getId();
+//
+//a = random.nextInt(100);
+//if(a <= 2) 			mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK1.getId();
+//else if(a <= 4) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK2.getId();
+//else if(a <= 7) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK3.getId();
+//else if(a <= 10) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK4.getId();
+//else if(a <= 12) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK5.getId();
+//else if(a <= 15) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK6.getId();
+//else if(a <= 18) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK7.getId();
+//else if(a <= 21) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK8.getId();
+//else if(a <= 26) 	mapData.map[1][rowT][colT] = StoneAndGem.COPPER_ROCK.getId();
+//else if(a <= 27)	mapData.map[1][rowT][colT] = StoneAndGem.SILVER_ROCK.getId();
+//else				mapData.map[1][rowT][colT] = 100;
+
+
+//Algorithm for generate Ground
+//int a = random.nextInt(100);
+//if(a <= 45)			mapData.map[0][rowT][colT] = TileType.GROUND_NORMAL.getId();
+//else if(a <= 97)	mapData.map[0][rowT][colT] = TileType.GROUND_ROUGH.getId();
+//else if(a <= 99)	mapData.map[0][rowT][colT] = TileType.GROUND_CIRCLE.getId();
+//else if(a <= 100)	mapData.map[0][rowT][colT] = TileType.GROUND_HOLE.getId();
+//
+//a = random.nextInt(100);
+//if(a <= 3) 			mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK1.getId();
+//else if(a <= 6) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK2.getId();
+//else if(a <= 9) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK3.getId();
+//else if(a <= 12) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK4.getId();
+//else if(a <= 15) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK5.getId();
+//else if(a <= 18) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK6.getId();
+//else if(a <= 21) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK7.getId();
+//else if(a <= 24) 	mapData.map[1][rowT][colT] = StoneAndGem.NORMAL_ROCK8.getId();
+//else if(a <= 27) 	mapData.map[1][rowT][colT] = StoneAndGem.COPPER_ROCK.getId();
+//else				mapData.map[1][rowT][colT] = 100;
+

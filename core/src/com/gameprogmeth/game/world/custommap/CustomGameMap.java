@@ -17,6 +17,8 @@ public class CustomGameMap extends GameMap {
 	private MainCharacter mainCharacter;
 	private float stateTime;
 	private float attackAnimationTime;
+	private int level;
+	
 
 	String id;
 	String name;
@@ -29,8 +31,9 @@ public class CustomGameMap extends GameMap {
 	private OrthographicCamera cam;
 
 	public CustomGameMap() {
-
-		CustomGameMapData data = CustomGameMapLoader.loadMap("level1", "Begin");
+		
+		level = 1;
+		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, "Ground");
 
 		this.id = data.id;
 		this.name = data.name;
@@ -50,16 +53,18 @@ public class CustomGameMap extends GameMap {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
-		for (int layer = 0; layer < getLayer(); layer++) {
-			for (int row = 0; row < getHeight(); row++) {
-				for (int col = 0; col < getWidth(); col++) {
-					if (layer == 0) {
+		
+		for(int layer = 1; layer < getLayer(); layer++) {
+			for(int row = 0; row < getHeight(); row++) {
+				for(int col = 0; col < getWidth(); col++) {
+					if(layer == 1) {
 						TileType type = this.getTileTypeByCoordinate(layer, col, row);
 						if (type != null) {
 							batch.draw(tiles[(type.getId() - 1) / 7][(type.getId() - 1) % 7], col * TileType.TILE_SIZE,
 									row * TileType.TILE_SIZE);
 						}
-					} else if (layer == 1) {
+					}
+					else if(layer == 2) {
 						StoneAndGem stone = this.getStoneAndGemByCoordinate(layer, col, row);
 						if (stone != null) {
 							batch.draw(stones[(stone.getId() - 1) / 3][(stone.getId() - 1) % 3],
@@ -193,17 +198,9 @@ public class CustomGameMap extends GameMap {
 		return mainCharacter;
 	}
 
-	public int changeXToCol(float x) {
-		return (int) (x / TileType.TILE_SIZE);
-	}
-
-	public int changeYToRow(float y) {
-		return (int) (y / TileType.TILE_SIZE);
-	}
-
 	public void setValueToMap(int layer, int col, int row, int val) {
-		map[1][getHeight() - row - 1][col] = val;
-//		System.out.println("Stone Destroy!!!");
-//		System.out.println(map[1][getHeight() - row - 1][col]);
+		map[layer][getHeight() - row - 1][col] = val;
+		System.out.println("Stone Destroy!!!");
+		System.out.println(map[2][getHeight() - row - 1][col]);
 	}
 }

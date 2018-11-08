@@ -6,8 +6,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.gameprogmeth.game.GameProgMeth;
 import com.gameprogmeth.game.world.GameMap;
+import com.gameprogmeth.game.world.StoneAndGem;
 import com.gameprogmeth.game.world.custommap.CustomGameMap;
 
 import characters.Character;
@@ -109,6 +113,23 @@ public class PlayScene extends State implements Screen {
 			cam.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
 			cam.update();
 		}
+		
+		if(Gdx.input.justTouched()) {
+			final Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+			StoneAndGem stone = gameMap.getStoneAndGemByLocation(2, pos.x, pos.y);
+			
+			if(stone != null) {
+				((CustomGameMap)gameMap).setValueToMap(2, gameMap.changeXToCol(pos.x), gameMap.changeYToRow(pos.y), stone.getDestroy());
+			}
+			
+			Timer.schedule(new Task() {
+				public void run() {
+					((CustomGameMap)gameMap).setValueToMap(2, gameMap.changeXToCol(pos.x), gameMap.changeYToRow(pos.y), 100);
+				}
+			},1);
+		}
+		
+		
 		gameMap.render(cam);
 
 //		sb.begin();
