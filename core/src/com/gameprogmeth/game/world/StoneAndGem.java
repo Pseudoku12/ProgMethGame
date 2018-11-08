@@ -48,7 +48,11 @@ public enum StoneAndGem {
 	DESTROY_JADE_ROCK(62,true,"Destroy_Jade_Rock",100),
 	DESTROY_TOPAS_ROCK(65,true,"Destroy_Topas_Rock",100),
 	DESTROY_EMERALD_ROCK(68,true,"Destroy_Emerald_Rock",100),
-	DESTROY_AMETHYST_ROCK(71,true,"Destroy_Amethyst_Rock",100);
+	DESTROY_AMETHYST_ROCK(71,true,"Destroy_Amethyst_Rock",100),
+	
+	LADDER_GROUND(73,true,"Ladder_Ground",73),
+	LADDER_ICE(74,true,"Ladder_Ice",74),
+	LADDER_LAVA(73,true,"Ladder_Lava",75);
 	
 	
 	public static final int TILE_SIZE = 16;

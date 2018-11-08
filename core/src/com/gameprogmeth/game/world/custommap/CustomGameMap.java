@@ -19,7 +19,7 @@ public class CustomGameMap extends GameMap {
 	private float stateTime;
 	private float attackAnimationTime;
 	private int level;
-	
+	private int rowStart, colStart;
 
 	String id;
 	String name;
@@ -33,7 +33,7 @@ public class CustomGameMap extends GameMap {
 	
 	public CustomGameMap() {
 		
-		level = 1;
+		level = 2;
 		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, "Ground");
 
 		this.id = data.id;
@@ -42,9 +42,11 @@ public class CustomGameMap extends GameMap {
 
 		batch = new SpriteBatch();
 		tiles = TextureRegion.split(new Texture("GameProgMeth_Tile.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
-		stones = TextureRegion.split(new Texture("StoneandGem.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
+		stones = TextureRegion.split(new Texture("Stone_Gem_Ladder.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
 
-		character = new MainCharacter(100, 100, 300);
+		findStartPoint();
+		
+		character = new MainCharacter(colStart, rowStart*16, 300);
 
 	}
 
@@ -196,9 +198,44 @@ public class CustomGameMap extends GameMap {
 		return character;
 	}
 	
-	public void setValueToMap(int layer, int col, int row, int val) {
-		map[layer][getHeight() - row - 1][col] = val;
-		System.out.println("Stone Destroy!!!");
-		System.out.println(map[2][getHeight() - row - 1][col]);
+	public void destroyStone(int col, int row, int val) {
+		if(map[2][getHeight() - row - 1][col] == StoneAndGem.LADDER_GROUND.getId() ||
+		   map[2][getHeight() - row - 1][col] == StoneAndGem.LADDER_ICE.getId() ||
+		   map[2][getHeight() - row - 1][col] == StoneAndGem.LADDER_LAVA.getId()) {
+			return;
+		}
+		map[2][getHeight() - row - 1][col] = val;
+//		System.out.println("Stone Destroy!!!");
+//		System.out.println(map[2][getHeight() - row - 1][col]);
+	}
+
+	public void checkLadder(int col, int row) {
+		if(map[0][getHeight() - row - 1][col] == 1) {
+			if(name.equals("Ground") || name.equals("UnderGround")) {
+				map[2][getHeight() - row - 1][col] = StoneAndGem.LADDER_GROUND.getId();
+				System.out.println("Ladder here");
+			}
+			else if(name.equals("Ice") || name.equals("UnderIce"))	map[2][getHeight() - row - 1][col] = StoneAndGem.LADDER_ICE.getId();
+			else if(name.equals("Lava") || name.equals("UnderLava"))	map[2][getHeight() - row - 1][col] = StoneAndGem.LADDER_LAVA.getId();
+			
+		}
+		else	System.out.println("Ladder not here");
+	}
+	
+	public void findStartPoint() {
+		int state = 0;
+		for(int row = 0; row < getWidth(); row++) {
+			for(int col = 0; col < getHeight(); col++) {
+				if(map[0][getHeight() - row - 1][col] == 2) {
+					this.rowStart = row;
+					this.colStart = col;
+					state = 1;
+					break;
+				}
+			}
+			if(state == 1) {
+				break;
+			}
+		}
 	}
 }

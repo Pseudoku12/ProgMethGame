@@ -163,7 +163,7 @@ public class CustomGameMapLoader {
 		int ladder = random.nextInt(numberOfStone-1);		//ladder = 1
 //		System.out.println(numberOfGround + " " + numberOfStone);
 		int start = random.nextInt(numberOfGround-1);		//start = 2
-		
+		System.out.println(ladder);
 		
 		for (int row = 0; row < SIZE; row++) {
 			for (int col = 0; col < SIZE; col++) {

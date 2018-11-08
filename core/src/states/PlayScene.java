@@ -1,5 +1,7 @@
 package states;
 
+import java.nio.file.StandardCopyOption;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -116,17 +118,23 @@ public class PlayScene extends State implements Screen {
 		
 		if(Gdx.input.justTouched()) {
 			final Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-			StoneAndGem stone = gameMap.getStoneAndGemByLocation(2, pos.x, pos.y);
+			final StoneAndGem stone = gameMap.getStoneAndGemByLocation(2, pos.x, pos.y);
 			
+			final int col = gameMap.changeXToCol(pos.x);
+			final int row = gameMap.changeYToRow(pos.y);
+					
 			if(stone != null) {
-				((CustomGameMap)gameMap).setValueToMap(2, gameMap.changeXToCol(pos.x), gameMap.changeYToRow(pos.y), stone.getDestroy());
+				
+				((CustomGameMap)gameMap).destroyStone(col, row, stone.getDestroy());
+				Timer.schedule(new Task() {
+					public void run() {
+						((CustomGameMap)gameMap).destroyStone(col, row, 100);
+					}
+				},0.5f);
+				
+				((CustomGameMap)gameMap).checkLadder(col, row);
+				
 			}
-			
-			Timer.schedule(new Task() {
-				public void run() {
-					((CustomGameMap)gameMap).setValueToMap(2, gameMap.changeXToCol(pos.x), gameMap.changeYToRow(pos.y), 100);
-				}
-			},1);
 		}
 		
 		
