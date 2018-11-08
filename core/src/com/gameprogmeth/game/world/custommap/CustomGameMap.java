@@ -10,12 +10,11 @@ import com.gameprogmeth.game.world.GameMap;
 import com.gameprogmeth.game.world.StoneAndGem;
 import com.gameprogmeth.game.world.TileType;
 
-import characters.Character;
 import characters.MainCharacter;
 
 public class CustomGameMap extends GameMap {
 
-	private Character character;
+	private MainCharacter mainCharacter;
 	private float stateTime;
 	private float attackAnimationTime;
 
@@ -26,9 +25,9 @@ public class CustomGameMap extends GameMap {
 	private SpriteBatch batch;
 	private TextureRegion[][] tiles;
 	private TextureRegion[][] stones;
-	
+
 	private OrthographicCamera cam;
-	
+
 	public CustomGameMap() {
 
 		CustomGameMapData data = CustomGameMapLoader.loadMap("level1", "Begin");
@@ -41,7 +40,7 @@ public class CustomGameMap extends GameMap {
 		tiles = TextureRegion.split(new Texture("GameProgMeth_Tile.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
 		stones = TextureRegion.split(new Texture("StoneandGem.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
 
-		character = new MainCharacter(100, 100, 300);
+		mainCharacter = new MainCharacter(100, 100, 300);
 
 	}
 
@@ -50,46 +49,46 @@ public class CustomGameMap extends GameMap {
 		cam = camera;
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		
-		for(int layer = 0; layer < getLayer(); layer++) {
-			for(int row = 0; row < getHeight(); row++) {
-				for(int col = 0; col < getWidth(); col++) {
-					if(layer == 0) {
+
+		for (int layer = 0; layer < getLayer(); layer++) {
+			for (int row = 0; row < getHeight(); row++) {
+				for (int col = 0; col < getWidth(); col++) {
+					if (layer == 0) {
 						TileType type = this.getTileTypeByCoordinate(layer, col, row);
-						if(type != null) {
-							batch.draw(tiles[(type.getId() - 1) / 7][(type.getId() - 1) % 7], col * TileType.TILE_SIZE, row * TileType.TILE_SIZE);
+						if (type != null) {
+							batch.draw(tiles[(type.getId() - 1) / 7][(type.getId() - 1) % 7], col * TileType.TILE_SIZE,
+									row * TileType.TILE_SIZE);
 						}
-					}
-					else if(layer == 1) {
+					} else if (layer == 1) {
 						StoneAndGem stone = this.getStoneAndGemByCoordinate(layer, col, row);
-						if(stone != null) {
-							batch.draw(stones[(stone.getId() - 1) / 3][(stone.getId() - 1) % 3], col * TileType.TILE_SIZE, row * TileType.TILE_SIZE);
+						if (stone != null) {
+							batch.draw(stones[(stone.getId() - 1) / 3][(stone.getId() - 1) % 3],
+									col * TileType.TILE_SIZE, row * TileType.TILE_SIZE);
 						}
 					}
 				}
 			}
 		}
-		batch.draw(character.getAnimation().getKeyFrame(attackAnimationTime, true), character.getPosition().x,
-				character.getPosition().y, character.getRenderWidth(), character.getRenderHeight());
-		if (character.getRoll() < 8 && character.getRoll() > 3
-				&& character.getAnimation().isAnimationFinished(attackAnimationTime)) {
-			System.out.println(character.getRoll());
-			int temp = character.getRoll();
+		batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true), mainCharacter.getPosition().x,
+				mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
+		if (mainCharacter.getRoll() < 8 && mainCharacter.getRoll() > 3
+				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
+			int temp = mainCharacter.getRoll();
 			switch (temp) {
 			case 4:
-				character.setRoll(0);
+				mainCharacter.setRoll(0);
 				break;
 			case 5:
-				character.setRoll(1);
+				mainCharacter.setRoll(1);
 				break;
 			case 6:
-				character.setRoll(2);
+				mainCharacter.setRoll(2);
 				break;
 			case 7:
-				character.setRoll(3);
+				mainCharacter.setRoll(3);
 				break;
 			default:
-				character.setRoll(3);
+				mainCharacter.setRoll(3);
 				break;
 			}
 		}
@@ -100,7 +99,7 @@ public class CustomGameMap extends GameMap {
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 		handleInput();
-		character.update(dt);
+		mainCharacter.update(dt);
 		stateTime += dt;
 		attackAnimationTime += dt;
 	}
@@ -108,36 +107,37 @@ public class CustomGameMap extends GameMap {
 	protected void handleInput() {
 		// TODO Auto-generated method stub
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			character.setVelocity(0, character.getSpeed());
-			character.setRoll(3);
+			mainCharacter.setVelocity(0, mainCharacter.getSpeed());
+			mainCharacter.setRoll(3);
 		} else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			character.setVelocity(-character.getSpeed(), 0);
-			character.setRoll(1);
+			mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
+			mainCharacter.setRoll(1);
 		} else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			character.setVelocity(0, -character.getSpeed());
-			character.setRoll(0);
+			mainCharacter.setVelocity(0, -mainCharacter.getSpeed());
+			mainCharacter.setRoll(0);
 		} else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			character.setVelocity(character.getSpeed(), 0);
-			character.setRoll(2);
+			mainCharacter.setVelocity(mainCharacter.getSpeed(), 0);
+			mainCharacter.setRoll(2);
 		} else {
-			character.setVelocity(0, 0);
+			mainCharacter.setVelocity(0, 0);
 		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && character.getRoll() == 0) {
-			character.setVelocity(0, 0);
-			character.setRoll(4);
+		if (Gdx.input.justTouched() && mainCharacter.getStamina() > 0) {
+			mainCharacter.setVelocity(0, 0);
 			attackAnimationTime = 0;
-		} else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && character.getRoll() == 1) {
-			character.setVelocity(0, 0);
-			character.setRoll(5);
-			attackAnimationTime = 0;
-		} else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && character.getRoll() == 2) {
-			character.setVelocity(0, 0);
-			character.setRoll(6);
-			attackAnimationTime = 0;
-		} else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && character.getRoll() == 3) {
-			character.setVelocity(0, 0);
-			character.setRoll(7);
-			attackAnimationTime = 0;
+			if(mainCharacter.getRoll() == 0) {
+				mainCharacter.setRoll(4);
+			}
+			else if(mainCharacter.getRoll() == 1) {
+				mainCharacter.setRoll(5);
+			}
+			else if(mainCharacter.getRoll() == 2) {
+				mainCharacter.setRoll(6);
+			}
+			else if(mainCharacter.getRoll() == 3) {
+				mainCharacter.setRoll(7);
+			}
+			mainCharacter.setStamina(mainCharacter.getStamina() - 1);
+			System.out.println(mainCharacter.getStamina());
 		}
 	}
 
@@ -189,18 +189,18 @@ public class CustomGameMap extends GameMap {
 		return StoneAndGem.getStoneAndGemById(map[layer][getHeight() - row - 1][col]);
 	}
 
-	public Character getMainCharacter() {
-		return character;
+	public MainCharacter getMainmainCharacter() {
+		return mainCharacter;
 	}
 
 	public int changeXToCol(float x) {
-		return (int)(x / TileType.TILE_SIZE);
+		return (int) (x / TileType.TILE_SIZE);
 	}
-	
+
 	public int changeYToRow(float y) {
-		return (int)(y / TileType.TILE_SIZE);
+		return (int) (y / TileType.TILE_SIZE);
 	}
-	
+
 	public void setValueToMap(int layer, int col, int row, int val) {
 		map[1][getHeight() - row - 1][col] = val;
 //		System.out.println("Stone Destroy!!!");
