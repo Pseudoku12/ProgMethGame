@@ -269,7 +269,8 @@ public class CustomGameMap extends GameMap {
 	}
 	
 	public void destroyLadder(int col, int row) {
+		System.out.println(map[2][getHeight() - row - 1][col]);
 		map[2][getHeight() - row - 1][col] = 0;
-		System.out.println("Ladder destroy");
+		System.out.println(map[2][getHeight() - row - 1][col]);
 	}
 }
