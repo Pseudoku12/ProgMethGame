@@ -134,19 +134,21 @@ public class PlayScene extends State implements Screen {
 					System.out.println("next level");
 					
 				}
-				
-				customGameMap.destroyStone(col, row, stone.getDestroy());
-				Timer.schedule(new Task() {
-					public void run() {
-						customGameMap.destroyStone(col, row, 100);
-					}
-				},0.5f);
-				
-				customGameMap.checkLadder(col, row);
-				
+				else {
+					customGameMap.destroyStone(col, row, stone.getDestroy());
+					
+					
+					Timer.schedule(new Task() {
+						public void run() {
+							customGameMap.destroyStone(col, row, 100);
+						}
+					},0.5f);
+					
+					customGameMap.checkLadder(col, row);
+				}
+
 			}
-			
-			
+
 		}
 		
 		
