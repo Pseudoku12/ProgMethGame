@@ -136,7 +136,7 @@ public class PlayScene extends State implements Screen {
 				}
 				else {
 					customGameMap.destroyStone(col, row, stone.getDestroy());
-					
+					customGameMap.dropValueable(stone, col, row);
 					
 					Timer.schedule(new Task() {
 						public void run() {
