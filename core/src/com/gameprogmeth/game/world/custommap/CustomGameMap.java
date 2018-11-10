@@ -86,12 +86,12 @@ public class CustomGameMap extends GameMap {
 			}
 		}
 		
-		if(isDropValue) {
-			System.out.println("typeDrop : " + typeDrop);
-			System.out.println((typeDrop - 1) / 3 + " " + (typeDrop - 1) % 3);
-			batch.draw(keep.getRollSpriteSheet(),keep.getPosition().x, keep.getPosition().y);
-
-		}
+//		if(isDropValue) {
+//			System.out.println("typeDrop : " + typeDrop);
+//			System.out.println((typeDrop - 1) / 3 + " " + (typeDrop - 1) % 3);
+//			batch.draw(keep.getRollSpriteSheet(),keep.getPosition().x, keep.getPosition().y);
+//
+//		}
 		
 		batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true), mainCharacter.getPosition().x,
 				mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
@@ -123,9 +123,9 @@ public class CustomGameMap extends GameMap {
 	public void update(float dt) {
 		handleInput();
 		mainCharacter.update(dt);
-		if(isDropValue)	{
-			keep.update(dt);
-		}
+//		if(isDropValue)	{
+//			keep.update(dt);
+//		}
 		stateTime += dt;
 		attackAnimationTime += dt;
 
