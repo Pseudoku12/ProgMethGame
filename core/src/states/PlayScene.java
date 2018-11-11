@@ -25,7 +25,8 @@ public class PlayScene extends State implements Screen {
 	private GameProgMeth game;
 	private GameStateManager gsm;
 	private Character character;
-
+	private MenuState menuState;
+	
 	OrthographicCamera cam;
 	GameMap gameMap;
 
@@ -93,24 +94,6 @@ public class PlayScene extends State implements Screen {
 
 	@Override
 	protected void handleInput() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(float dt) {
-		// TODO Auto-generated method stub
-//		handleInput();
-		gameMap.update(dt);
-		stateTime += dt;
-	}
-
-	@Override
-	public void render(SpriteBatch sb) {
-		// TODO Auto-generated method stub
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		if (Gdx.input.isTouched()) {
 			cam.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
 			cam.update();
@@ -151,7 +134,22 @@ public class PlayScene extends State implements Screen {
 
 		}
 		
-		
+	}
+
+	@Override
+	public void update(float dt) {
+		// TODO Auto-generated method stub
+		handleInput();
+		gameMap.update(dt);
+		stateTime += dt;
+	}
+
+	@Override
+	public void render(SpriteBatch sb) {
+		// TODO Auto-generated method stub
+		sb.setProjectionMatrix(cam.combined);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameMap.render(cam);
 
 //		sb.begin();
