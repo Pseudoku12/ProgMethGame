@@ -15,8 +15,8 @@ public class MainCharacter extends Character {
 
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.5f;
-		renderWidth = 63;
-		renderHeight = 63;
+		renderWidth = 100;
+		renderHeight = 100;
 		widthPixel = 126;
 		heightPixel = 126;
 

@@ -33,10 +33,15 @@ public class CustomGameMap extends GameMap {
 	private boolean isDropValue;
 <<<<<<< HEAD
 
+<<<<<<< Updated upstream
 =======
 	private KeepingMineral keep;
 	
 >>>>>>> baa36093d08b481b20648b981cf062dd91b33481
+=======
+	private KeepingMineral keep;
+	
+>>>>>>> Stashed changes
 	String id;
 	String name;
 	int[][][] map;
@@ -92,9 +97,12 @@ public class CustomGameMap extends GameMap {
 				}
 			}
 		}
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 
 =======
+=======
+>>>>>>> Stashed changes
 		
 //		if(isDropValue) {
 //			System.out.println("typeDrop : " + typeDrop);
@@ -103,7 +111,10 @@ public class CustomGameMap extends GameMap {
 //
 //		}
 		
+<<<<<<< Updated upstream
 >>>>>>> baa36093d08b481b20648b981cf062dd91b33481
+=======
+>>>>>>> Stashed changes
 		batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true), mainCharacter.getPosition().x,
 				mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
 		batch.draw(item.getTexture(), item.getPosition().x, item.getPosition().y, item.getRenderWidth(), item.getRenderHeight());
@@ -137,11 +148,17 @@ public class CustomGameMap extends GameMap {
 		mainCharacter.update(dt);
 <<<<<<< HEAD
 		item.update(dt);
+<<<<<<< Updated upstream
 =======
 //		if(isDropValue)	{
 //			keep.update(dt);
 //		}
 >>>>>>> baa36093d08b481b20648b981cf062dd91b33481
+=======
+//		if(isDropValue)	{
+//			keep.update(dt);
+//		}
+>>>>>>> Stashed changes
 		stateTime += dt;
 		attackAnimationTime += dt;
 
@@ -319,6 +336,7 @@ public class CustomGameMap extends GameMap {
 		typeDrop = 0;
 		int id = stone.getId();
 		Random random = new Random();
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 		if (id < StoneAndGem.COPPER_ROCK.getId()) {
 			int canDrop = random.nextInt(100000);
@@ -345,6 +363,10 @@ public class CustomGameMap extends GameMap {
 =======
 		if(id < StoneAndGem.COPPER_ROCK.getId()) {
 			int canDrop = random.nextInt(100000);
+=======
+		if(id < StoneAndGem.COPPER_ROCK.getId()) {
+			int canDrop = random.nextInt(100000);
+>>>>>>> Stashed changes
 			if(canDrop == 0)	typeDrop = StoneAndGem.MINERAL_RAINBOW.getId();
 			else if(canDrop <= 5)	typeDrop = StoneAndGem.MINERAL_BLADE.getId();
 			else if(canDrop <= 10)	typeDrop = StoneAndGem.MINERAL_BOOK.getId();
@@ -355,18 +377,29 @@ public class CustomGameMap extends GameMap {
 			else if(canDrop <= 35)	typeDrop = StoneAndGem.MINERAL_RING.getId();
 			else if(canDrop <= 40)	typeDrop = StoneAndGem.MINERAL_SPOON.getId();
 			else if(canDrop <= 45)	typeDrop = StoneAndGem.MINERAL_STONESLAB.getId();
+<<<<<<< Updated upstream
 >>>>>>> baa36093d08b481b20648b981cf062dd91b33481
+=======
+>>>>>>> Stashed changes
 			else {
 				isDropValue = false;
 				return;
 			}
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 		} else {
 			typeDrop = id + 2;
+=======
+		}
+		else {
+			typeDrop = id+2;
+>>>>>>> Stashed changes
 		}
 		rowDrop = rol;
 		colDrop = col;
+		keep = new KeepingMineral(colDrop*16, rowDrop*16, (int)((typeDrop - 1) / 3), (int)((typeDrop - 1) % 3), mainCharacter);
 		isDropValue = true;
+<<<<<<< Updated upstream
 
 =======
 		}
@@ -379,5 +412,7 @@ public class CustomGameMap extends GameMap {
 		isDropValue = true;
 		
 >>>>>>> baa36093d08b481b20648b981cf062dd91b33481
+=======
+>>>>>>> Stashed changes
 	}
 }

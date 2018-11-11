@@ -1,8 +1,11 @@
 package states;
 
 import com.badlogic.gdx.Gdx;
+<<<<<<< Updated upstream
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+=======
+>>>>>>> Stashed changes
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
@@ -14,8 +17,11 @@ public class MenuState extends State{
 	private Texture playBtn;
 	private Texture exitBtn;
 	private Texture scoreBtn;
+<<<<<<< Updated upstream
 	private Sound btnSound;
 	private Music bgMusic;
+=======
+>>>>>>> Stashed changes
 	private int playWidth, playHeight;
 	
 	public MenuState(GameStateManager gsm) {
@@ -24,10 +30,13 @@ public class MenuState extends State{
 		playBtn = new Texture("Start.png");
 		exitBtn = new Texture("Exit.png");
 		scoreBtn = new Texture("HighScore.png");
+<<<<<<< Updated upstream
 		btnSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Tupelo_Train.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
+=======
+>>>>>>> Stashed changes
 		
 		playWidth = playBtn.getWidth();
 		playHeight = playBtn.getHeight();
@@ -41,7 +50,10 @@ public class MenuState extends State{
 			   Gdx.input.getX() <= GameProgMeth.WIDTH/2 + playWidth &&
 			   Gdx.input.getY() <= GameProgMeth.HEIGHT/2 + 3*playHeight &&
 			   Gdx.input.getY() >= GameProgMeth.HEIGHT/2 + playHeight) {
+<<<<<<< Updated upstream
 				btnSound.play();
+=======
+>>>>>>> Stashed changes
 				gsm.set(new PlayScene(gsm));
 				dispose();
 			}
@@ -50,7 +62,10 @@ public class MenuState extends State{
 					GameProgMeth.WIDTH - 10 >= Gdx.input.getX() &&
 					GameProgMeth.HEIGHT - 10 - exitBtn.getHeight() <= Gdx.input.getY() &&
 					GameProgMeth.HEIGHT - 10 >= Gdx.input.getY()) {
+<<<<<<< Updated upstream
 				btnSound.play();
+=======
+>>>>>>> Stashed changes
 				Gdx.app.exit();
 			}
 		}
@@ -80,8 +95,12 @@ public class MenuState extends State{
 		playBtn.dispose();
 		exitBtn.dispose();
 		scoreBtn.dispose();
+<<<<<<< Updated upstream
 		btnSound.dispose();
 		bgMusic.dispose();
+=======
+		
+>>>>>>> Stashed changes
 	}
 	
 	

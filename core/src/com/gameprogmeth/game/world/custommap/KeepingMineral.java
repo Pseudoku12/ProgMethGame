@@ -24,12 +24,16 @@ public class KeepingMineral {
 
 		this.rollRow = rollRow;
 		this.rollCol = rollCol;
+<<<<<<< Updated upstream
 
 <<<<<<< HEAD
 		rollSpriteSheet = TextureRegion.split(new Texture("Stone_Gem_Ladder"), WIDTHPIXEL, HEIGHTPIXEL)[rollRow][rollCol];
 =======
 		rollSpriteSheet = (TextureRegion.split(new Texture("Stone_Gem_Ladder.png"), WIDTHPIXEL, HEIGHTPIXEL))[rollRow][rollCol];
 >>>>>>> baa36093d08b481b20648b981cf062dd91b33481
+=======
+		rollSpriteSheet = (TextureRegion.split(new Texture("Stone_Gem_Ladder.png"), WIDTHPIXEL, HEIGHTPIXEL))[rollRow][rollCol];
+>>>>>>> Stashed changes
 
 	}
 
