@@ -52,7 +52,36 @@ public enum StoneAndGem {
 	
 	LADDER_GROUND(73,true,"Ladder_Ground",73),
 	LADDER_ICE(74,true,"Ladder_Ice",74),
-	LADDER_LAVA(73,true,"Ladder_Lava",75);
+	LADDER_LAVA(73,true,"Ladder_Lava",75),
+	
+	MINERAL_EARTHCRYSTAL(3,false,"Minral_Crystal",100),
+	MINERAL_CARROT(6,false,"Minral_Carrot",100),
+	MINERAL_PAGE(9,false,"Minral_Page",100),
+	MINERAL_RING(12,false,"Minral_Ring",100),
+	MINERAL_BOOK(15,false,"Minral_Book",100),
+	MINERAL_SPOON(18,false,"Minral_Spoon",100),	
+	MINERAL_GEAR1(21,false,"Minral_Gear1",100),	
+	MINERAL_JAR(24,false,"Minral_Jar",100),	
+	MINERAL_FROZENTEAR(27,false,"Minral_FrozenTear",100),
+	MINERAL_BLADE(30,false,"Minral_Blade",100),
+	MINERAL_GEAR2(33,false,"Minral_Gear2",100),	
+	MINERAL_MASK(36,false,"Minral_Mask",100),
+	MINERAL_STONESLAB(39,false,"Minral_StoneSlab",100),
+	MINERAL_RAINBOW(42,false,"Minral_Rainbow",100),
+	MINERAL_COPPER1(44,false,"Minral_Copper",100),
+	MINERAL_COPPER2(45,false,"Minral_Copper2",100),
+	MINERAL_SILVER1(47,false,"Minral_Silver",100),
+	MINERAL_SILVER2(48,false,"Minral_Silver2",100),
+	MINERAL_GOLD1(50,false,"Minral_Gold",100),
+	MINERAL_GOLD2(51,false,"Minral_Gold2",100),
+	MINERAL_IRIDIUM1(53,false,"Minral_Iridium",100),
+	MINERAL_IRIDIUM2(54,false,"Minral_Iridium2",100),
+	MINERAL_DIAMOND(57,false,"Minral_Diamond",100),
+	MINERAL_RUBY(60,false,"Minral_Ruby",100),
+	MINERAL_JADE(63,false,"Minral_Jade",100),
+	MINERAL_TOPAZ(66,false,"Minral_Topaz",100),
+	MINERAL_EMERALD(69,false,"Minral_Emerald",100),
+	MINERAL_AMETHYST(72,false,"Minral_Amethyst",100);	
 	
 	
 	public static final int TILE_SIZE = 16;

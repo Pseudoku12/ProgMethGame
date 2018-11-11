@@ -1,13 +1,12 @@
 package com.gameprogmeth.game;
 
 import com.badlogic.gdx.Game;
-
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import states.GameStateManager;
+import states.MenuState;
 import states.PlayScene;
 import states.TestCharacter;
 
@@ -24,8 +23,8 @@ public class GameProgMeth extends Game {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		
-		gsm.push(new PlayScene(gsm));
-//		gsm.push(new TestCharacter(gsm));
+//		gsm.push(new PlayScene(gsm));
+		gsm.push(new MenuState(gsm));
 	}
 
 	public void render () {

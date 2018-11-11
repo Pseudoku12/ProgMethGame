@@ -1,7 +1,5 @@
 package states;
 
-import java.nio.file.StandardCopyOption;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -24,7 +22,13 @@ public class PlayScene extends State implements Screen {
 	private float stateTime;
 	private GameProgMeth game;
 	private GameStateManager gsm;
+<<<<<<< HEAD
 
+=======
+	private Character character;
+	private MenuState menuState;
+	
+>>>>>>> baa36093d08b481b20648b981cf062dd91b33481
 	OrthographicCamera cam;
 	GameMap gameMap;
 
@@ -87,6 +91,7 @@ public class PlayScene extends State implements Screen {
 
 	@Override
 	protected void handleInput() {
+<<<<<<< HEAD
 		// TODO Auto-generated method stub
 		
 	}
@@ -107,6 +112,12 @@ public class PlayScene extends State implements Screen {
 
 		cam.position.set(gameMap.getMainCharacterPosition().x+50, gameMap.getMainCharacterPosition().y+50, 0);
 		cam.update();
+=======
+		if (Gdx.input.isTouched()) {
+			cam.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+			cam.update();
+		}
+>>>>>>> baa36093d08b481b20648b981cf062dd91b33481
 		
 		if(Gdx.input.justTouched()) {
 			final Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -143,7 +154,22 @@ public class PlayScene extends State implements Screen {
 
 		}
 		
-		
+	}
+
+	@Override
+	public void update(float dt) {
+		// TODO Auto-generated method stub
+		handleInput();
+		gameMap.update(dt);
+		stateTime += dt;
+	}
+
+	@Override
+	public void render(SpriteBatch sb) {
+		// TODO Auto-generated method stub
+		sb.setProjectionMatrix(cam.combined);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameMap.render(cam);
 
 //		sb.begin();
