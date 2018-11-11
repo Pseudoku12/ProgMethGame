@@ -8,7 +8,6 @@ public abstract class GameMap {
 	public abstract void render(OrthographicCamera camera);
 	public abstract void update(float delta);
 	public abstract void dispose();
-	public abstract Vector2 getMainCharacterPosition();
 	
 	public TileType getTileTypeByLocation(int layer, float x, float y) {
 		return this.getTileTypeByCoordinate(layer, (int)(x / TileType.TILE_SIZE) , (int)(y / TileType.TILE_SIZE));
@@ -26,6 +25,7 @@ public abstract class GameMap {
 	public abstract int getHeight();
 	public abstract int getLayer();
 	
+	public abstract Vector2 getMainCharacterPosition();
 	public void update() {
 		
 	}

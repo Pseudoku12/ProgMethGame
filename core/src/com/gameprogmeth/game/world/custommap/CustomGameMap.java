@@ -1,5 +1,6 @@
 package com.gameprogmeth.game.world.custommap;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -21,7 +22,7 @@ import characters.MainCharacter;
 public class CustomGameMap extends GameMap {
 
 	private MainCharacter mainCharacter;
-	private Item item;
+	private ArrayList<Item> itemList;
 	
 	private float stateTime;
 	private float attackAnimationTime;
@@ -57,7 +58,7 @@ public class CustomGameMap extends GameMap {
 		findStartPoint();
 
 		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 200);
-		item = new Item(colStart * 16, rowStart * 16, 300, 0, mainCharacter);
+		itemList = new ArrayList<Item>();
 	}
 
 	@Override
@@ -95,7 +96,13 @@ public class CustomGameMap extends GameMap {
 		
 		batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true), mainCharacter.getPosition().x,
 				mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
-		batch.draw(item.getTexture(), item.getPosition().x, item.getPosition().y, item.getRenderWidth(), item.getRenderHeight());
+		
+		for(Item item : itemList) {
+			if(item != null) {
+				batch.draw(item.getTexture(), item.getPosition().x, item.getPosition().y, item.getRenderWidth(), item.getRenderHeight());
+			}
+		}
+		
 		if (mainCharacter.getRoll() < 8 && mainCharacter.getRoll() > 3
 				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
 			int temp = mainCharacter.getRoll();
@@ -124,7 +131,20 @@ public class CustomGameMap extends GameMap {
 	public void update(float dt) {
 		handleInput();
 		mainCharacter.update(dt);
-		item.update(dt);
+		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();
+		for(int i = 0;i<itemList.size();i++) {
+			if(itemList.get(i) != null) {
+				itemList.get(i).update(dt);
+				if(itemList.get(i).isDestroyed()) {
+					markForRemoved.add(i);
+				}
+			}
+		}
+		for(int i = markForRemoved.size() - 1;i>=0;i--) {
+			itemList.remove(itemList.get(markForRemoved.get(i)));
+			System.out.println(mainCharacter.getScore());
+		}
+		
 //		if(isDropValue)	{
 //			keep.update(dt);
 //		}
@@ -272,7 +292,7 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
-		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 300);
+		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 200);
 
 	}
 
@@ -306,7 +326,7 @@ public class CustomGameMap extends GameMap {
 		int id = stone.getId();
 		Random random = new Random();
 		if(id < StoneAndGem.COPPER_ROCK.getId()) {
-			int canDrop = random.nextInt(100000);
+			int canDrop = random.nextInt(50);
 			if(canDrop == 0)	typeDrop = StoneAndGem.MINERAL_RAINBOW.getId();
 			else if(canDrop <= 5)	typeDrop = StoneAndGem.MINERAL_BLADE.getId();
 			else if(canDrop <= 10)	typeDrop = StoneAndGem.MINERAL_BOOK.getId();
@@ -327,7 +347,7 @@ public class CustomGameMap extends GameMap {
 		}
 		rowDrop = rol;
 		colDrop = col;
-		keep = new KeepingMineral(colDrop*16, rowDrop*16, (int)((typeDrop - 1) / 3), (int)((typeDrop - 1) % 3), mainCharacter);
+		itemList.add(new Item(colDrop * 16, rowDrop * 16, 100, 0, (int)((typeDrop - 1) / 3), (int)((typeDrop - 1) % 3),mainCharacter));
 		isDropValue = true;
 		
 	}

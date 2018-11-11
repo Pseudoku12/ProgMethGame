@@ -38,6 +38,8 @@ public class PlayScene extends State implements Screen {
 
 //		gameMap = new TiledGameMap();
 		gameMap = new CustomGameMap();
+
+		character = new MainCharacter(100, 100, 200);
 	}
 
 	@Override
@@ -51,7 +53,11 @@ public class PlayScene extends State implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		cam.position.set(gameMap.getMainCharacterPosition().x, gameMap.getMainCharacterPosition().y, 0);
+		if (Gdx.input.isTouched()) {
+			cam.translate(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+		}
+		cam.position.set(gameMap.getMainCharacterPosition(), 0);
+		cam.update();
 		gameMap.render(cam);
 	}
 
@@ -87,30 +93,6 @@ public class PlayScene extends State implements Screen {
 
 	@Override
 	protected void handleInput() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(float dt) {
-		// TODO Auto-generated method stub
-//		handleInput();
-		gameMap.update(dt);
-		stateTime += dt;
-	}
-
-	@Override
-	public void render(SpriteBatch sb) {
-		// TODO Auto-generated method stub
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		cam.position.set(gameMap.getMainCharacterPosition().x+50, gameMap.getMainCharacterPosition().y+50, 0);
-		cam.update();
-		if (Gdx.input.isTouched()) {
-			cam.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-			cam.update();
-		}
 		
 		if(Gdx.input.justTouched()) {
 			final Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -164,7 +146,8 @@ public class PlayScene extends State implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameMap.render(cam);
-
+		cam.position.set(gameMap.getMainCharacterPosition().x+31.5f,gameMap.getMainCharacterPosition().y+31.5f, 0);
+		cam.update();
 //		sb.begin();
 //		sb.draw(character.getAnimation().getKeyFrame(stateTime, true), character.getPosition().x,
 //				character.getPosition().y, character.getRenderWidth(), character.getRenderHeight());
