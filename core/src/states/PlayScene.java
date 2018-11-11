@@ -1,7 +1,5 @@
 package states;
 
-import java.nio.file.StandardCopyOption;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
