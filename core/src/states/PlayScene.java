@@ -24,7 +24,6 @@ public class PlayScene extends State implements Screen {
 	private float stateTime;
 	private GameProgMeth game;
 	private GameStateManager gsm;
-	private Character character;
 
 	OrthographicCamera cam;
 	GameMap gameMap;
@@ -39,8 +38,6 @@ public class PlayScene extends State implements Screen {
 
 //		gameMap = new TiledGameMap();
 		gameMap = new CustomGameMap();
-
-		character = new MainCharacter(100, 100, 300);
 	}
 
 	@Override
@@ -54,10 +51,7 @@ public class PlayScene extends State implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		if (Gdx.input.isTouched()) {
-			cam.translate(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-			cam.update();
-		}
+		cam.position.set(gameMap.getMainCharacterPosition().x, gameMap.getMainCharacterPosition().y, 0);
 		gameMap.render(cam);
 	}
 
@@ -111,10 +105,8 @@ public class PlayScene extends State implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		if (Gdx.input.isTouched()) {
-			cam.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-			cam.update();
-		}
+		cam.position.set(gameMap.getMainCharacterPosition().x+50, gameMap.getMainCharacterPosition().y+50, 0);
+		cam.update();
 		
 		if(Gdx.input.justTouched()) {
 			final Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -136,7 +128,7 @@ public class PlayScene extends State implements Screen {
 				}
 				else {
 					customGameMap.destroyStone(col, row, stone.getDestroy());
-					
+					customGameMap.dropValueable(stone, col, row);
 					
 					Timer.schedule(new Task() {
 						public void run() {
