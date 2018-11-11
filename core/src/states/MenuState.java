@@ -28,13 +28,20 @@ public class MenuState extends State{
 	@Override
 	protected void handleInput() {
 		if(Gdx.input.justTouched()) {
-			System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
+			
 			if(GameProgMeth.WIDTH/2 - playWidth <= Gdx.input.getX() && 
 			   Gdx.input.getX() <= GameProgMeth.WIDTH/2 + playWidth &&
 			   Gdx.input.getY() <= GameProgMeth.HEIGHT/2 + 3*playHeight &&
 			   Gdx.input.getY() >= GameProgMeth.HEIGHT/2 + playHeight) {
 				gsm.set(new PlayScene(gsm));
 				dispose();
+			}
+			
+			else if(GameProgMeth.WIDTH - 10 - exitBtn.getWidth() <= Gdx.input.getX() &&
+					GameProgMeth.WIDTH - 10 >= Gdx.input.getX() &&
+					GameProgMeth.HEIGHT - 10 - exitBtn.getHeight() <= Gdx.input.getY() &&
+					GameProgMeth.HEIGHT - 10 >= Gdx.input.getY()) {
+				Gdx.app.exit();
 			}
 		}
 		
