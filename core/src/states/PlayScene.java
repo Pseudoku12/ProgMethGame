@@ -22,18 +22,9 @@ public class PlayScene extends State implements Screen {
 	private float stateTime;
 	private GameProgMeth game;
 	private GameStateManager gsm;
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-
-=======
 	private Character character;
 	private MenuState menuState;
 	
->>>>>>> baa36093d08b481b20648b981cf062dd91b33481
-=======
-	private MenuState menuState;
-	
->>>>>>> Stashed changes
 	OrthographicCamera cam;
 	GameMap gameMap;
 
@@ -96,7 +87,6 @@ public class PlayScene extends State implements Screen {
 
 	@Override
 	protected void handleInput() {
-<<<<<<< HEAD
 		// TODO Auto-generated method stub
 		
 	}
@@ -104,7 +94,7 @@ public class PlayScene extends State implements Screen {
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
-		handleInput();
+//		handleInput();
 		gameMap.update(dt);
 		stateTime += dt;
 	}
@@ -117,12 +107,10 @@ public class PlayScene extends State implements Screen {
 
 		cam.position.set(gameMap.getMainCharacterPosition().x+50, gameMap.getMainCharacterPosition().y+50, 0);
 		cam.update();
-=======
 		if (Gdx.input.isTouched()) {
 			cam.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
 			cam.update();
 		}
->>>>>>> baa36093d08b481b20648b981cf062dd91b33481
 		
 		if(Gdx.input.justTouched()) {
 			final Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
@@ -160,7 +148,6 @@ public class PlayScene extends State implements Screen {
 		}
 		
 	}
-<<<<<<< Updated upstream
 
 	@Override
 	public void update(float dt) {
@@ -178,8 +165,6 @@ public class PlayScene extends State implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameMap.render(cam);
 
-=======
->>>>>>> Stashed changes
 //		sb.begin();
 //		sb.draw(character.getAnimation().getKeyFrame(stateTime, true), character.getPosition().x,
 //				character.getPosition().y, character.getRenderWidth(), character.getRenderHeight());
@@ -198,5 +183,5 @@ public class PlayScene extends State implements Screen {
 //			}
 //		}
 //		sb.end();
-//	}
+	}
 }
