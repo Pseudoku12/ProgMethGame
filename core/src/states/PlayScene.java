@@ -65,10 +65,7 @@ public class PlayScene extends State implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		if (Gdx.input.isTouched()) {
-			cam.translate(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-			cam.update();
-		}
+		cam.position.set(gameMap.getMainCharacterPosition().x, gameMap.getMainCharacterPosition().y, 0);
 		gameMap.render(cam);
 	}
 
@@ -106,6 +103,26 @@ public class PlayScene extends State implements Screen {
 
 	@Override
 	protected void handleInput() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(float dt) {
+		// TODO Auto-generated method stub
+//		handleInput();
+		gameMap.update(dt);
+		stateTime += dt;
+	}
+
+	@Override
+	public void render(SpriteBatch sb) {
+		// TODO Auto-generated method stub
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		cam.position.set(gameMap.getMainCharacterPosition().x+50, gameMap.getMainCharacterPosition().y+50, 0);
+		cam.update();
 		if (Gdx.input.isTouched()) {
 			cam.translate(-Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
 			cam.update();
@@ -148,39 +165,4 @@ public class PlayScene extends State implements Screen {
 		
 	}
 
-	@Override
-	public void update(float dt) {
-		// TODO Auto-generated method stub
-		handleInput();
-		gameMap.update(dt);
-		stateTime += dt;
-	}
-
-	@Override
-	public void render(SpriteBatch sb) {
-		// TODO Auto-generated method stub
-		sb.setProjectionMatrix(cam.combined);
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gameMap.render(cam);
-
-//		sb.begin();
-//		sb.draw(character.getAnimation().getKeyFrame(stateTime, true), character.getPosition().x,
-//				character.getPosition().y, character.getRenderWidth(), character.getRenderHeight());
-//			sb.draw(enemy1.getAnimation().getKeyFrame(stateTime, true), enemy1.getPosition().x, enemy1.getPosition().y,
-//					enemy1.getRenderWidth(), enemy1.getRenderHeight());
-//		if (character.getAnimation().isAnimationFinished(stateTime)) {
-//			switch (character.getRoll()) {
-//			case 4:
-//				character.setRoll(0);
-//			case 5:
-//				character.setRoll(1);
-//			case 6:
-//				character.setRoll(2);
-//			case 7:
-//				character.setRoll(3);
-//			}
-//		}
-//		sb.end();
-	}
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 public class TiledGameMap extends GameMap{
 
@@ -61,6 +62,12 @@ public class TiledGameMap extends GameMap{
 
 	@Override
 	public StoneAndGem getStoneAndGemByCoordinate(int layer, int col, int row) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vector2 getMainCharacterPosition() {
 		// TODO Auto-generated method stub
 		return null;
 	}

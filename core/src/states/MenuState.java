@@ -5,7 +5,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.gameprogmeth.game.GameProgMeth;
 
 public class MenuState extends State{
@@ -35,16 +34,13 @@ public class MenuState extends State{
 
 	@Override
 	protected void handleInput() {
-//		if(isOnExitBtn() || isOnStartBtn()) {
-//			Gdx.graphics.setCursor(Gdx.graphics.newCursor(pixmap, 0, 0));
-//		}
-//		
+		
 		if(Gdx.input.justTouched()) {
 			
 			if(isOnStartBtn()) {
 				btnSound.play();
-				gsm.set(new PlayScene(gsm));
-				dispose();
+//				gsm.set(new PlayScene(gsm));
+//				dispose();
 			}
 			
 			else if(isOnExitBtn()) {
@@ -64,7 +60,7 @@ public class MenuState extends State{
 	@Override
 	public void render(SpriteBatch sb) {
 		sb.begin();
-		sb.draw(background, 0, 0);
+		sb.draw(background, 0, 0, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
 		sb.draw(playBtn, GameProgMeth.WIDTH/2 - playWidth , GameProgMeth.HEIGHT/2 - 3*playHeight, 2*playWidth, 2*playHeight);
 		sb.draw(scoreBtn, 10, 10);
 		sb.draw(exitBtn, GameProgMeth.WIDTH - 10 - exitBtn.getWidth(), 10);
@@ -80,6 +76,7 @@ public class MenuState extends State{
 		scoreBtn.dispose();
 		btnSound.dispose();
 		bgMusic.dispose();
+		
 	}
 	
 	public boolean isOnStartBtn() {
