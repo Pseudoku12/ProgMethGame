@@ -93,7 +93,7 @@ public class CustomGameMapLoader {
 						else if(a <= 27) 	mapData.map[2][rowT][colT] = StoneAndGem.COPPER_ROCK.getId();
 						else				mapData.map[2][rowT][colT] = 100;
 						
-						if(mapData.map[2][rowT][colT] == 100)		numberOfStone++;
+						if(mapData.map[2][rowT][colT] != 100)		numberOfStone++;
 						else				numberOfGround++;
 
 					}
