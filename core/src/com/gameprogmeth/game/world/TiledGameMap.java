@@ -6,8 +6,11 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 
+import characters.MainCharacter;
+
 public class TiledGameMap extends GameMap{
 
+	private MainCharacter mainCharacter;
 	TiledMap tiledMap;
 	OrthogonalTiledMapRenderer tiledMapRenderer;
 	
@@ -69,7 +72,7 @@ public class TiledGameMap extends GameMap{
 	@Override
 	public Vector2 getMainCharacterPosition() {
 		// TODO Auto-generated method stub
-		return null;
+		return mainCharacter.getPosition();
 	}
 	
 }

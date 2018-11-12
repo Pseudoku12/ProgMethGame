@@ -23,8 +23,8 @@ public class GameProgMeth extends Game {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		
-		gsm.push(new PlayScene(gsm));
-//		gsm.push(new MenuState(gsm));
+//		gsm.push(new PlayScene(gsm));
+		gsm.push(new MenuState(gsm));
 	}
 
 	public void render () {

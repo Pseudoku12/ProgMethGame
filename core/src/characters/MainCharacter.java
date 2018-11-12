@@ -12,11 +12,12 @@ import com.gameprogmeth.game.GameProgMeth;
 public class MainCharacter extends Character {
 	
 	private int stamina;
-
+	private int score;
+	
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.5f;
-		renderWidth = 100;
-		renderHeight = 100;
+		renderWidth = 63;
+		renderHeight = 63;
 		widthPixel = 126;
 		heightPixel = 126;
 
@@ -40,6 +41,7 @@ public class MainCharacter extends Character {
 		animation[7] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[7]);
 		
 		stamina = 100;
+		score = 0;
 	}
 	
 	public int getStamina() {
@@ -48,6 +50,18 @@ public class MainCharacter extends Character {
 	
 	public void setStamina(int stamina) {
 		this.stamina = stamina;
+	}
+	
+	public void addScore(int score) {
+		this.score += score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	public int getScore() {
+		return score;
 	}
 
 }
