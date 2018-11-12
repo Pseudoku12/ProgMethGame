@@ -57,7 +57,7 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
-		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 200);
+		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
 		itemList = new ArrayList<Item>();
 	}
 
