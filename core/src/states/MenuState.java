@@ -24,8 +24,8 @@ public class MenuState extends State{
 		playBtn = new Texture("Start.png");
 		exitBtn = new Texture("Exit.png");
 		scoreBtn = new Texture("HighScore.png");
-		btnSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Tupelo_Train.mp3"));
+		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
 		
@@ -35,21 +35,19 @@ public class MenuState extends State{
 
 	@Override
 	protected void handleInput() {
+//		if(isOnExitBtn() || isOnStartBtn()) {
+//			Gdx.graphics.setCursor(Gdx.graphics.newCursor(pixmap, 0, 0));
+//		}
+//		
 		if(Gdx.input.justTouched()) {
 			
-			if(GameProgMeth.WIDTH/2 - playWidth <= Gdx.input.getX() && 
-			   Gdx.input.getX() <= GameProgMeth.WIDTH/2 + playWidth &&
-			   Gdx.input.getY() <= GameProgMeth.HEIGHT/2 + 3*playHeight &&
-			   Gdx.input.getY() >= GameProgMeth.HEIGHT/2 + playHeight) {
+			if(isOnStartBtn()) {
 				btnSound.play();
 				gsm.set(new PlayScene(gsm));
 				dispose();
 			}
 			
-			else if(GameProgMeth.WIDTH - 10 - exitBtn.getWidth() <= Gdx.input.getX() &&
-					GameProgMeth.WIDTH - 10 >= Gdx.input.getX() &&
-					GameProgMeth.HEIGHT - 10 - exitBtn.getHeight() <= Gdx.input.getY() &&
-					GameProgMeth.HEIGHT - 10 >= Gdx.input.getY()) {
+			else if(isOnExitBtn()) {
 				btnSound.play();
 				Gdx.app.exit();
 			}
@@ -84,5 +82,17 @@ public class MenuState extends State{
 		bgMusic.dispose();
 	}
 	
+	public boolean isOnStartBtn() {
+		return GameProgMeth.WIDTH/2 - playWidth <= Gdx.input.getX() && 
+			   Gdx.input.getX() <= GameProgMeth.WIDTH/2 + playWidth &&
+			   Gdx.input.getY() <= GameProgMeth.HEIGHT/2 + 3*playHeight &&
+			   Gdx.input.getY() >= GameProgMeth.HEIGHT/2 + playHeight;
+	}
 	
+	public boolean isOnExitBtn() {
+		return GameProgMeth.WIDTH - 10 - exitBtn.getWidth() <= Gdx.input.getX() &&
+			   GameProgMeth.WIDTH - 10 >= Gdx.input.getX() &&
+			   GameProgMeth.HEIGHT - 10 - exitBtn.getHeight() <= Gdx.input.getY() &&
+			   GameProgMeth.HEIGHT - 10 >= Gdx.input.getY();
+	}
 }
