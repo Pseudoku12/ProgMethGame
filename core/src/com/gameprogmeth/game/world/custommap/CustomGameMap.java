@@ -23,14 +23,14 @@ public class CustomGameMap extends GameMap {
 
 	private MainCharacter mainCharacter;
 	private ArrayList<Item> itemList;
-	
+
 	private float stateTime;
 	private float attackAnimationTime;
 	private int level;
 	private int rowStart, colStart, levelToNewName, rowDrop, colDrop, typeDrop;
 	private boolean isDropValue;
 	private KeepingMineral keep;
-	
+
 	String id;
 	String name;
 	int[][][] map;
@@ -86,23 +86,24 @@ public class CustomGameMap extends GameMap {
 				}
 			}
 		}
-		
+
 //		if(isDropValue) {
 //			System.out.println("typeDrop : " + typeDrop);
 //			System.out.println((typeDrop - 1) / 3 + " " + (typeDrop - 1) % 3);
 //			batch.draw(keep.getRollSpriteSheet(),keep.getPosition().x, keep.getPosition().y);
 //
 //		}
-		
+
 		batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true), mainCharacter.getPosition().x,
 				mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
-		
-		for(Item item : itemList) {
-			if(item != null) {
-				batch.draw(item.getTexture(), item.getPosition().x, item.getPosition().y, item.getRenderWidth(), item.getRenderHeight());
+
+		for (Item item : itemList) {
+			if (item != null) {
+				batch.draw(item.getTexture(), item.getPosition().x, item.getPosition().y, item.getRenderWidth(),
+						item.getRenderHeight());
 			}
 		}
-		
+
 		if (mainCharacter.getRoll() < 8 && mainCharacter.getRoll() > 3
 				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
 			int temp = mainCharacter.getRoll();
@@ -132,19 +133,19 @@ public class CustomGameMap extends GameMap {
 		handleInput();
 		mainCharacter.update(dt);
 		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();
-		for(int i = 0;i<itemList.size();i++) {
-			if(itemList.get(i) != null) {
+		for (int i = 0; i < itemList.size(); i++) {
+			if (itemList.get(i) != null) {
 				itemList.get(i).update(dt);
-				if(itemList.get(i).isDestroyed()) {
+				if (itemList.get(i).isDestroyed()) {
 					markForRemoved.add(i);
 				}
 			}
 		}
-		for(int i = markForRemoved.size() - 1;i>=0;i--) {
+		for (int i = markForRemoved.size() - 1; i >= 0; i--) {
 			itemList.remove(itemList.get(markForRemoved.get(i)));
 			System.out.println(mainCharacter.getScore());
 		}
-		
+
 //		if(isDropValue)	{
 //			keep.update(dt);
 //		}
@@ -155,8 +156,13 @@ public class CustomGameMap extends GameMap {
 
 	protected void handleInput() {
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			mainCharacter.setVelocity(0, mainCharacter.getSpeed());
 			mainCharacter.setRoll(3);
+			int temp = map[2][(int) ((getHeight() - 2) - (mainCharacter.getPosition().y / 16))][(int) ((getWidth() - 2)
+					- (mainCharacter.getPosition().x / 16))];
+			if (temp == 0 || temp == 100) {
+				System.out.println((int) ((getHeight() - 2) - (mainCharacter.getPosition().y / 16)));
+				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
+			}
 		} else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 			mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
 			mainCharacter.setRoll(1);
@@ -325,30 +331,40 @@ public class CustomGameMap extends GameMap {
 		typeDrop = 0;
 		int id = stone.getId();
 		Random random = new Random();
-		if(id < StoneAndGem.COPPER_ROCK.getId()) {
+		if (id < StoneAndGem.COPPER_ROCK.getId()) {
 			int canDrop = random.nextInt(50);
-			if(canDrop == 0)	typeDrop = StoneAndGem.MINERAL_RAINBOW.getId();
-			else if(canDrop <= 5)	typeDrop = StoneAndGem.MINERAL_BLADE.getId();
-			else if(canDrop <= 10)	typeDrop = StoneAndGem.MINERAL_BOOK.getId();
-			else if(canDrop <= 15)	typeDrop = StoneAndGem.MINERAL_GEAR1.getId();
-			else if(canDrop <= 20)	typeDrop = StoneAndGem.MINERAL_GEAR2.getId();
-			else if(canDrop <= 25)	typeDrop = StoneAndGem.MINERAL_MASK.getId();
-			else if(canDrop <= 30)	typeDrop = StoneAndGem.MINERAL_PAGE.getId();
-			else if(canDrop <= 35)	typeDrop = StoneAndGem.MINERAL_RING.getId();
-			else if(canDrop <= 40)	typeDrop = StoneAndGem.MINERAL_SPOON.getId();
-			else if(canDrop <= 45)	typeDrop = StoneAndGem.MINERAL_STONESLAB.getId();
+			if (canDrop == 0)
+				typeDrop = StoneAndGem.MINERAL_RAINBOW.getId();
+			else if (canDrop <= 5)
+				typeDrop = StoneAndGem.MINERAL_BLADE.getId();
+			else if (canDrop <= 10)
+				typeDrop = StoneAndGem.MINERAL_BOOK.getId();
+			else if (canDrop <= 15)
+				typeDrop = StoneAndGem.MINERAL_GEAR1.getId();
+			else if (canDrop <= 20)
+				typeDrop = StoneAndGem.MINERAL_GEAR2.getId();
+			else if (canDrop <= 25)
+				typeDrop = StoneAndGem.MINERAL_MASK.getId();
+			else if (canDrop <= 30)
+				typeDrop = StoneAndGem.MINERAL_PAGE.getId();
+			else if (canDrop <= 35)
+				typeDrop = StoneAndGem.MINERAL_RING.getId();
+			else if (canDrop <= 40)
+				typeDrop = StoneAndGem.MINERAL_SPOON.getId();
+			else if (canDrop <= 45)
+				typeDrop = StoneAndGem.MINERAL_STONESLAB.getId();
 			else {
 				isDropValue = false;
 				return;
 			}
-		}
-		else {
-			typeDrop = id+2;
+		} else {
+			typeDrop = id + 2;
 		}
 		rowDrop = rol;
 		colDrop = col;
-		itemList.add(new Item(colDrop * 16, rowDrop * 16, 100, 0, (int)((typeDrop - 1) / 3), (int)((typeDrop - 1) % 3),mainCharacter));
+		itemList.add(new Item(colDrop * 16, rowDrop * 16, 100, (typeDrop - 1) / 3, (int) ((typeDrop - 1) / 3),
+				(int) ((typeDrop - 1) % 3), mainCharacter));
 		isDropValue = true;
-		
+
 	}
 }
