@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.gameprogmeth.game.GameProgMeth;
 
 import characters.Character;
-import characters.Ghost;
 import characters.MainCharacter;
 
 public class TestCharacter extends State implements Screen {

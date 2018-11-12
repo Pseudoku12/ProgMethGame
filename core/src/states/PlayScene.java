@@ -3,8 +3,11 @@ package states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
@@ -23,7 +26,11 @@ public class PlayScene extends State implements Screen {
 	private GameProgMeth game;
 	private GameStateManager gsm;
 	private Character character;
-	private MenuState menuState;
+	
+	private Texture pauseBtn;
+	private Sound  btnSound;
+	private Music bgMusic;
+	
 	
 	OrthographicCamera cam;
 	GameMap gameMap;
@@ -38,6 +45,12 @@ public class PlayScene extends State implements Screen {
 
 //		gameMap = new TiledGameMap();
 		gameMap = new CustomGameMap();
+
+		pauseBtn = new Texture("Pause.png"); 
+		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Under_Cover.mp3"));
+		bgMusic.setLooping(true);
+		bgMusic.play();
 
 		character = new MainCharacter(100, 100, 200);
 	}
@@ -87,7 +100,9 @@ public class PlayScene extends State implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		pauseBtn.dispose();
+		btnSound.dispose();
+		bgMusic.dispose();
 
 	}
 
@@ -167,4 +182,5 @@ public class PlayScene extends State implements Screen {
 //		}
 //		sb.end();
 	}
+
 }

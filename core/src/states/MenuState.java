@@ -5,7 +5,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.gameprogmeth.game.GameProgMeth;
 
 public class MenuState extends State{
@@ -16,7 +15,6 @@ public class MenuState extends State{
 	private Texture scoreBtn;
 	private Sound btnSound;
 	private Music bgMusic;
-	private int playWidth, playHeight;
 	
 	public MenuState(GameStateManager gsm) {
 		super(gsm);
@@ -24,24 +22,18 @@ public class MenuState extends State{
 		playBtn = new Texture("Start.png");
 		exitBtn = new Texture("Exit.png");
 		scoreBtn = new Texture("HighScore.png");
-		btnSound = Gdx.audio.newSound(Gdx.files.internal("Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Tupelo_Train.mp3"));
+		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
-		
-		playWidth = playBtn.getWidth();
-		playHeight = playBtn.getHeight();
 	}
 
 	@Override
 	protected void handleInput() {
-//		if(isOnExitBtn() || isOnStartBtn()) {
-//			Gdx.graphics.setCursor(Gdx.graphics.newCursor(pixmap, 0, 0));
-//		}
-//		
 		if(Gdx.input.justTouched()) {
 			
 			if(isOnStartBtn()) {
+				System.out.println("click");
 				btnSound.play();
 				gsm.set(new PlayScene(gsm));
 				dispose();
@@ -64,10 +56,10 @@ public class MenuState extends State{
 	@Override
 	public void render(SpriteBatch sb) {
 		sb.begin();
-		sb.draw(background, 0, 0);
-		sb.draw(playBtn, GameProgMeth.WIDTH/2 - playWidth , GameProgMeth.HEIGHT/2 - 3*playHeight, 2*playWidth, 2*playHeight);
-		sb.draw(scoreBtn, 10, 10);
-		sb.draw(exitBtn, GameProgMeth.WIDTH - 10 - exitBtn.getWidth(), 10);
+		sb.draw(background, 0, 0, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
+		sb.draw(scoreBtn, 10, 10, scoreBtn.getWidth()/2, scoreBtn.getHeight()/2);
+		sb.draw(exitBtn, GameProgMeth.WIDTH - 10 - exitBtn.getWidth()/2, 10, exitBtn.getWidth()/2, exitBtn.getHeight()/2);
+		sb.draw(playBtn,GameProgMeth.WIDTH/2 - playBtn.getWidth()/2,GameProgMeth.HEIGHT/2 - (1.5f)*playBtn.getHeight());
 		sb.end();
 	
 	}
@@ -83,16 +75,16 @@ public class MenuState extends State{
 	}
 	
 	public boolean isOnStartBtn() {
-		return GameProgMeth.WIDTH/2 - playWidth <= Gdx.input.getX() && 
-			   Gdx.input.getX() <= GameProgMeth.WIDTH/2 + playWidth &&
-			   Gdx.input.getY() <= GameProgMeth.HEIGHT/2 + 3*playHeight &&
-			   Gdx.input.getY() >= GameProgMeth.HEIGHT/2 + playHeight;
+		return GameProgMeth.WIDTH/2 - playBtn.getWidth()/2 <= Gdx.input.getX() &&
+			   GameProgMeth.WIDTH/2 + playBtn.getWidth()/2 >= Gdx.input.getX() &&
+			   GameProgMeth.HEIGHT/2 + (0.5f)*playBtn.getHeight() <= Gdx.input.getY() &&
+			   GameProgMeth.HEIGHT/2 + (1.5f)*playBtn.getHeight() >= Gdx.input.getY();
 	}
 	
 	public boolean isOnExitBtn() {
-		return GameProgMeth.WIDTH - 10 - exitBtn.getWidth() <= Gdx.input.getX() &&
+		return GameProgMeth.WIDTH- 10 - exitBtn.getWidth()/2 <= Gdx.input.getX() &&
 			   GameProgMeth.WIDTH - 10 >= Gdx.input.getX() &&
-			   GameProgMeth.HEIGHT - 10 - exitBtn.getHeight() <= Gdx.input.getY() &&
+			   GameProgMeth.HEIGHT - 10 - exitBtn.getHeight()/2 <= Gdx.input.getY() &&
 			   GameProgMeth.HEIGHT - 10 >= Gdx.input.getY();
 	}
 }

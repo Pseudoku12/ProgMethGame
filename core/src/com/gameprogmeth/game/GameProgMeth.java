@@ -12,8 +12,8 @@ import states.TestCharacter;
 
 public class GameProgMeth extends Game {
 	
-	public static final int WIDTH = 1920;
-	public static final int HEIGHT = 1080; 
+	public static final int WIDTH = 1280;
+	public static final int HEIGHT = 720; 
 	
 	private GameStateManager gsm;
 	
