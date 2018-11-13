@@ -35,7 +35,7 @@ public class MenuState extends State{
 			if(isOnStartBtn()) {
 				System.out.println("click");
 				btnSound.play();
-				gsm.set(new PlayScene(gsm));
+				gsm.push(new PlayScene(gsm));
 				dispose();
 			}
 			
