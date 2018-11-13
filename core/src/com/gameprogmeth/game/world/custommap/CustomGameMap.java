@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -41,6 +42,9 @@ public class CustomGameMap extends GameMap {
 
 	private OrthographicCamera cam;
 
+	private String scoreText;
+	private BitmapFont font;
+
 	public CustomGameMap() {
 		isDropValue = false;
 		level = 1;
@@ -59,6 +63,9 @@ public class CustomGameMap extends GameMap {
 
 		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
 		itemList = new ArrayList<Item>();
+
+		scoreText = "score: 0";
+		font = new BitmapFont();
 	}
 
 	@Override
@@ -125,13 +132,49 @@ public class CustomGameMap extends GameMap {
 				break;
 			}
 		}
+
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		font.draw(batch, scoreText, cam.position.x - 150, cam.position.y - 70);
 		batch.end();
 	}
 
 	@Override
 	public void update(float dt) {
 		handleInput();
+		if (map[2][(int) (getHeight()
+				- (mainCharacter.getPosition().y + 42.5) / 16)][(int) ((mainCharacter.getPosition().x + 31.5)
+						/ 16)] != 100) {
+			mainCharacter.isBlockedUp = true;
+		}
+		else {
+			mainCharacter.isBlockedUp = false;
+		}
+		if (map[2][(int) (getHeight() - 2
+				- (mainCharacter.getPosition().y + 28) / 16)][(int) ((mainCharacter.getPosition().x - 31.5)
+						/ 16)] != 100) {
+			mainCharacter.isBlockedDown = true;
+		}
+		else {
+			mainCharacter.isBlockedDown = false;
+		}
+		if (map[2][(int) (getHeight()
+				- (mainCharacter.getPosition().y + 31.5) / 16)][(int) ((mainCharacter.getPosition().x + 26)
+						/ 16) - 1] != 100) {
+			mainCharacter.isBlockedLeft = true;
+		}
+		else {
+			mainCharacter.isBlockedLeft = false;
+		}
+		if (map[2][(int) (getHeight()
+				- (mainCharacter.getPosition().y + 31.5) / 16)][(int) ((mainCharacter.getPosition().x + 30.5)
+						/ 16) + 1] != 100) {
+			mainCharacter.isBlockedRight = true;
+		}
+		else {
+			mainCharacter.isBlockedRight = false;
+		}
 		mainCharacter.update(dt);
+		scoreText = "score: " + mainCharacter.getScore();
 		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();
 		for (int i = 0; i < itemList.size(); i++) {
 			if (itemList.get(i) != null) {
@@ -156,13 +199,8 @@ public class CustomGameMap extends GameMap {
 
 	protected void handleInput() {
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+			mainCharacter.setVelocity(0, mainCharacter.getSpeed());
 			mainCharacter.setRoll(3);
-			int temp = map[2][(int) ((getHeight() - 2) - (mainCharacter.getPosition().y / 16))][(int) ((getWidth() - 2)
-					- (mainCharacter.getPosition().x / 16))];
-			if (temp == 0 || temp == 100) {
-				System.out.println((int) ((getHeight() - 2) - (mainCharacter.getPosition().y / 16)));
-				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
-			}
 		} else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 			mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
 			mainCharacter.setRoll(1);
@@ -298,7 +336,7 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
-		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 200);
+		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
 
 	}
 

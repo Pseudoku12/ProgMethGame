@@ -1,5 +1,7 @@
 package characters;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,10 +12,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.gameprogmeth.game.GameProgMeth;
 
 public class MainCharacter extends Character {
-	
+
 	private int stamina;
 	private int score;
-	
+	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
+
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.25f;
 		renderWidth = 63;
@@ -39,29 +42,55 @@ public class MainCharacter extends Character {
 		animation[5] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[5]);
 		animation[6] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[6]);
 		animation[7] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[7]);
-		
+
 		stamina = 100;
 		score = 0;
 	}
-	
+
 	public int getStamina() {
 		return stamina;
 	}
-	
+
 	public void setStamina(int stamina) {
 		this.stamina = stamina;
 	}
-	
+
 	public void addScore(int score) {
 		this.score += score;
 	}
-	
+
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
-
+	
+	@Override
+	public void update(float dt) {
+		velocity.scl(dt);
+		
+		if(isBlockedLeft && velocity.x < 0) {
+			velocity.x = 0;
+		}
+		if(isBlockedRight && velocity.x >= 0) {
+			velocity.x = 0;
+		}
+		if(isBlockedUp && velocity.y >= 0) {
+			velocity.y = 0;
+		}
+		if(isBlockedDown && velocity.y < 0) {
+			velocity.y = 0;
+		}
+		position.add(velocity.x, velocity.y);
+		if(position.x < 0) {
+			position.x = 0;
+		}
+		if(position.y < 0) {
+			position.y = 0;
+		}
+		
+		velocity.scl(1/dt);
+	}
 }
