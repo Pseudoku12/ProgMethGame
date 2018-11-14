@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gameprogmeth.game.world.GameMap;
@@ -61,7 +62,7 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
-		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
+		mainCharacter = new MainCharacter(colStart * 16, (rowStart - 2) * 16, 50);
 		itemList = new ArrayList<Item>();
 
 		scoreText = "score: 0";
@@ -142,35 +143,31 @@ public class CustomGameMap extends GameMap {
 	public void update(float dt) {
 		handleInput();
 		if (map[2][(int) (getHeight()
-				- (mainCharacter.getPosition().y + 42.5) / 16)][(int) ((mainCharacter.getPosition().x + 31.5)
+				- (mainCharacter.getPosition().y + 36.5) / 16)][(int) ((mainCharacter.getPosition().x + 31.5)
 						/ 16)] != 100) {
 			mainCharacter.isBlockedUp = true;
-		}
-		else {
+		} else {
 			mainCharacter.isBlockedUp = false;
 		}
-		if (map[2][(int) (getHeight() - 2
-				- (mainCharacter.getPosition().y + 28) / 16)][(int) ((mainCharacter.getPosition().x - 31.5)
+		if (map[2][(int) (getHeight()
+				- (mainCharacter.getPosition().y + 28) / 16)][(int) ((mainCharacter.getPosition().x + 31.5)
 						/ 16)] != 100) {
 			mainCharacter.isBlockedDown = true;
-		}
-		else {
+		} else {
 			mainCharacter.isBlockedDown = false;
 		}
 		if (map[2][(int) (getHeight()
 				- (mainCharacter.getPosition().y + 31.5) / 16)][(int) ((mainCharacter.getPosition().x + 26)
-						/ 16) - 1] != 100) {
+						/ 16)] != 100) {
 			mainCharacter.isBlockedLeft = true;
-		}
-		else {
+		} else {
 			mainCharacter.isBlockedLeft = false;
 		}
 		if (map[2][(int) (getHeight()
-				- (mainCharacter.getPosition().y + 31.5) / 16)][(int) ((mainCharacter.getPosition().x + 30.5)
-						/ 16) + 1] != 100) {
+				- (mainCharacter.getPosition().y + 31.5) / 16)][(int) ((mainCharacter.getPosition().x + 35.5)
+						/ 16)] != 100) {
 			mainCharacter.isBlockedRight = true;
-		}
-		else {
+		} else {
 			mainCharacter.isBlockedRight = false;
 		}
 		mainCharacter.update(dt);
@@ -217,17 +214,59 @@ public class CustomGameMap extends GameMap {
 				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
 			mainCharacter.setVelocity(0, 0);
 			attackAnimationTime = 0;
+
+			final Vector2 pos = new Vector2();
+
 			if (mainCharacter.getRoll() == 0) {
 				mainCharacter.setRoll(4);
+				pos.x = (float) (mainCharacter.getPosition().x + 31.5);
+				pos.y = (float) (mainCharacter.getPosition().y + 27);
 			} else if (mainCharacter.getRoll() == 1) {
 				mainCharacter.setRoll(5);
+				pos.x = (float) (mainCharacter.getPosition().x + 25);
+				pos.y = (float) (mainCharacter.getPosition().y + 31.5);
 			} else if (mainCharacter.getRoll() == 2) {
 				mainCharacter.setRoll(6);
+				pos.x = (float) (mainCharacter.getPosition().x + 36.5);
+				pos.y = (float) (mainCharacter.getPosition().y + 31.5);
 			} else if (mainCharacter.getRoll() == 3) {
 				mainCharacter.setRoll(7);
+				pos.x = (float) (mainCharacter.getPosition().x + 31.5);
+				pos.y = (float) (mainCharacter.getPosition().y + 37.5);
 			}
+			final StoneAndGem stone = getStoneAndGemByLocation(2, pos.x, pos.y);
+			
+			final int col = changeXToCol(pos.x);
+			final int row = changeYToRow(pos.y);
+
+			if (stone != null) {
+
+				if (stone.getId() == StoneAndGem.LADDER_GROUND.getId()) {
+
+					destroyLadder(col, row);
+					toNextLevel();
+					System.out.println("next level");
+
+				} else {
+
+					Timer.schedule(new Task() {
+						public void run() {
+							destroyStone(col, row, stone.getDestroy());
+							dropValueable(stone, col, row);
+							Timer.schedule(new Task() {
+								public void run() {
+									destroyStone(col, row, 100);
+								}
+							}, 0.5f);
+						}
+					}, 0.5f);
+
+					checkLadder(col, row);
+				}
+
+			}
+
 			mainCharacter.setStamina(mainCharacter.getStamina() - 1);
-			System.out.println(mainCharacter.getStamina());
 		}
 	}
 
