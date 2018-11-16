@@ -21,7 +21,7 @@ import characters.MainCharacter;
 
 public class CustomGameMap extends GameMap {
 
-	private MainCharacter mainCharacter;
+	private static MainCharacter mainCharacter;
 	private ArrayList<Item> itemList;
 	
 	private float stateTime;
@@ -351,4 +351,10 @@ public class CustomGameMap extends GameMap {
 		isDropValue = true;
 		
 	}
+
+	public static MainCharacter getMainCharacter() {
+		return mainCharacter;
+	}
+	
+	
 }

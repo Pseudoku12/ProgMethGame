@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -25,7 +26,6 @@ public class PlayScene extends State implements Screen {
 	private float stateTime;
 	private GameProgMeth game;
 	private GameStateManager gsm;
-	private Character character;
 	
 	private Texture pauseBtn;
 	private Texture playBtn;
@@ -34,6 +34,8 @@ public class PlayScene extends State implements Screen {
 	private Texture pauseBg;
 	private Sound  btnSound;
 	private Music bgMusic;
+	
+	private TextureRegion[][] staminaBar;
 	
 	private boolean isPlayState;
 	
@@ -61,9 +63,9 @@ public class PlayScene extends State implements Screen {
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Under_Cover.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
-
-		character = new MainCharacter(100, 100, 200);
 		isPlayState = true;
+		
+		staminaBar = TextureRegion.split(new Texture("Stamina_Bar.png"), 122, 33);
 	}
 
 	@Override
@@ -124,7 +126,6 @@ public class PlayScene extends State implements Screen {
 		if(isPlayState) {
 			if (Gdx.input.justTouched()) {
 				if (isOnPauseBtn()) {
-//					System.out.println("click pausebtn");
 					btnSound.play();
 					isPlayState = false;
 					return;
@@ -207,6 +208,7 @@ public class PlayScene extends State implements Screen {
 			cam.position.set(gameMap.getMainCharacterPosition().x + 31.5f,gameMap.getMainCharacterPosition().y + 31.5f, 0);
 			cam.update();
 			sb.begin();
+			sb.draw(staminaBar[10 - CustomGameMap.getMainCharacter().getStamina()/10][0], gameMap.getMainCharacterPosition().x + GameProgMeth.WIDTH/8 - 10, gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT/8 + 10, 30f, 8f);
 			sb.draw(pauseBtn, gameMap.getMainCharacterPosition().x + 21.5f + GameProgMeth.WIDTH/8 - pauseBtn.getWidth()/8, gameMap.getMainCharacterPosition().y + 21.5f + GameProgMeth.HEIGHT/8 - pauseBtn.getHeight()/8, pauseBtn.getWidth()/8, pauseBtn.getHeight()/8);
 			sb.end();
 		}
