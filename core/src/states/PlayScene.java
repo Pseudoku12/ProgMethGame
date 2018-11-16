@@ -131,46 +131,10 @@ public class PlayScene extends State implements Screen {
 					return;
 				}
 
-				else {
-					final Vector3 pos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-					final StoneAndGem stone = gameMap.getStoneAndGemByLocation(2, pos.x, pos.y);
-
-					final int col = gameMap.changeXToCol(pos.x);
-					final int row = gameMap.changeYToRow(pos.y);
-
-					if (stone != null) {
-
-						final CustomGameMap customGameMap = (CustomGameMap) gameMap;
-
-						if (stone.getId() == StoneAndGem.LADDER_GROUND.getId()) {
-
-							customGameMap.destroyLadder(col, row);
-							customGameMap.toNextLevel();
-							System.out.println("next level");
-
-						} else {
-
-							Timer.schedule(new Task() {
-								public void run() {
-									customGameMap.destroyStone(col, row, stone.getDestroy());
-									customGameMap.dropValueable(stone, col, row);
-									Timer.schedule(new Task() {
-										public void run() {
-											customGameMap.destroyStone(col, row, 100);
-										}
-									}, 0.5f);
-								}
-							}, 0.5f);
-
-							customGameMap.checkLadder(col, row);
-						}
-
 					}
 
 				}
-			}
-
-		} else {
+		else {
 			if(Gdx.input.justTouched()) {
 				if(isOnStartBtn()) {
 					btnSound.play();
