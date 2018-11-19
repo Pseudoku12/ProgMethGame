@@ -1,5 +1,6 @@
 package states;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -21,11 +22,10 @@ import com.gameprogmeth.game.world.custommap.CustomGameMap;
 import characters.Character;
 import characters.MainCharacter;
 
-public class PlayScene extends State implements Screen {
+public class PlayScene implements Screen {
 
 	private float stateTime;
 	private GameProgMeth game;
-	private GameStateManager gsm;
 	
 	private Texture pauseBtn;
 	private Texture playBtn;
@@ -43,14 +43,12 @@ public class PlayScene extends State implements Screen {
 	GameMap gameMap;
 
 	public PlayScene(GameStateManager gsm) {
-		super(gsm);
 		this.game = game;
 
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
 		cam.update();
 
-//		gameMap = new TiledGameMap();
 		gameMap = new CustomGameMap();
 
 		pauseBtn = new Texture("Pause.png"); 
@@ -66,6 +64,7 @@ public class PlayScene extends State implements Screen {
 		isPlayState = true;
 		
 		staminaBar = TextureRegion.split(new Texture("Stamina_Bar.png"), 122, 33);
+
 	}
 
 	@Override
@@ -121,7 +120,6 @@ public class PlayScene extends State implements Screen {
 
 	}
 
-	@Override
 	protected void handleInput() {
 		if(isPlayState) {
 			if (Gdx.input.justTouched()) {
@@ -142,15 +140,12 @@ public class PlayScene extends State implements Screen {
 				}
 				else if(isOnMenuBtn()) {
 					btnSound.play();
-					dispose();
-					gsm.pop();
 				}
 			}
 		}
 				
 	}
-
-	@Override
+	
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 			handleInput();
@@ -161,7 +156,6 @@ public class PlayScene extends State implements Screen {
 			
 	}
 
-	@Override
 	public void render(SpriteBatch sb) {
 		// TODO Auto-generated method stub
 		sb.setProjectionMatrix(cam.combined);

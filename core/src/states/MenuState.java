@@ -1,13 +1,14 @@
 package states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gameprogmeth.game.GameProgMeth;
 
-public class MenuState extends State{
+public class MenuState implements Screen{
 	
 	private Texture background;
 	private Texture playBtn;
@@ -16,8 +17,12 @@ public class MenuState extends State{
 	private Sound btnSound;
 	private Music bgMusic;
 	
-	public MenuState(GameStateManager gsm) {
-		super(gsm);
+	private GameProgMeth game;
+	
+	public MenuState(GameProgMeth game) {
+
+		this.game = game;
+		
 		background = new Texture("Menu.png");
 		playBtn = new Texture("Start.png");
 		exitBtn = new Texture("Exit.png");
@@ -28,15 +33,13 @@ public class MenuState extends State{
 		bgMusic.play();
 	}
 
-	@Override
-	protected void handleInput() {
+	public void handleInput() {
 		if(Gdx.input.justTouched()) {
 			
 			if(isOnStartBtn()) {
 				System.out.println("click");
 				btnSound.play();
-				gsm.push(new PlayScene(gsm));
-				dispose();
+				
 			}
 			
 			else if(isOnExitBtn()) {
@@ -45,23 +48,6 @@ public class MenuState extends State{
 			}
 		}
 		
-	}
-
-	@Override
-	public void update(float dt) {
-		handleInput();
-		
-	}
-
-	@Override
-	public void render(SpriteBatch sb) {
-		sb.begin();
-		sb.draw(background, 0, 0, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
-		sb.draw(scoreBtn, 10, 10, scoreBtn.getWidth()/2, scoreBtn.getHeight()/2);
-		sb.draw(exitBtn, GameProgMeth.WIDTH - 10 - exitBtn.getWidth()/2, 10, exitBtn.getWidth()/2, exitBtn.getHeight()/2);
-		sb.draw(playBtn,GameProgMeth.WIDTH/2 - playBtn.getWidth()/2,GameProgMeth.HEIGHT/2 - (1.5f)*playBtn.getHeight());
-		sb.end();
-	
 	}
 
 	@Override
@@ -86,5 +72,51 @@ public class MenuState extends State{
 			   GameProgMeth.WIDTH - 10 >= Gdx.input.getX() &&
 			   GameProgMeth.HEIGHT - 10 - exitBtn.getHeight()/2 <= Gdx.input.getY() &&
 			   GameProgMeth.HEIGHT - 10 >= Gdx.input.getY();
+	}
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		handleInput();
+		
+		game.getBatch().begin();
+		game.getBatch().draw(background, 0, 0, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
+		game.getBatch().draw(scoreBtn, 10, 10, scoreBtn.getWidth()/2, scoreBtn.getHeight()/2);
+		game.getBatch().draw(exitBtn, GameProgMeth.WIDTH - 10 - exitBtn.getWidth()/2, 10, exitBtn.getWidth()/2, exitBtn.getHeight()/2);
+		game.getBatch().draw(playBtn,GameProgMeth.WIDTH/2 - playBtn.getWidth()/2,GameProgMeth.HEIGHT/2 - (1.5f)*playBtn.getHeight());
+		game.getBatch().end();
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
 	}
 }
