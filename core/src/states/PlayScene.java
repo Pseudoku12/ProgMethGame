@@ -42,7 +42,7 @@ public class PlayScene implements Screen {
 	OrthographicCamera cam;
 	GameMap gameMap;
 
-	public PlayScene(GameStateManager gsm) {
+	public PlayScene(GameProgMeth game) {
 		this.game = game;
 
 		cam = new OrthographicCamera();
@@ -75,23 +75,13 @@ public class PlayScene implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		if(isPlayState) {
-			if (Gdx.input.isTouched()) {
-				cam.translate(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-			}
-			cam.position.set(gameMap.getMainCharacterPosition(), 0);
-			cam.update();
-			gameMap.render(cam);
-		}
+		render(game.getBatch());
+		update(delta);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -114,10 +104,14 @@ public class PlayScene implements Screen {
 
 	@Override
 	public void dispose() {
-		pauseBtn.dispose();
-		btnSound.dispose();
-		bgMusic.dispose();
-
+//		gameMap.dispose();
+//		playBtn.dispose();
+//		menuBtn.dispose();
+//		pauseTextBox.dispose();
+//		pauseBg.dispose();
+//		pauseBtn.dispose();
+//		btnSound.dispose();
+//		bgMusic.dispose();
 	}
 
 	protected void handleInput() {
@@ -140,6 +134,10 @@ public class PlayScene implements Screen {
 				}
 				else if(isOnMenuBtn()) {
 					btnSound.play();
+					cam.position.set(new Vector3(0,0,0));
+					this.dispose();
+					System.out.println();
+					game.setScreen(new MenuState(game));
 				}
 			}
 		}

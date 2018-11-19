@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.gameprogmeth.game.GameProgMeth;
 
@@ -17,11 +18,17 @@ public class MenuState implements Screen{
 	private Sound btnSound;
 	private Music bgMusic;
 	
+	OrthographicCamera cam;
+	
 	private GameProgMeth game;
 	
 	public MenuState(GameProgMeth game) {
 
 		this.game = game;
+		
+		cam = new OrthographicCamera();
+		cam.setToOrtho(false, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
+		cam.update();
 		
 		background = new Texture("Menu.png");
 		playBtn = new Texture("Start.png");
@@ -37,9 +44,9 @@ public class MenuState implements Screen{
 		if(Gdx.input.justTouched()) {
 			
 			if(isOnStartBtn()) {
-				System.out.println("click");
+				System.out.println("going to menustate2");
 				btnSound.play();
-				
+				game.setPlayScene();
 			}
 			
 			else if(isOnExitBtn()) {
@@ -52,12 +59,12 @@ public class MenuState implements Screen{
 
 	@Override
 	public void dispose() {
-		background.dispose();
-		playBtn.dispose();
-		exitBtn.dispose();
-		scoreBtn.dispose();
-		btnSound.dispose();
-		bgMusic.dispose();
+//		background.dispose();
+//		playBtn.dispose();
+//		exitBtn.dispose();
+//		scoreBtn.dispose();
+//		btnSound.dispose();
+//		bgMusic.dispose();
 	}
 	
 	public boolean isOnStartBtn() {
@@ -87,6 +94,12 @@ public class MenuState implements Screen{
 		
 		handleInput();
 		
+		cam.update();
+		
+		System.out.println(cam.position.x);
+		
+		game.getBatch().setProjectionMatrix(cam.combined);
+		
 		game.getBatch().begin();
 		game.getBatch().draw(background, 0, 0, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
 		game.getBatch().draw(scoreBtn, 10, 10, scoreBtn.getWidth()/2, scoreBtn.getHeight()/2);
@@ -98,7 +111,6 @@ public class MenuState implements Screen{
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		
 	}
 

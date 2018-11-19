@@ -195,19 +195,24 @@ public class CustomGameMap extends GameMap {
 	}
 
 	protected void handleInput() {
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			mainCharacter.setVelocity(0, mainCharacter.getSpeed());
-			mainCharacter.setRoll(3);
-		} else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
-			mainCharacter.setRoll(1);
-		} else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			mainCharacter.setVelocity(0, -mainCharacter.getSpeed());
-			mainCharacter.setRoll(0);
-		} else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			mainCharacter.setVelocity(mainCharacter.getSpeed(), 0);
-			mainCharacter.setRoll(2);
-		} else {
+		if(mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
+				mainCharacter.setRoll(3);
+			} else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+				mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
+				mainCharacter.setRoll(1);
+			} else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+				mainCharacter.setVelocity(0, -mainCharacter.getSpeed());
+				mainCharacter.setRoll(0);
+			} else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+				mainCharacter.setVelocity(mainCharacter.getSpeed(), 0);
+				mainCharacter.setRoll(2);
+			} else {
+				mainCharacter.setVelocity(0, 0);
+			}
+		}
+		else {
 			mainCharacter.setVelocity(0, 0);
 		}
 		if (Gdx.input.justTouched() && mainCharacter.getStamina() > 0
