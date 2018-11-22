@@ -59,12 +59,12 @@ public class MenuState implements Screen{
 
 	@Override
 	public void dispose() {
-//		background.dispose();
-//		playBtn.dispose();
-//		exitBtn.dispose();
-//		scoreBtn.dispose();
-//		btnSound.dispose();
-//		bgMusic.dispose();
+		background.dispose();
+		playBtn.dispose();
+		exitBtn.dispose();
+		scoreBtn.dispose();
+		btnSound.dispose();
+		bgMusic.dispose();
 	}
 	
 	public boolean isOnStartBtn() {
@@ -95,8 +95,6 @@ public class MenuState implements Screen{
 		handleInput();
 		
 		cam.update();
-		
-		System.out.println(cam.position.x);
 		
 		game.getBatch().setProjectionMatrix(cam.combined);
 		

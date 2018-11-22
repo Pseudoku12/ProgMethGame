@@ -104,14 +104,14 @@ public class PlayScene implements Screen {
 
 	@Override
 	public void dispose() {
-//		gameMap.dispose();
-//		playBtn.dispose();
-//		menuBtn.dispose();
-//		pauseTextBox.dispose();
-//		pauseBg.dispose();
-//		pauseBtn.dispose();
-//		btnSound.dispose();
-//		bgMusic.dispose();
+		gameMap.dispose();
+		playBtn.dispose();
+		menuBtn.dispose();
+		pauseTextBox.dispose();
+		pauseBg.dispose();
+		pauseBtn.dispose();
+		btnSound.dispose();
+		bgMusic.dispose();
 	}
 
 	protected void handleInput() {
@@ -165,7 +165,7 @@ public class PlayScene implements Screen {
 			cam.update();
 			sb.begin();
 			sb.draw(staminaBar[10 - CustomGameMap.getMainCharacter().getStamina()/10][0], gameMap.getMainCharacterPosition().x + GameProgMeth.WIDTH/8 - 10, gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT/8 + 10, 30f, 8f);
-			sb.draw(pauseBtn, gameMap.getMainCharacterPosition().x + 21.5f + GameProgMeth.WIDTH/8 - pauseBtn.getWidth()/8, gameMap.getMainCharacterPosition().y + 21.5f + GameProgMeth.HEIGHT/8 - pauseBtn.getHeight()/8, pauseBtn.getWidth()/8, pauseBtn.getHeight()/8);
+			sb.draw(pauseBtn, Gdx.graphics.getWidth()/4 - 10 - pauseBtn.getWidth()/8, Gdx.graphics.getHeight()/4 - 10 - pauseBtn.getHeight()/8, pauseBtn.getWidth()/8, pauseBtn.getHeight()/8);
 			sb.end();
 		}
 		else {
