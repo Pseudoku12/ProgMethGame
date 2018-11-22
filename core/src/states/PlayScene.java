@@ -104,14 +104,14 @@ public class PlayScene implements Screen {
 
 	@Override
 	public void dispose() {
-//		gameMap.dispose();
-//		playBtn.dispose();
-//		menuBtn.dispose();
-//		pauseTextBox.dispose();
-//		pauseBg.dispose();
-//		pauseBtn.dispose();
-//		btnSound.dispose();
-//		bgMusic.dispose();
+		gameMap.dispose();
+		playBtn.dispose();
+		menuBtn.dispose();
+		pauseTextBox.dispose();
+		pauseBg.dispose();
+		pauseBtn.dispose();
+		btnSound.dispose();
+		bgMusic.dispose();
 	}
 
 	protected void handleInput() {
@@ -136,7 +136,6 @@ public class PlayScene implements Screen {
 					btnSound.play();
 					cam.position.set(new Vector3(0,0,0));
 					this.dispose();
-					System.out.println();
 					game.setScreen(new MenuState(game));
 				}
 			}

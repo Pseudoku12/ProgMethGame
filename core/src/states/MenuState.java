@@ -18,7 +18,7 @@ public class MenuState implements Screen{
 	private Sound btnSound;
 	private Music bgMusic;
 	
-	OrthographicCamera cam;
+	private OrthographicCamera cam;
 	
 	private GameProgMeth game;
 	
@@ -44,8 +44,8 @@ public class MenuState implements Screen{
 		if(Gdx.input.justTouched()) {
 			
 			if(isOnStartBtn()) {
-				System.out.println("going to menustate2");
 				btnSound.play();
+				this.dispose();
 				game.setPlayScene();
 			}
 			
@@ -59,12 +59,12 @@ public class MenuState implements Screen{
 
 	@Override
 	public void dispose() {
-//		background.dispose();
-//		playBtn.dispose();
-//		exitBtn.dispose();
-//		scoreBtn.dispose();
-//		btnSound.dispose();
-//		bgMusic.dispose();
+		background.dispose();
+		playBtn.dispose();
+		exitBtn.dispose();
+		scoreBtn.dispose();
+		btnSound.dispose();
+		bgMusic.dispose();
 	}
 	
 	public boolean isOnStartBtn() {
@@ -95,8 +95,6 @@ public class MenuState implements Screen{
 		handleInput();
 		
 		cam.update();
-		
-		System.out.println(cam.position.x);
 		
 		game.getBatch().setProjectionMatrix(cam.combined);
 		
