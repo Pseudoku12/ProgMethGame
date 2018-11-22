@@ -18,7 +18,7 @@ public class MenuState implements Screen{
 	private Sound btnSound;
 	private Music bgMusic;
 	
-	OrthographicCamera cam;
+	private OrthographicCamera cam;
 	
 	private GameProgMeth game;
 	
@@ -44,8 +44,8 @@ public class MenuState implements Screen{
 		if(Gdx.input.justTouched()) {
 			
 			if(isOnStartBtn()) {
-				System.out.println("going to menustate2");
 				btnSound.play();
+				this.dispose();
 				game.setPlayScene();
 			}
 			

@@ -2,6 +2,8 @@ package com.gameprogmeth.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import states.GameOverScene;
 import states.MenuState;
 import states.PlayScene;
 
@@ -15,7 +17,8 @@ public class GameProgMeth extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setMenuScene();
+//		setMenuScene();
+		setGameOverScene();
 	}
 
 	@Override
@@ -29,6 +32,10 @@ public class GameProgMeth extends Game {
 
 	public void setMenuScene() {
 		setScreen(new MenuState(this));
+	}
+	
+	public void setGameOverScene() {
+		setScreen(new GameOverScene(this));
 	}
 	
 	public SpriteBatch getBatch() {

@@ -136,7 +136,6 @@ public class PlayScene implements Screen {
 					btnSound.play();
 					cam.position.set(new Vector3(0,0,0));
 					this.dispose();
-					System.out.println();
 					game.setScreen(new MenuState(game));
 				}
 			}
