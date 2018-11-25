@@ -48,7 +48,7 @@ public class CustomGameMap extends GameMap {
 
 	public CustomGameMap() {
 		isDropValue = false;
-		level = 3;
+		level = 5;
 		levelToNewName = 5;
 		getNameMap();
 		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, name);
