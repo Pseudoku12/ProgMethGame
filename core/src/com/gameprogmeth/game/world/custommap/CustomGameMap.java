@@ -67,7 +67,9 @@ public class CustomGameMap extends GameMap {
 
 		scoreText = "score: 0";
 		font = new BitmapFont();
+
 		font.getData().setScale(0.5f);
+
 	}
 
 	@Override
