@@ -38,6 +38,8 @@ public class MenuState implements Screen{
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
+		
+		System.out.println(ClassLoader.getSystemResource("Click.mp3"));
 	}
 
 	public void handleInput() {
