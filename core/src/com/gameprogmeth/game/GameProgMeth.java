@@ -17,8 +17,8 @@ public class GameProgMeth extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-//		setMenuScene();
-		setGameOverScene();
+		setMenuScene();
+//		setGameOverScene();
 	}
 
 	@Override

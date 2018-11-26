@@ -8,9 +8,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.gameprogmeth.game.GameProgMeth;
 
 public class GameOverScene implements Screen{
@@ -28,6 +31,8 @@ public class GameOverScene implements Screen{
 	
 	private String playerNameLabel;
 	private BitmapFont font;
+	
+	private Stage stage;
 	
 	public GameOverScene(GameProgMeth game) {
 		
@@ -48,14 +53,20 @@ public class GameOverScene implements Screen{
 		bgMusic.setLooping(true);
 		bgMusic.play();
 		
+		stage = new Stage();
+		
 		Skin uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 		
-//		playerNameText = new TextField("Name", skin);
+		playerNameText = new TextField("", uiSkin);
+		playerNameText.setPosition(500, 500);
+		playerNameText.setSize(100, 50);
+		
+		stage.addActor(playerNameText);
 	}
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -76,8 +87,11 @@ public class GameOverScene implements Screen{
 		
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(game.getBatch(), playerNameLabel, GameProgMeth.WIDTH/2, GameProgMeth.HEIGHT/2);
+		
 		game.getBatch().end();
 		
+		stage.act(delta);
+		stage.draw();
 	}
 	
 	public void handleInput() {

@@ -48,7 +48,7 @@ public class CustomGameMap extends GameMap {
 
 	public CustomGameMap() {
 		isDropValue = false;
-		level = 3;
+		level = 5;
 		levelToNewName = 5;
 		getNameMap();
 		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, name);
@@ -67,7 +67,9 @@ public class CustomGameMap extends GameMap {
 
 		scoreText = "score: 0";
 		font = new BitmapFont();
+
 		font.getData().setScale(0.5f);
+
 	}
 
 	@Override
