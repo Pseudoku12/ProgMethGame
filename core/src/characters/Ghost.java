@@ -11,13 +11,14 @@ public class Ghost extends Character{
 	private MainCharacter player;
 	private Sprite sprite;
 	private TextureRegion[][] rollSpriteSheet;
+	private boolean isPlayerDead;
 	
 	public Ghost(int x, int y, int speed, MainCharacter player) {
 		animationSpeed = 0.5f;
-		renderWidth = 128;
-		renderHeight = 128;
-		widthPixel = 64;
-		heightPixel = 64;
+		renderWidth = 16;
+		renderHeight = 24;
+		widthPixel = 16;
+		heightPixel = 24;
 
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
@@ -35,6 +36,7 @@ public class Ghost extends Character{
 		animation[3] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[3]);
 		
 		this.player = player;
+		isPlayerDead = false;
 	}
 
 	double dx;
@@ -42,8 +44,8 @@ public class Ghost extends Character{
 	double ds;
 	@Override
 	public void update(float dt) {
-		dx = player.getPosition().x - position.x+27;
-		dy = player.getPosition().y - position.y+27;
+		dx = player.getPosition().x - position.x+22;
+		dy = player.getPosition().y - position.y+22;
 		ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 		velocity.x = (float)(dx/ds)*speed;
 		velocity.y = (float)(dy/ds)*speed;
@@ -51,7 +53,11 @@ public class Ghost extends Character{
 		position.add(velocity.x, velocity.y);
 		velocity.scl(1/dt);
 		if(ds < 10) {
-			//GAME OVER SCREEN!!!!
+			isPlayerDead = true;
 		}
+	}
+	
+	public boolean isPlayerDead() {
+		return isPlayerDead;
 	}
 }
