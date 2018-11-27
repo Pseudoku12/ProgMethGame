@@ -44,6 +44,7 @@ public class GameOverScene implements Screen{
 		cam.update();
 		
 		playerNameLabel = "Please Enter Your Name";
+		playerScore = "Score : " + GameProgMeth.score;
 		font = new BitmapFont();
 		font.getData().setScale(2f);
 		
@@ -89,6 +90,7 @@ public class GameOverScene implements Screen{
 		
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(game.getBatch(), playerNameLabel, GameProgMeth.WIDTH/2 - 350, GameProgMeth.HEIGHT/2 - 100);
+		font.draw(game.getBatch(), playerScore, GameProgMeth.WIDTH/2 - 100, GameProgMeth.HEIGHT/2 - 200);
 		
 		game.getBatch().end();
 		

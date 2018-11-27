@@ -11,14 +11,15 @@ public class GameProgMeth extends Game {
 	
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720; 
+	public static int score = 0;
 	
 	private SpriteBatch batch;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setMenuScene();
-//		setGameOverScene();
+//		setMenuScene();
+		setGameOverScene(100);
 	}
 
 	@Override
@@ -27,6 +28,7 @@ public class GameProgMeth extends Game {
 	}
 	
 	public void setPlayScene() {
+		score = 0;
 		setScreen(new PlayScene(this));
 	}
 
@@ -34,7 +36,8 @@ public class GameProgMeth extends Game {
 		setScreen(new MenuState(this));
 	}
 	
-	public void setGameOverScene() {
+	public void setGameOverScene(int score) {
+		this.score = score;
 		setScreen(new GameOverScene(this));
 	}
 	

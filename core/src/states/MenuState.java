@@ -39,7 +39,6 @@ public class MenuState implements Screen{
 		bgMusic.setLooping(true);
 		bgMusic.play();
 		
-		System.out.println(ClassLoader.getSystemResource("Click.mp3"));
 	}
 
 	public void handleInput() {
