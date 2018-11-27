@@ -97,5 +97,8 @@ public abstract class Character {
 		
 		velocity.scl(1/dt);
 	}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> a40980a14e9518e04cf3d0f3cd604d6561b84d7d
 }

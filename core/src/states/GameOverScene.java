@@ -30,6 +30,7 @@ public class GameOverScene implements Screen{
 	private GameProgMeth game;
 	
 	private String playerNameLabel;
+	private String playerScore;
 	private BitmapFont font;
 	
 	private Stage stage;
@@ -43,8 +44,9 @@ public class GameOverScene implements Screen{
 		cam.update();
 		
 		playerNameLabel = "Please Enter Your Name";
+		playerScore = "Score : " + GameProgMeth.score;
 		font = new BitmapFont();
-		font.getData().setScale(5f);
+		font.getData().setScale(2f);
 		
 		gameOverBg = new Texture("GameOverBg.jpg");
 		nextBtn = new Texture("Next.png");
@@ -58,10 +60,11 @@ public class GameOverScene implements Screen{
 		Skin uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 		
 		playerNameText = new TextField("", uiSkin);
-		playerNameText.setPosition(500, 500);
-		playerNameText.setSize(100, 50);
+		playerNameText.setPosition(GameProgMeth.WIDTH/2 + 50, GameProgMeth.HEIGHT/2 - 130);
+		playerNameText.setSize(200, 50);
 		
-		stage.addActor(playerNameText);
+		stage.addActor(playerNameText); 
+		Gdx.input.setInputProcessor(stage);
 	}
 	
 	@Override
@@ -86,11 +89,12 @@ public class GameOverScene implements Screen{
 		game.getBatch().draw(nextBtn, GameProgMeth.WIDTH - 10 - nextBtn.getWidth(), 10);
 		
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.draw(game.getBatch(), playerNameLabel, GameProgMeth.WIDTH/2, GameProgMeth.HEIGHT/2);
+		font.draw(game.getBatch(), playerNameLabel, GameProgMeth.WIDTH/2 - 350, GameProgMeth.HEIGHT/2 - 100);
+		font.draw(game.getBatch(), playerScore, GameProgMeth.WIDTH/2 - 100, GameProgMeth.HEIGHT/2 - 200);
 		
 		game.getBatch().end();
 		
-		stage.act(delta);
+		stage.act();
 		stage.draw();
 	}
 	
