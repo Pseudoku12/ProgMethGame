@@ -54,6 +54,12 @@ public class MenuState implements Screen{
 				btnSound.play();
 				Gdx.app.exit();
 			}
+			
+			else if(isOnScoreBtn()) {
+				btnSound.play();
+				this.dispose();
+				game.setHallOfFameScene();
+			}
 		}
 		
 	}
@@ -81,6 +87,13 @@ public class MenuState implements Screen{
 			   GameProgMeth.HEIGHT - 10 - exitBtn.getHeight()/2 <= Gdx.input.getY() &&
 			   GameProgMeth.HEIGHT - 10 >= Gdx.input.getY();
 	}
+	
+	public boolean isOnScoreBtn() {
+		return 10 <= Gdx.input.getX() &&
+			   10 + scoreBtn.getWidth()/2 >= Gdx.input.getX() &&
+			   GameProgMeth.HEIGHT - 10 - scoreBtn.getHeight()/2 <= Gdx.input.getY() &&
+			   GameProgMeth.HEIGHT - 10 >= Gdx.input.getY();
+	} 
 
 	@Override
 	public void show() {

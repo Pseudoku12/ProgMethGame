@@ -103,7 +103,7 @@ public class GameOverScene implements Screen{
 			if(isOnNextBtn()) {
 				btnSound.play();
 				this.dispose();
-				game.setMenuScene();
+				game.setHallOfFameScene();
 			}
 		}
 		
