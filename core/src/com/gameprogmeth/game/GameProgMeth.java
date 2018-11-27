@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import states.GameOverScene;
+import states.HallOfFameScene;
 import states.MenuState;
 import states.PlayScene;
 
@@ -18,8 +19,8 @@ public class GameProgMeth extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-//		setMenuScene();
-		setGameOverScene(100);
+		setMenuScene();
+//		setGameOverScene(100);
 	}
 
 	@Override
@@ -39,6 +40,10 @@ public class GameProgMeth extends Game {
 	public void setGameOverScene(int score) {
 		this.score = score;
 		setScreen(new GameOverScene(this));
+	}
+	
+	public void setHallOfFameScene() {
+		setScreen(new HallOfFameScene(this));
 	}
 	
 	public SpriteBatch getBatch() {
