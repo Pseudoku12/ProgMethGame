@@ -13,6 +13,7 @@ public class GameProgMeth extends Game {
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720; 
 	public static int score = 0;
+	public static String name;
 	
 	private SpriteBatch batch;
 	
@@ -42,7 +43,8 @@ public class GameProgMeth extends Game {
 		setScreen(new GameOverScene(this));
 	}
 	
-	public void setHallOfFameScene() {
+	public void setHallOfFameScene(String name) {
+		this.name = name;
 		setScreen(new HallOfFameScene(this));
 	}
 	

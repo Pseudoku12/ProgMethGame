@@ -75,6 +75,10 @@ public class PlayScene implements Screen {
 
 	@Override
 	public void render(float delta) {
+		if(CustomGameMap.ghost.isPlayerDead()) {
+			dispose();
+			game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
+		}
 		render(game.getBatch());
 		update(delta);
 	}

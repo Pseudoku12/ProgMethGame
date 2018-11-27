@@ -27,8 +27,8 @@ public class CustomGameMap extends GameMap {
 
 	private GameProgMeth game;
 	
-	private static MainCharacter mainCharacter;
-	private static Ghost ghost;
+	public static MainCharacter mainCharacter;
+	public static Ghost ghost;
 	private ArrayList<Item> itemList;
 
 	private float stateTime;
@@ -188,10 +188,6 @@ public class CustomGameMap extends GameMap {
 		}
 		mainCharacter.update(dt);
 		ghost.update(dt);
-		
-		if(ghost.isPlayerDead()) {
-			game.setGameOverScene(mainCharacter.getScore());
-		}
 		
 		scoreText = "score: " + mainCharacter.getScore();
 		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();

@@ -11,6 +11,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Json;
 import com.gameprogmeth.game.GameProgMeth;
 
+import halloffame.HallOfFameData;
+import halloffame.HallOfFameLoader;
+
 public class HallOfFameScene implements Screen{
 	
 	private GameProgMeth game;
@@ -21,10 +24,11 @@ public class HallOfFameScene implements Screen{
 	private Sound btnSound;
 	
 	private String[] names;
-	private int[] scores;
+	private String[] scores;
 	
 	private String header;
 	private BitmapFont fontHeader;
+	private BitmapFont fontList;
 	
 	public HallOfFameScene(GameProgMeth game){
 		this.game = game;
@@ -33,9 +37,18 @@ public class HallOfFameScene implements Screen{
 		cam.setToOrtho(false, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
 		cam.update();
 		
+		HallOfFameData data = HallOfFameLoader.loadHallOfFame();
+		names = data.names;
+		scores = data.scores;
+		
+		chkScore();
+		
 		header = "Hall Of Fame";
 		fontHeader = new BitmapFont();
 		fontHeader.getData().setScale(5f);
+		
+		fontList = new BitmapFont();
+		fontList.getData().setScale(3f);
 		
 		nextBtn = new Texture("Next.png");
 		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
@@ -44,6 +57,24 @@ public class HallOfFameScene implements Screen{
 		bgMusic.play();
 	}
 	
+	public void chkScore() {
+		int order = 5;
+		for(int i = 0; i < 5; i++) {
+			if(Integer.parseInt(scores[i]) < GameProgMeth.score) {
+				order = i;
+				break;
+			}
+		}
+		if(order == 5)	return;
+		for(int i = 3; i >= order; i--) {
+			scores[i+1] = scores[i];
+			names[i+1] = names[i];
+		}
+		scores[order] = Integer.toString(GameProgMeth.score);
+		names[order] = GameProgMeth.name;
+		
+	}
+
 	public void handleInput() {
 		if(Gdx.input.justTouched()) {
 			if(isOnNextBtn()) {
@@ -79,6 +110,21 @@ public class HallOfFameScene implements Screen{
 		
 		game.getBatch().begin();
 		game.getBatch().draw(nextBtn, GameProgMeth.WIDTH - 10 - nextBtn.getWidth(), 10, nextBtn.getWidth(), nextBtn.getHeight());
+		
+		fontHeader.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		fontHeader.draw(game.getBatch(), header, GameProgMeth.WIDTH/2 - 220, GameProgMeth.HEIGHT - 100);
+		
+		fontList.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		fontList.draw(game.getBatch(), names[0], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 300);
+		fontList.draw(game.getBatch(), scores[0], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 300);
+		fontList.draw(game.getBatch(), names[1], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 350);
+		fontList.draw(game.getBatch(), scores[1], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 350);
+		fontList.draw(game.getBatch(), names[2], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 400);
+		fontList.draw(game.getBatch(), scores[2], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 400);
+		fontList.draw(game.getBatch(), names[3], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 450);
+		fontList.draw(game.getBatch(), scores[3], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 450);
+		fontList.draw(game.getBatch(), names[4], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 500);
+		fontList.draw(game.getBatch(), scores[4], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 500);
 		game.getBatch().end();
 	}
 
@@ -108,8 +154,9 @@ public class HallOfFameScene implements Screen{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		nextBtn.dispose();
+		bgMusic.dispose();
+		btnSound.dispose();
 	}
 	
 }

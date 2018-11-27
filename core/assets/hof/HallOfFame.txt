@@ -1,0 +1,10 @@
+{
+names: [
+	Peter
+	James
+	Tom
+	Jerry
+	Smith
+]
+scores: [ 500, 300, 100, 70, 50 ]
+}

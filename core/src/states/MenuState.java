@@ -58,7 +58,7 @@ public class MenuState implements Screen{
 			else if(isOnScoreBtn()) {
 				btnSound.play();
 				this.dispose();
-				game.setHallOfFameScene();
+				game.setHallOfFameScene(null);
 			}
 		}
 		
