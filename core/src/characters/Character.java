@@ -97,7 +97,5 @@ public abstract class Character {
 		
 		velocity.scl(1/dt);
 	}
-	TextFieldStyle style = new TextFieldStyle();
-	TextField x = new TextField("asdf", style);
 	
 }

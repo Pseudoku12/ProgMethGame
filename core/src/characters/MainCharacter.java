@@ -16,7 +16,7 @@ public class MainCharacter extends Character {
 	private int stamina;
 	private int score;
 	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
-
+	
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.25f;
 		renderWidth = 63;

@@ -14,16 +14,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.gameprogmeth.game.GameProgMeth;
 import com.gameprogmeth.game.world.GameMap;
 import com.gameprogmeth.game.world.StoneAndGem;
 import com.gameprogmeth.game.world.TileType;
 
+import characters.Ghost;
 import characters.Item;
 import characters.MainCharacter;
 
 public class CustomGameMap extends GameMap {
 
+	private GameProgMeth game;
+	
 	private static MainCharacter mainCharacter;
+	private static Ghost ghost;
 	private ArrayList<Item> itemList;
 
 	private float stateTime;
@@ -32,6 +37,8 @@ public class CustomGameMap extends GameMap {
 	private int rowStart, colStart, levelToNewName, rowDrop, colDrop, typeDrop;
 	private boolean isDropValue;
 	private KeepingMineral keep;
+	
+	private boolean isGameOver;
 
 	String id;
 	String name;
@@ -46,9 +53,11 @@ public class CustomGameMap extends GameMap {
 	private String scoreText;
 	private BitmapFont font;
 
-	public CustomGameMap() {
+	public CustomGameMap(GameProgMeth game) {
+		this.game = game;
+		
 		isDropValue = false;
-		level = 5;
+		level = 1;
 		levelToNewName = 5;
 		getNameMap();
 		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, name);
@@ -62,7 +71,8 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
-		mainCharacter = new MainCharacter(colStart * 16, (rowStart - 2) * 16, 50);
+		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
+		ghost = new Ghost(colStart * 16, rowStart * 16 , 10, mainCharacter);
 		itemList = new ArrayList<Item>();
 
 		scoreText = "score: 0";
@@ -107,6 +117,9 @@ public class CustomGameMap extends GameMap {
 
 		batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true), mainCharacter.getPosition().x,
 				mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
+
+		batch.draw(ghost.getAnimation().getKeyFrame(stateTime, true), ghost.getPosition().x, ghost.getPosition().y,
+				ghost.getRenderWidth(), ghost.getRenderHeight());
 
 		for (Item item : itemList) {
 			if (item != null) {
@@ -174,6 +187,10 @@ public class CustomGameMap extends GameMap {
 			mainCharacter.isBlockedRight = false;
 		}
 		mainCharacter.update(dt);
+		ghost.update(dt);
+		if(ghost.isPlayerDead()) {
+			game.setGameOverScene();
+		}
 		scoreText = "score: " + mainCharacter.getScore();
 		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();
 		for (int i = 0; i < itemList.size(); i++) {
@@ -198,7 +215,7 @@ public class CustomGameMap extends GameMap {
 	}
 
 	protected void handleInput() {
-		if(mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
+		if (mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
 			if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
 				mainCharacter.setRoll(3);
@@ -214,8 +231,7 @@ public class CustomGameMap extends GameMap {
 			} else {
 				mainCharacter.setVelocity(0, 0);
 			}
-		}
-		else {
+		} else {
 			mainCharacter.setVelocity(0, 0);
 		}
 		if (Gdx.input.justTouched() && mainCharacter.getStamina() > 0
@@ -243,7 +259,7 @@ public class CustomGameMap extends GameMap {
 				pos.y = (float) (mainCharacter.getPosition().y + 37.5);
 			}
 			final StoneAndGem stone = getStoneAndGemByLocation(2, pos.x, pos.y);
-			
+
 			final int col = changeXToCol(pos.x);
 			final int row = changeYToRow(pos.y);
 
@@ -456,6 +472,5 @@ public class CustomGameMap extends GameMap {
 	public static MainCharacter getMainCharacter() {
 		return mainCharacter;
 	}
-	
-	
+
 }

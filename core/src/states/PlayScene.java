@@ -49,7 +49,7 @@ public class PlayScene implements Screen {
 		cam.setToOrtho(false, Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
 		cam.update();
 
-		gameMap = new CustomGameMap();
+		gameMap = new CustomGameMap(this.game);
 
 		pauseBtn = new Texture("Pause.png"); 
 		playBtn = new Texture("Start.png");
