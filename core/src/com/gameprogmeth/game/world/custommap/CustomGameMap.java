@@ -189,7 +189,7 @@ public class CustomGameMap extends GameMap {
 		mainCharacter.update(dt);
 		ghost.update(dt);
 		if(ghost.isPlayerDead()) {
-			game.setGameOverScene();
+			game.setGameOverScene(mainCharacter.getScore());
 		}
 		scoreText = "score: " + mainCharacter.getScore();
 		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();
