@@ -25,6 +25,10 @@ public class HallOfFameLoader {
 		data.names = names;
 		data.scores = scores;
 		
+		for(int i = 0; i < 5; i++) {
+			System.out.println(data.names[i] + " " + data.scores[i]);
+		}
+		
 		Gdx.files.local("hof/").file().mkdirs();
 		FileHandle file = Gdx.files.local("hof/HallOfFame.txt");
 		file.writeString(json.prettyPrint(data), false);

@@ -39,6 +39,8 @@ public class PlayScene implements Screen {
 	
 	private boolean isPlayState;
 	
+	private int score;
+	
 	OrthographicCamera cam;
 	GameMap gameMap;
 
@@ -118,7 +120,7 @@ public class PlayScene implements Screen {
 		bgMusic.dispose();
 	}
 
-	protected void handleInput() {
+	public void handleInput() {
 		if(isPlayState) {
 			if (Gdx.input.justTouched()) {
 				if (isOnPauseBtn()) {
@@ -127,9 +129,9 @@ public class PlayScene implements Screen {
 					return;
 				}
 
-					}
+			}
 
-				}
+		}
 		else {
 			if(Gdx.input.justTouched()) {
 				if(isOnStartBtn()) {

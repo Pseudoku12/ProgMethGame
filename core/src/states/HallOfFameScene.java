@@ -42,6 +42,7 @@ public class HallOfFameScene implements Screen{
 		scores = data.scores;
 		
 		chkScore();
+		HallOfFameLoader.saveHallOfFame(names, scores);
 		
 		header = "Hall Of Fame";
 		fontHeader = new BitmapFont();
@@ -73,6 +74,9 @@ public class HallOfFameScene implements Screen{
 		scores[order] = Integer.toString(GameProgMeth.score);
 		names[order] = GameProgMeth.name;
 		
+		for(int i = 0; i < 5; i++) {
+			System.out.println(names[i] + " " + scores[i]);
+		}
 	}
 
 	public void handleInput() {
