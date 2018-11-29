@@ -189,7 +189,7 @@ public class CustomGameMap extends GameMap {
 		mainCharacter.update(dt);
 		ghost.update(dt);
 		
-		scoreText = "score: " + mainCharacter.getScore();
+		scoreText = "score: " + (GameProgMeth.score + mainCharacter.getScore());
 		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();
 		for (int i = 0; i < itemList.size(); i++) {
 			if (itemList.get(i) != null) {
@@ -397,6 +397,7 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
+		GameProgMeth.score += mainCharacter.getScore();
 		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
 
 	}

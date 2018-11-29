@@ -4,7 +4,7 @@ names: [
 	James
 	Tom
 	Jerry
-	ssss
+	Smith
 ]
-scores: [ 500, 300, 100, 70, 60 ]
+scores: [ 500, 300, 100, 70, 50 ]
 }

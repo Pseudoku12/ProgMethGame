@@ -39,7 +39,7 @@ public class GameProgMeth extends Game {
 	}
 	
 	public void setGameOverScene(int score) {
-		this.score = score;
+		this.score += score;
 		setScreen(new GameOverScene(this));
 	}
 	

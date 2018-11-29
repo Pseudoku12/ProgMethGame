@@ -151,7 +151,7 @@ public class CustomGameMapLoader {
 	public static void findStartAndLadderPoint(Random random, int[][] map) {
 		int ladder = random.nextInt(numberOfStone/2);		//ladder = 1
 //		System.out.println(numberOfGround + " " + numberOfStone);
-		int start = random.nextInt(numberOfGround-5);		//start = 2
+		int start = random.nextInt(numberOfGround/2);		//start = 2
 		System.out.println(ladder + " " + numberOfStone);
 		System.out.println(start + " " + numberOfGround);
 		
