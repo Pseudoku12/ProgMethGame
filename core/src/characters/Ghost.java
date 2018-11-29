@@ -55,6 +55,18 @@ public class Ghost extends Character{
 		if(ds < 10) {
 			isPlayerDead = true;
 		}
+		if(Math.abs(dy) <= dx) {
+			roll = 1;
+		}
+		else if(Math.abs(dx) <= dy) {
+			roll = 2;
+		}
+		else if(-Math.abs(dy) >= dx) {
+			roll = 3;
+		}
+		else if(-Math.abs(dx) >= dy) {
+			roll = 0;
+		}
 	}
 	
 	public boolean isPlayerDead() {
