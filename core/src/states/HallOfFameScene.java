@@ -31,31 +31,15 @@ public class HallOfFameScene implements Screen{
 	private BitmapFont fontList;
 
 	public HallOfFameScene(GameProgMeth game){
-		this.game = game;
-		
-		cam = new OrthographicCamera();
-		cam.setToOrtho(false, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
-		cam.update();
-		
-		HallOfFameData data = HallOfFameLoader.loadHallOfFame();
-		names = data.names;
-		scores = data.scores;
-		
-		header = "Hall Of Fame";
-		fontHeader = new BitmapFont();
-		fontHeader.getData().setScale(5f);
-		
-		fontList = new BitmapFont();
-		fontList.getData().setScale(3f);
-		
-		nextBtn = new Texture("Next.png");
-		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
-		bgMusic.setLooping(true);
-		bgMusic.play();
+		beforeConstruction(game);
 	}
 
 	public HallOfFameScene(GameProgMeth game, String name,int score){
+		beforeConstruction(game);
+		chkScore(name, score);
+	}
+	
+	public void beforeConstruction(GameProgMeth game) {
 		this.game = game;
 		
 		cam = new OrthographicCamera();
@@ -66,8 +50,6 @@ public class HallOfFameScene implements Screen{
 		names = data.names;
 		scores = data.scores;
 		
-		chkScore(name, score);
-		
 		header = "Hall Of Fame";
 		fontHeader = new BitmapFont();
 		fontHeader.getData().setScale(5f);
@@ -77,7 +59,7 @@ public class HallOfFameScene implements Screen{
 		
 		nextBtn = new Texture("Next.png");
 		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Eyes_of_Glory.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
 	}
