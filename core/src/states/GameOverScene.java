@@ -102,9 +102,10 @@ public class GameOverScene implements Screen{
 		if(Gdx.input.justTouched()) {
 			if(isOnNextBtn()) {
 				btnSound.play();
-				name = playerNameText.getText();
+				name = (playerNameText.getText().equals(""))?("A"):(playerNameText.getText().trim());
+				playerNameText.setText("");
 				this.dispose();
-				game.setHallOfFameScene(name);
+				game.setHallOfFameSceneFromGameOverScene(name);
 			}
 		}
 		

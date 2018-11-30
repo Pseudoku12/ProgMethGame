@@ -24,12 +24,12 @@ public class HallOfFameScene implements Screen{
 	private Sound btnSound;
 	
 	private String[] names;
-	private String[] scores;
+	private int[] scores;
 	
 	private String header;
 	private BitmapFont fontHeader;
 	private BitmapFont fontList;
-	
+
 	public HallOfFameScene(GameProgMeth game){
 		this.game = game;
 		
@@ -41,8 +41,32 @@ public class HallOfFameScene implements Screen{
 		names = data.names;
 		scores = data.scores;
 		
-		chkScore();
-		HallOfFameLoader.saveHallOfFame(names, scores);
+		header = "Hall Of Fame";
+		fontHeader = new BitmapFont();
+		fontHeader.getData().setScale(5f);
+		
+		fontList = new BitmapFont();
+		fontList.getData().setScale(3f);
+		
+		nextBtn = new Texture("Next.png");
+		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
+		bgMusic.setLooping(true);
+		bgMusic.play();
+	}
+
+	public HallOfFameScene(GameProgMeth game, String name,int score){
+		this.game = game;
+		
+		cam = new OrthographicCamera();
+		cam.setToOrtho(false, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
+		cam.update();
+		
+		HallOfFameData data = HallOfFameLoader.loadHallOfFame();
+		names = data.names;
+		scores = data.scores;
+		
+		chkScore(name, score);
 		
 		header = "Hall Of Fame";
 		fontHeader = new BitmapFont();
@@ -58,10 +82,11 @@ public class HallOfFameScene implements Screen{
 		bgMusic.play();
 	}
 	
-	public void chkScore() {
+	public void chkScore(String name, int score) {
+		
 		int order = 5;
 		for(int i = 0; i < 5; i++) {
-			if(Integer.parseInt(scores[i]) < GameProgMeth.score) {
+			if(scores[i] < score) {
 				order = i;
 				break;
 			}
@@ -71,8 +96,8 @@ public class HallOfFameScene implements Screen{
 			scores[i+1] = scores[i];
 			names[i+1] = names[i];
 		}
-		scores[order] = Integer.toString(GameProgMeth.score);
-		names[order] = GameProgMeth.name;
+		scores[order] = score;
+		names[order] = name;
 	}
 
 	public void handleInput() {
@@ -116,15 +141,15 @@ public class HallOfFameScene implements Screen{
 		
 		fontList.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		fontList.draw(game.getBatch(), names[0], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 300);
-		fontList.draw(game.getBatch(), scores[0], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 300);
+		fontList.draw(game.getBatch(), Integer.toString(scores[0]), GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 300);
 		fontList.draw(game.getBatch(), names[1], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 350);
-		fontList.draw(game.getBatch(), scores[1], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 350);
+		fontList.draw(game.getBatch(), Integer.toString(scores[1]), GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 350);
 		fontList.draw(game.getBatch(), names[2], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 400);
-		fontList.draw(game.getBatch(), scores[2], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 400);
+		fontList.draw(game.getBatch(), Integer.toString(scores[2]), GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 400);
 		fontList.draw(game.getBatch(), names[3], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 450);
-		fontList.draw(game.getBatch(), scores[3], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 450);
+		fontList.draw(game.getBatch(), Integer.toString(scores[3]), GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 450);
 		fontList.draw(game.getBatch(), names[4], GameProgMeth.WIDTH/2 - 200, GameProgMeth.HEIGHT - 500);
-		fontList.draw(game.getBatch(), scores[4], GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 500);
+		fontList.draw(game.getBatch(), Integer.toString(scores[4]), GameProgMeth.WIDTH/2 + 100, GameProgMeth.HEIGHT - 500);
 		game.getBatch().end();
 	}
 
@@ -154,6 +179,7 @@ public class HallOfFameScene implements Screen{
 
 	@Override
 	public void dispose() {
+		HallOfFameLoader.saveHallOfFame(names, scores);
 		nextBtn.dispose();
 		bgMusic.dispose();
 		btnSound.dispose();

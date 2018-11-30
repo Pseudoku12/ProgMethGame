@@ -1,10 +1,10 @@
 {
 names: [
-	Peter
-	James
-	Tom
-	Jerry
-	Smith
+	A
+	B
+	NNNN
+	C
+	D
 ]
-scores: [ 500, 300, 100, 70, 50 ]
+scores: [ 500, 300, 110, 100, 70 ]
 }

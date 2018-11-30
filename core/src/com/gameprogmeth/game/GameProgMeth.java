@@ -43,9 +43,13 @@ public class GameProgMeth extends Game {
 		setScreen(new GameOverScene(this));
 	}
 	
-	public void setHallOfFameScene(String name) {
-		this.name = name;
+	public void setHallOfFameSceneFromMenuScene() {
 		setScreen(new HallOfFameScene(this));
+	}
+	
+	public void setHallOfFameSceneFromGameOverScene(String name) {
+		this.name = name;
+		setScreen(new HallOfFameScene(this, name, score));
 	}
 	
 	public SpriteBatch getBatch() {
