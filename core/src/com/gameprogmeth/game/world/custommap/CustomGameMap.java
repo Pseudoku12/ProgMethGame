@@ -48,6 +48,8 @@ public class CustomGameMap extends GameMap {
 	private TextureRegion[][] tiles;
 	private TextureRegion[][] stones;
 
+	private Texture scoreBox;
+	
 	private OrthographicCamera cam;
 
 	private String scoreText;
@@ -79,7 +81,7 @@ public class CustomGameMap extends GameMap {
 		font = new BitmapFont();
 
 		font.getData().setScale(0.5f);
-
+		scoreBox = new Texture("textBox.png");
 	}
 
 	@Override
@@ -107,13 +109,6 @@ public class CustomGameMap extends GameMap {
 				}
 			}
 		}
-
-//		if(isDropValue) {
-//			System.out.println("typeDrop : " + typeDrop);
-//			System.out.println((typeDrop - 1) / 3 + " " + (typeDrop - 1) % 3);
-//			batch.draw(keep.getRollSpriteSheet(),keep.getPosition().x, keep.getPosition().y);
-//
-//		}
 
 		batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true), mainCharacter.getPosition().x,
 				mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
@@ -149,7 +144,7 @@ public class CustomGameMap extends GameMap {
 				break;
 			}
 		}
-
+		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth()/3, scoreBox.getHeight()/3);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(batch, scoreText, cam.position.x - 150, cam.position.y - 70);
 		batch.end();

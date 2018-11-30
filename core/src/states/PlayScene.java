@@ -80,6 +80,7 @@ public class PlayScene implements Screen {
 		if(CustomGameMap.ghost.isPlayerDead()) {
 			dispose();
 			game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
+//			System.out.println("Dead");
 		}
 		render(game.getBatch());
 		update(delta);
@@ -140,9 +141,10 @@ public class PlayScene implements Screen {
 				}
 				else if(isOnMenuBtn()) {
 					btnSound.play();
-					cam.position.set(new Vector3(0,0,0));
+//					cam.position.set(new Vector3(0,0,0));
 					this.dispose();
-					game.setScreen(new MenuState(game));
+//					game.setScreen(new MenuState(game));
+					game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
 				}
 			}
 		}
