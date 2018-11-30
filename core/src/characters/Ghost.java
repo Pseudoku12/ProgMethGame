@@ -12,6 +12,8 @@ public class Ghost extends Character{
 	private Sprite sprite;
 	private TextureRegion[][] rollSpriteSheet;
 	private boolean isPlayerDead;
+	private double prw;
+	private double prh;
 	
 	public Ghost(int x, int y, int speed, MainCharacter player) {
 		animationSpeed = 0.5f;
@@ -36,6 +38,9 @@ public class Ghost extends Character{
 		animation[3] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[3]);
 		
 		this.player = player;
+		prw = player.getRenderWidth();
+		prh = player.getRenderHeight();
+		
 		isPlayerDead = false;
 	}
 
@@ -44,8 +49,8 @@ public class Ghost extends Character{
 	double ds;
 	@Override
 	public void update(float dt) {
-		dx = player.getPosition().x - position.x+22;
-		dy = player.getPosition().y - position.y+22;
+		dx = player.getPosition().x - position.x - (renderWidth/2) + (prw/2);
+		dy = player.getPosition().y - position.y - (renderHeight/2) + (prh/2);
 		ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 		velocity.x = (float)(dx/ds)*speed;
 		velocity.y = (float)(dy/ds)*speed;
