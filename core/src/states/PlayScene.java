@@ -34,7 +34,7 @@ public class PlayScene implements Screen {
 	private Texture pauseTextBox;
 	private Texture pauseBg;
 	private Sound btnSound;
-	private Music bgMusic;
+	
 
 	private TextureRegion[][] staminaBar;
 
@@ -61,9 +61,7 @@ public class PlayScene implements Screen {
 		pauseBg = new Texture("PauseBg.png");
 
 		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Under_Cover.mp3"));
-		bgMusic.setLooping(true);
-		bgMusic.play();
+		
 		isPlayState = true;
 
 		staminaBar = TextureRegion.split(new Texture("Stamina_Bar.png"), 122, 33);
@@ -114,7 +112,6 @@ public class PlayScene implements Screen {
 		pauseBg.dispose();
 		pauseBtn.dispose();
 		btnSound.dispose();
-		bgMusic.dispose();
 	}
 
 	public void handleInput() {

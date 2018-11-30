@@ -149,9 +149,8 @@ public class CustomGameMapLoader {
 	}
 	
 	public static void findStartAndLadderPoint(Random random, int[][] map) {
-		int ladder = random.nextInt(numberOfStone/2);		//ladder = 1
-//		System.out.println(numberOfGround + " " + numberOfStone);
-		int start = random.nextInt(numberOfGround/2);		//start = 2
+		int ladder = numberOfStone/4;		//ladder = 1
+		int start = numberOfGround/4;		//start = 2
 		System.out.println(ladder + " " + numberOfStone);
 		System.out.println(start + " " + numberOfGround);
 		
@@ -160,7 +159,7 @@ public class CustomGameMapLoader {
 				if(map[row][col] != 100 && map[row][col] != 0 && ladder > -1) {
 					if(ladder == 0) {
 						startAndLadderMap[row][col] = 1;
-						System.out.println("ladder : " + row + " " + col);
+//						System.out.println("ladder : " + row + " " + col);
 					}
 					ladder--;
 					
