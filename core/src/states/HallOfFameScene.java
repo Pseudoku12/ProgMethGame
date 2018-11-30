@@ -73,10 +73,6 @@ public class HallOfFameScene implements Screen{
 		}
 		scores[order] = Integer.toString(GameProgMeth.score);
 		names[order] = GameProgMeth.name;
-		
-		for(int i = 0; i < 5; i++) {
-			System.out.println(names[i] + " " + scores[i]);
-		}
 	}
 
 	public void handleInput() {

@@ -34,7 +34,7 @@ public class GameOverScene implements Screen{
 	private BitmapFont font;
 	
 	private Stage stage;
-	
+	private String name;
 	public GameOverScene(GameProgMeth game) {
 		
 		this.game = game;
@@ -102,8 +102,9 @@ public class GameOverScene implements Screen{
 		if(Gdx.input.justTouched()) {
 			if(isOnNextBtn()) {
 				btnSound.play();
-				game.setHallOfFameScene(playerNameText.getText());
+				name = playerNameText.getText();
 				this.dispose();
+				game.setHallOfFameScene(name);
 			}
 		}
 		

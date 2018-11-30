@@ -9,7 +9,7 @@ public class HallOfFameLoader {
 	
 	public static HallOfFameData loadHallOfFame() {
 		Gdx.files.local("hof/").file().mkdirs();
-		FileHandle file = Gdx.files.local("hof/HallOfFame.txt");
+		FileHandle file = Gdx.files.local("hof/HallOfFame.map");
 		if(file.exists()) {
 			HallOfFameData data = json.fromJson(HallOfFameData.class, file.readString());
 			return data;
@@ -25,12 +25,9 @@ public class HallOfFameLoader {
 		data.names = names;
 		data.scores = scores;
 		
-		
-		
 		Gdx.files.local("hof/").file().mkdirs();
-		FileHandle file = Gdx.files.local("hof/HallOfFame.txt");
+		FileHandle file = Gdx.files.local("hof/HallOfFame.map");
 		file.writeString(json.prettyPrint(data), false);
-		
 	}
 	
 
