@@ -43,7 +43,7 @@ public class PlayScene implements Screen {
 	private int score;
 
 	OrthographicCamera cam;
-	GameMap gameMap;
+	CustomGameMap gameMap;
 
 	public PlayScene(GameProgMeth game) {
 		this.game = game;
@@ -78,14 +78,6 @@ public class PlayScene implements Screen {
 
 	@Override
 	public void render(float delta) {
-		for (Ghost ghost : CustomGameMap.ghostList) {
-			if (ghost.isPlayerDead()) {
-				dispose();
-				game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
-				break;
-			}
-		}
-
 		render(game.getBatch());
 		update(delta);
 	}
@@ -131,6 +123,7 @@ public class PlayScene implements Screen {
 				if (isOnPauseBtn()) {
 					btnSound.play();
 					isPlayState = false;
+					gameMap.setPauseCounter(1);;
 					return;
 				}
 

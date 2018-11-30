@@ -16,6 +16,7 @@ public class MainCharacter extends Character {
 	private int stamina;
 	private int score;
 	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
+	public Animation<TextureRegion>[] idleAnimation;
 	
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.25f;
@@ -29,20 +30,25 @@ public class MainCharacter extends Character {
 		this.speed = speed;
 
 		animation = new Animation[8];
+		idleAnimation = new Animation[4];
 		roll = 2;
 
 		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("Main Character Walk.png"), widthPixel,
 				heightPixel);
 
-		animation[0] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[0]);
-		animation[1] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[1]);
-		animation[2] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[2]);
-		animation[3] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[3]);
-		animation[4] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[4]);
-		animation[5] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[5]);
-		animation[6] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[6]);
-		animation[7] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[7]);
+		for(int i = 0;i<8;i++) {
+			animation[i] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[i]);
+		}
 
+		TextureRegion[][] IdleSpriteSheet = new TextureRegion[4][1]; 
+		for(int i = 0;i<4;i++) {
+			IdleSpriteSheet[i][0] = rollSpriteSheet[i][1];
+		}
+		
+		for(int i = 0;i<4;i++) {
+			idleAnimation[i] = new Animation<TextureRegion>(0, IdleSpriteSheet[i]);
+		}
+				
 		stamina = 100;
 		score = 0;
 	}
@@ -92,5 +98,9 @@ public class MainCharacter extends Character {
 		}
 		
 		velocity.scl(1/dt);
+	}
+	
+	public Animation<TextureRegion> getIdleAnimation() {
+		return idleAnimation[roll];
 	}
 }
