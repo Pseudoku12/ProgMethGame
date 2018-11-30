@@ -61,6 +61,9 @@ public class Item extends Character {
 			position.add(velocity.x, velocity.y);
 			velocity.scl(1 / dt);
 			if (ds < 5) {
+				if(item == 1) {
+					player.setStamina(player.getStamina() + 5);
+				}
 				player.addScore(10);
 				isDestroyed = true;
 			}

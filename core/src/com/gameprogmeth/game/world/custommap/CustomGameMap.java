@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.PauseableThread;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gameprogmeth.game.GameProgMeth;
@@ -39,6 +40,7 @@ public class CustomGameMap extends GameMap {
 	private KeepingMineral keep;
 
 	private boolean isGameOver;
+	private int pauseCounter;
 
 	String id;
 	String name;
@@ -49,7 +51,7 @@ public class CustomGameMap extends GameMap {
 	private TextureRegion[][] stones;
 
 	private Texture scoreBox;
-	
+
 	private OrthographicCamera cam;
 
 	private String scoreText;
@@ -83,6 +85,8 @@ public class CustomGameMap extends GameMap {
 
 		font.getData().setScale(0.5f);
 		scoreBox = new Texture("textBox.png");
+
+		pauseCounter = 0;
 	}
 
 	@Override
@@ -111,8 +115,14 @@ public class CustomGameMap extends GameMap {
 			}
 		}
 
-		batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true), mainCharacter.getPosition().x,
-				mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
+		if (mainCharacter.getVelocity().x == 0 && mainCharacter.getVelocity().y == 0 && mainCharacter.getRoll() < 4) {
+			batch.draw(mainCharacter.getIdleAnimation().getKeyFrame(stateTime, false), mainCharacter.getPosition().x,
+					mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
+		} else {
+			batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true),
+					mainCharacter.getPosition().x, mainCharacter.getPosition().y, mainCharacter.getRenderWidth(),
+					mainCharacter.getRenderHeight());
+		}
 
 		for (Ghost ghost : ghostList) {
 			if (ghost != null) {
@@ -149,7 +159,8 @@ public class CustomGameMap extends GameMap {
 				break;
 			}
 		}
-		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth()/3, scoreBox.getHeight()/3);
+		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth() / 3,
+				scoreBox.getHeight() / 3);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(batch, scoreText, cam.position.x - 150, cam.position.y - 70);
 		batch.end();
@@ -214,6 +225,13 @@ public class CustomGameMap extends GameMap {
 		stateTime += dt;
 		attackAnimationTime += dt;
 
+		for (Ghost ghost : ghostList) {
+			if (ghost.isPlayerDead()) {
+				dispose();
+				game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
+				break;
+			}
+		}
 	}
 
 	protected void handleInput() {
@@ -237,7 +255,7 @@ public class CustomGameMap extends GameMap {
 			mainCharacter.setVelocity(0, 0);
 		}
 		if (Gdx.input.justTouched() && mainCharacter.getStamina() > 0
-				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
+				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime) && pauseCounter <= 0) {
 			mainCharacter.setVelocity(0, 0);
 			attackAnimationTime = 0;
 
@@ -293,7 +311,10 @@ public class CustomGameMap extends GameMap {
 			}
 
 			mainCharacter.setStamina(mainCharacter.getStamina() - 1);
+		} else {
+			pauseCounter--;
 		}
+
 	}
 
 	@Override
@@ -404,8 +425,8 @@ public class CustomGameMap extends GameMap {
 		GameProgMeth.score += mainCharacter.getScore();
 		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
 		ghostList = new ArrayList<Ghost>();
-		for(int i = 0;i<10;i++){
-			ghostList.add(new Ghost((colStart * 16) + i*20, (rowStart * 16) + (10-i)*20, 10, mainCharacter));
+		for (int i = 0; i < 10; i++) {
+			ghostList.add(new Ghost((colStart * 16) + i * 20, (rowStart * 16) + (10 - i) * 20, 10, mainCharacter));
 		}
 		itemList = new ArrayList<Item>();
 
@@ -481,4 +502,7 @@ public class CustomGameMap extends GameMap {
 		return mainCharacter;
 	}
 
+	public void setPauseCounter(int i) {
+		this.pauseCounter = i;
+	}
 }
