@@ -2,6 +2,8 @@ package characters;
 
 import java.util.ArrayList;
 
+import javax.swing.text.Position;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,6 +11,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.gameprogmeth.game.GameProgMeth;
 
 public class MainCharacter extends Character {
@@ -17,7 +21,7 @@ public class MainCharacter extends Character {
 	private int score;
 	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
 	public Animation<TextureRegion>[] idleAnimation;
-	
+
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.25f;
 		renderWidth = 63;
@@ -36,21 +40,22 @@ public class MainCharacter extends Character {
 		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("Main Character Walk.png"), widthPixel,
 				heightPixel);
 
-		for(int i = 0;i<8;i++) {
+		for (int i = 0; i < 8; i++) {
 			animation[i] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[i]);
 		}
 
-		TextureRegion[][] IdleSpriteSheet = new TextureRegion[4][1]; 
-		for(int i = 0;i<4;i++) {
+		TextureRegion[][] IdleSpriteSheet = new TextureRegion[4][1];
+		for (int i = 0; i < 4; i++) {
 			IdleSpriteSheet[i][0] = rollSpriteSheet[i][1];
 		}
-		
-		for(int i = 0;i<4;i++) {
+
+		for (int i = 0; i < 4; i++) {
 			idleAnimation[i] = new Animation<TextureRegion>(0, IdleSpriteSheet[i]);
 		}
-				
+
 		stamina = 100;
 		score = 0;
+		hp = maxHp = 100;
 	}
 
 	public int getStamina() {
@@ -72,35 +77,74 @@ public class MainCharacter extends Character {
 	public int getScore() {
 		return score;
 	}
-	
+
 	@Override
 	public void update(float dt) {
 		velocity.scl(dt);
-		
-		if(isBlockedLeft && velocity.x < 0) {
+
+		if (isBlockedLeft && velocity.x < 0) {
 			velocity.x = 0;
 		}
-		if(isBlockedRight && velocity.x >= 0) {
+		if (isBlockedRight && velocity.x >= 0) {
 			velocity.x = 0;
 		}
-		if(isBlockedUp && velocity.y >= 0) {
+		if (isBlockedUp && velocity.y >= 0) {
 			velocity.y = 0;
 		}
-		if(isBlockedDown && velocity.y < 0) {
+		if (isBlockedDown && velocity.y < 0) {
 			velocity.y = 0;
 		}
 		position.add(velocity.x, velocity.y);
-		if(position.x < 0) {
+		if (position.x < 0) {
 			position.x = 0;
 		}
-		if(position.y < 0) {
+		if (position.y < 0) {
 			position.y = 0;
 		}
-		
-		velocity.scl(1/dt);
+
+		velocity.scl(1 / dt);
 	}
-	
+
 	public Animation<TextureRegion> getIdleAnimation() {
 		return idleAnimation[roll];
+	}
+
+	double dx;
+	double dy;
+	double ds;
+	int sweptAngle = 45;
+	double tempAngle;
+
+	public boolean Attack(Ghost ghost) {
+		dx = ghost.getPosition().x - position.x - (renderWidth / 2) + (ghost.getRenderWidth() / 2);
+		dy = ghost.getPosition().y - position.y - (renderHeight / 2) + (ghost.getRenderHeight() / 2);
+		ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+		tempAngle = getAngle(ghost);
+		if (ds <= 50) {
+			if ((roll == 4 && 270 - sweptAngle < tempAngle && tempAngle < 270 + sweptAngle)
+					|| (roll == 5 && 180 - sweptAngle < tempAngle && tempAngle < 180 + sweptAngle)
+					|| (roll == 6 && 0 - sweptAngle < tempAngle && tempAngle < 0 + sweptAngle)
+					|| (roll == 7 && 90 - sweptAngle < tempAngle && tempAngle < 90 + sweptAngle)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private double getAngle(Ghost ghost) {
+		float angle = (float) Math
+				.toDegrees(Math.atan2(ghost.getPosition().y - position.y, ghost.getPosition().x - position.x));
+		if (angle < 0) {
+			angle += 360;
+		}
+		return angle;
+	}
+
+	private void destroyGhost(final Ghost ghost) {
+		Timer.schedule(new Task() {
+			public void run() {
+				ghost.isDestroyed = true;
+			}
+		}, 5.0f);
 	}
 }

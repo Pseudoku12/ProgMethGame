@@ -58,10 +58,10 @@ public class CustomGameMap extends GameMap {
 
 	private String scoreText;
 	private BitmapFont font;
-	
+
 	private Sound stoneDestroyed;
 	private Music bgMusic;
-	
+
 	public CustomGameMap(GameProgMeth game) {
 		this.game = game;
 
@@ -92,7 +92,7 @@ public class CustomGameMap extends GameMap {
 		scoreBox = new Texture("textBox.png");
 
 		pauseCounter = 0;
-		
+
 		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("Music/StoneDestroyed.mp3"));
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Under_Cover.mp3"));
 		bgMusic.setLooping(true);
@@ -150,24 +150,7 @@ public class CustomGameMap extends GameMap {
 
 		if (mainCharacter.getRoll() < 8 && mainCharacter.getRoll() > 3
 				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
-			int temp = mainCharacter.getRoll();
-			switch (temp) {
-			case 4:
-				mainCharacter.setRoll(0);
-				break;
-			case 5:
-				mainCharacter.setRoll(1);
-				break;
-			case 6:
-				mainCharacter.setRoll(2);
-				break;
-			case 7:
-				mainCharacter.setRoll(3);
-				break;
-			default:
-				mainCharacter.setRoll(3);
-				break;
-			}
+			mainCharacter.setRoll(mainCharacter.getRoll() - 4);
 		}
 		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth() / 3,
 				scoreBox.getHeight() / 3);
@@ -208,13 +191,9 @@ public class CustomGameMap extends GameMap {
 			mainCharacter.isBlockedRight = false;
 		}
 		mainCharacter.update(dt);
-		for (int i = 0; i < ghostList.size(); i++) {
-			if (ghostList.get(i) != null) {
-				ghostList.get(i).update(dt);
-			}
-		}
 
 		scoreText = "score: " + (GameProgMeth.score + mainCharacter.getScore());
+
 		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();
 		for (int i = 0; i < itemList.size(); i++) {
 			if (itemList.get(i) != null) {
@@ -227,6 +206,19 @@ public class CustomGameMap extends GameMap {
 		for (int i = markForRemoved.size() - 1; i >= 0; i--) {
 			itemList.remove(itemList.get(markForRemoved.get(i)));
 			System.out.println(mainCharacter.getScore());
+		}
+
+		markForRemoved = new ArrayList<Integer>();
+		for (int i = 0; i < ghostList.size(); i++) {
+			if (ghostList.get(i) != null) {
+				ghostList.get(i).update(dt);
+				if (ghostList.get(i).isDestroyed()) {
+					markForRemoved.add(i);
+				}
+			}
+		}
+		for (int i = markForRemoved.size() - 1; i >= 0; i--) {
+			ghostList.remove(ghostList.get(markForRemoved.get(i)));
 		}
 
 //		if(isDropValue)	{
@@ -264,10 +256,8 @@ public class CustomGameMap extends GameMap {
 		} else {
 			mainCharacter.setVelocity(0, 0);
 		}
-		if (Gdx.input.justTouched() && mainCharacter.getStamina() > 0
-				&& ((mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)
-						&& mainCharacter.getRoll() > 3) || mainCharacter.getRoll() < 4)
-				&& pauseCounter <= 0) {
+		if (Gdx.input.justTouched() && ((mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)
+				&& mainCharacter.getRoll() > 3) || mainCharacter.getRoll() < 4) && pauseCounter <= 0) {
 			mainCharacter.setVelocity(0, 0);
 			attackAnimationTime = 0;
 
@@ -314,20 +304,21 @@ public class CustomGameMap extends GameMap {
 								public void run() {
 									destroyStone(col, row, 100);
 								}
-							}, 0.5f);
+							}, mainCharacter.getAnimationSpeed() * 2);
 						}
-					}, 0.5f);
+					}, mainCharacter.getAnimationSpeed() * 2);
 
 					checkLadder(col, row);
 				}
 
 			}
-
-			mainCharacter.setStamina(mainCharacter.getStamina() - 1);
 		} else {
 			pauseCounter--;
 		}
 
+		for (int i = 0; i < ghostList.size(); i++) {
+			ghostList.get(i).isDestroyed = mainCharacter.Attack(ghostList.get(i));
+		}
 	}
 
 	@Override

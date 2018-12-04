@@ -36,7 +36,7 @@ public class PlayScene implements Screen {
 	private Sound btnSound;
 	
 
-	private TextureRegion[][] staminaBar;
+	private TextureRegion[][] healthBar;
 
 	private boolean isPlayState;
 
@@ -64,7 +64,7 @@ public class PlayScene implements Screen {
 		
 		isPlayState = true;
 
-		staminaBar = TextureRegion.split(new Texture("Stamina_Bar.png"), 122, 33);
+		healthBar = TextureRegion.split(new Texture("Stamina_Bar.png"), 122, 33);
 
 	}
 
@@ -164,7 +164,7 @@ public class PlayScene implements Screen {
 					0);
 			cam.update();
 			sb.begin();
-			sb.draw(staminaBar[10 - CustomGameMap.getMainCharacter().getStamina() / 10][0],
+			sb.draw(healthBar[10 - CustomGameMap.getMainCharacter().getHP() / 10][0],
 					gameMap.getMainCharacterPosition().x + GameProgMeth.WIDTH / 8 - 10,
 					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8 + 10, 30f, 8f);
 			sb.draw(pauseBtn,
