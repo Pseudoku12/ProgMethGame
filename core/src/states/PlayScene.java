@@ -38,7 +38,8 @@ public class PlayScene implements Screen {
 
 	private TextureRegion[][] staminaBar;
 
-	private boolean isPlayState;
+	private boolean isPauseState;
+	private boolean isStoreState;
 
 	private int score;
 
@@ -62,7 +63,8 @@ public class PlayScene implements Screen {
 
 		btnSound = Gdx.audio.newSound(Gdx.files.internal("music/Click.mp3"));
 		
-		isPlayState = true;
+		isPauseState = false;
+		isStoreState = false;
 
 		staminaBar = TextureRegion.split(new Texture("character/Stamina_Bar.png"), 122, 33);
 
@@ -115,12 +117,12 @@ public class PlayScene implements Screen {
 	}
 
 	public void handleInput() {
-		if (isPlayState) {
+		if (!isPauseState && !isStoreState) {
 			if (Gdx.input.justTouched()) {
 				if (isOnPauseBtn()) {
 					btnSound.play();
-					isPlayState = false;
-					gameMap.setPauseCounter(1);;
+					isPauseState = false;
+					gameMap.setPauseCounter(1);
 					return;
 				}
 
@@ -130,7 +132,7 @@ public class PlayScene implements Screen {
 			if (Gdx.input.justTouched()) {
 				if (isOnStartBtn()) {
 					btnSound.play();
-					isPlayState = true;
+					isPauseState = true;
 				} else if (isOnMenuBtn()) {
 					btnSound.play();
 //					cam.position.set(new Vector3(0,0,0));
@@ -146,7 +148,7 @@ public class PlayScene implements Screen {
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 		handleInput();
-		if (isPlayState) {
+		if (!isPauseState && !isStoreState) {
 			gameMap.update(dt);
 			stateTime += dt;
 		}
@@ -158,7 +160,7 @@ public class PlayScene implements Screen {
 		sb.setProjectionMatrix(cam.combined);
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if (isPlayState) {
+		if (!isPauseState && !isStoreState) {
 			gameMap.render(cam);
 			cam.position.set(gameMap.getMainCharacterPosition().x + 31.5f, gameMap.getMainCharacterPosition().y + 31.5f,
 					0);
