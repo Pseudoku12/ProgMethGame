@@ -54,17 +54,17 @@ public class PlayScene implements Screen {
 
 		gameMap = new CustomGameMap(this.game);
 
-		pauseBtn = new Texture("Pause.png");
-		playBtn = new Texture("Start.png");
-		menuBtn = new Texture("Exit.png");
-		pauseTextBox = new Texture("textBox.png");
-		pauseBg = new Texture("PauseBg.png");
+		pauseBtn = new Texture("button/Pause.png");
+		playBtn = new Texture("button/Start.png");
+		menuBtn = new Texture("button/Exit.png");
+		pauseTextBox = new Texture("resource/TextBox.png");
+		pauseBg = new Texture("resource/PauseBg.png");
 
-		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
+		btnSound = Gdx.audio.newSound(Gdx.files.internal("music/Click.mp3"));
 		
 		isPlayState = true;
 
-		staminaBar = TextureRegion.split(new Texture("Stamina_Bar.png"), 122, 33);
+		staminaBar = TextureRegion.split(new Texture("character/Stamina_Bar.png"), 122, 33);
 
 	}
 

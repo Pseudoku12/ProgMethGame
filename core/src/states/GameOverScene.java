@@ -48,16 +48,16 @@ public class GameOverScene implements Screen{
 		font = new BitmapFont();
 		font.getData().setScale(2f);
 		
-		gameOverBg = new Texture("GameOverBg.jpg");
-		nextBtn = new Texture("Next.png");
-		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Happy_Haunts.mp3"));
+		gameOverBg = new Texture("resource/GameOverBg.jpg");
+		nextBtn = new Texture("button/Next.png");
+		btnSound = Gdx.audio.newSound(Gdx.files.internal("music/Click.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Happy_Haunts.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
 		
 		stage = new Stage();
 		
-		Skin uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
+		Skin uiSkin = new Skin(Gdx.files.internal("resource/uiskin.json"));
 		
 		playerNameText = new TextField("", uiSkin);
 		playerNameText.setPosition(GameProgMeth.WIDTH/2 + 50, GameProgMeth.HEIGHT/2 - 130);

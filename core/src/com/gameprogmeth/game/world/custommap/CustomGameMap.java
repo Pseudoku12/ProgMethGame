@@ -75,8 +75,8 @@ public class CustomGameMap extends GameMap {
 		this.map = data.map;
 
 		batch = new SpriteBatch();
-		tiles = TextureRegion.split(new Texture("GameProgMeth_Tile.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
-		stones = TextureRegion.split(new Texture("Stone_Gem_Ladder.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
+		tiles = TextureRegion.split(new Texture("resource/GameProgMeth_Tile.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
+		stones = TextureRegion.split(new Texture("resource/Stone_Gem_Ladder.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
 
 		findStartPoint();
 
@@ -89,12 +89,12 @@ public class CustomGameMap extends GameMap {
 		font = new BitmapFont();
 
 		font.getData().setScale(0.5f);
-		scoreBox = new Texture("textBox.png");
+		scoreBox = new Texture("resource/textBox.png");
 
 		pauseCounter = 0;
 		
-		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("Music/StoneDestroyed.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Under_Cover.mp3"));
+		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/StoneDestroyed.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Under_Cover.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
 	}

@@ -33,7 +33,7 @@ public class MainCharacter extends Character {
 		idleAnimation = new Animation[4];
 		roll = 2;
 
-		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("Main Character Walk.png"), widthPixel,
+		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("character/Main Character Walk.png"), widthPixel,
 				heightPixel);
 
 		for(int i = 0;i<8;i++) {

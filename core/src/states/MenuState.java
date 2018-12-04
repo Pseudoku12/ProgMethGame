@@ -30,14 +30,14 @@ public class MenuState implements Screen{
 		cam.setToOrtho(false, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
 		cam.update();
 		
-		String bgPath = ClassLoader.getSystemResource("Menu.png").getPath();
-		background = new Texture(bgPath.substring(bgPath.lastIndexOf("/")+1));
+		String bgPath = ClassLoader.getSystemResource("resource/Menu.png").getPath();
+		background = new Texture("resource/" + bgPath.substring(bgPath.lastIndexOf("/")+1));
 		
-		playBtn = new Texture("Start.png");
-		exitBtn = new Texture("Exit.png");
-		scoreBtn = new Texture("HighScore.png");
-		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
+		playBtn = new Texture("button/Start.png");
+		exitBtn = new Texture("button/Exit.png");
+		scoreBtn = new Texture("button/HighScore.png");
+		btnSound = Gdx.audio.newSound(Gdx.files.internal("music/Click.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Tupelo_Train.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
 	}

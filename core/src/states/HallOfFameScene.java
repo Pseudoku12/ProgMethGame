@@ -57,9 +57,9 @@ public class HallOfFameScene implements Screen{
 		fontList = new BitmapFont();
 		fontList.getData().setScale(3f);
 		
-		nextBtn = new Texture("Next.png");
-		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Eyes_of_Glory.mp3"));
+		nextBtn = new Texture("button/Next.png");
+		btnSound = Gdx.audio.newSound(Gdx.files.internal("music/Click.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Eyes_of_Glory.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
 	}
