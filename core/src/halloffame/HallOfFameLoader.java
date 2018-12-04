@@ -20,7 +20,7 @@ public class HallOfFameLoader {
 		}
 	}
 
-	public static void saveHallOfFame(String[] names, String[] scores) {
+	public static void saveHallOfFame(String[] names, int[] scores) {
 		HallOfFameData data = new HallOfFameData();
 		data.names = names;
 		data.scores = scores;
@@ -34,19 +34,19 @@ public class HallOfFameLoader {
 	public static HallOfFameData generateHallOfFame() {
 		HallOfFameData data = new HallOfFameData();
 		data.names = new String[5];
-		data.scores = new String[5];
+		data.scores = new int[5];
 		
-		data.names[0] = "Peter";
-		data.names[1] = "James";
-		data.names[2] = "Tom";
-		data.names[3] = "Jerry";
-		data.names[4] = "Smith";
+		data.names[0] = "A";
+		data.names[1] = "B";
+		data.names[2] = "C";
+		data.names[3] = "D";
+		data.names[4] = "E";
 		
-		data.scores[0] = "500";
-		data.scores[1] = "300";
-		data.scores[2] = "100";
-		data.scores[3] = "70";
-		data.scores[4] = "50";
+		data.scores[0] = 500;
+		data.scores[1] = 300;
+		data.scores[2] = 100;
+		data.scores[3] = 70;
+		data.scores[4] = 50;
 		
 		return data;
 	}

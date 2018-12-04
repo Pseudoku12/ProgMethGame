@@ -5,6 +5,8 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -56,7 +58,10 @@ public class CustomGameMap extends GameMap {
 
 	private String scoreText;
 	private BitmapFont font;
-
+	
+	private Sound stoneDestroyed;
+	private Music bgMusic;
+	
 	public CustomGameMap(GameProgMeth game) {
 		this.game = game;
 
@@ -87,6 +92,11 @@ public class CustomGameMap extends GameMap {
 		scoreBox = new Texture("textBox.png");
 
 		pauseCounter = 0;
+		
+		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("Music/StoneDestroyed.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Under_Cover.mp3"));
+		bgMusic.setLooping(true);
+		bgMusic.play();
 	}
 
 	@Override
@@ -298,6 +308,7 @@ public class CustomGameMap extends GameMap {
 					Timer.schedule(new Task() {
 						public void run() {
 							destroyStone(col, row, stone.getDestroy());
+							stoneDestroyed.play();
 							dropValueable(stone, col, row);
 							Timer.schedule(new Task() {
 								public void run() {
@@ -321,8 +332,8 @@ public class CustomGameMap extends GameMap {
 
 	@Override
 	public void dispose() {
+		bgMusic.dispose();
 		batch.dispose();
-
 	}
 
 	@Override

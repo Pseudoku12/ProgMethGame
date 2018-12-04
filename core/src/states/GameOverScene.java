@@ -51,7 +51,7 @@ public class GameOverScene implements Screen{
 		gameOverBg = new Texture("GameOverBg.jpg");
 		nextBtn = new Texture("Next.png");
 		btnSound = Gdx.audio.newSound(Gdx.files.internal("Music/Click.mp3"));
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Happy_Haunts.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
 		
@@ -102,9 +102,10 @@ public class GameOverScene implements Screen{
 		if(Gdx.input.justTouched()) {
 			if(isOnNextBtn()) {
 				btnSound.play();
-				name = playerNameText.getText();
+				name = (playerNameText.getText().equals(""))?("A"):(playerNameText.getText().trim());
+				playerNameText.setText("");
 				this.dispose();
-				game.setHallOfFameScene(name);
+				game.setHallOfFameSceneFromGameOverScene(name);
 			}
 		}
 		

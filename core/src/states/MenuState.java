@@ -30,7 +30,9 @@ public class MenuState implements Screen{
 		cam.setToOrtho(false, GameProgMeth.WIDTH, GameProgMeth.HEIGHT);
 		cam.update();
 		
-		background = new Texture("Menu.png");
+		String bgPath = ClassLoader.getSystemResource("Menu.png").getPath();
+		background = new Texture(bgPath.substring(bgPath.lastIndexOf("/")+1));
+		
 		playBtn = new Texture("Start.png");
 		exitBtn = new Texture("Exit.png");
 		scoreBtn = new Texture("HighScore.png");
@@ -38,7 +40,6 @@ public class MenuState implements Screen{
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Tupelo_Train.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
-		
 	}
 
 	public void handleInput() {
@@ -58,7 +59,7 @@ public class MenuState implements Screen{
 			else if(isOnScoreBtn()) {
 				btnSound.play();
 				this.dispose();
-				game.setHallOfFameScene(null);
+				game.setHallOfFameSceneFromMenuScene();
 			}
 		}
 		
