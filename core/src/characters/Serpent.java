@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class Ghost extends Enemy {
+public class Serpent extends Enemy {
 
 	private MainCharacter player;
 	private Sprite sprite;
@@ -15,24 +15,24 @@ public class Ghost extends Enemy {
 	private double prw;
 	private double prh;
 
-	public Ghost(int x, int y, MainCharacter player) {
+	public Serpent(int x, int y, MainCharacter player) {
 		animationSpeed = 0.25f;
 		renderWidth = 16;
-		renderHeight = 24;
-		widthPixel = 16;
-		heightPixel = 24;
+		renderHeight = 16;
+		widthPixel = 32;
+		heightPixel = 32;
 
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
-		speed = 20;
+		speed = 50;
 
-		animation = new Animation[5];
-		roll = 2;
+		animation = new Animation[2];
+		roll = 0;
 
-		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("monster/Ghost.png"), widthPixel,
+		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("monster/Serpent.png"), widthPixel,
 				heightPixel);
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 2; i++) {
 			animation[i] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[i]);
 		}
 
@@ -50,7 +50,7 @@ public class Ghost extends Enemy {
 	double ds;
 	double pushDegree = 0;
 	double timerDegree = 0;
-	int pushForce = 100;
+	int pushForce = 200;
 
 	@Override
 	public void update(float dt) {
@@ -65,7 +65,7 @@ public class Ghost extends Enemy {
 			if (timerDegree > 0) {
 				velocity.x += pushForce * Math.sin(timerDegree) * Math.cos(pushDegree);
 				velocity.y += pushForce * Math.sin(timerDegree) * Math.sin(pushDegree);
-				timerDegree -= Math.toRadians(5);
+				timerDegree -= Math.toRadians(3);
 			}
 			velocity.scl(dt);
 			position.add(velocity.x, velocity.y);
@@ -77,17 +77,8 @@ public class Ghost extends Enemy {
 				}
 				isDestroyed = true;
 			}
-			if (Math.abs(dy) <= dx) {
-				roll = 1;
-			} else if (Math.abs(dx) <= dy) {
-				roll = 2;
-			} else if (-Math.abs(dy) >= dx) {
-				roll = 3;
-			} else if (-Math.abs(dx) >= dy) {
-				roll = 0;
-			}
 		} else {
-			roll = 4;
+			roll = 1;
 			if (getAnimation().isAnimationFinished(stateTime)) {
 				isDestroyed = true;
 			}
@@ -102,5 +93,14 @@ public class Ghost extends Enemy {
 	public void push(double degree) {
 		this.pushDegree = Math.toRadians(degree);
 		this.timerDegree = Math.PI / 2;
+	}
+	
+	@Override
+	public double getAngle() {
+		float angle = (float) Math.toDegrees(Math.atan2(dy, dx));
+		if (angle < 0) {
+			angle += 360;
+		}
+		return angle;
 	}
 }
