@@ -17,8 +17,8 @@ import com.gameprogmeth.game.GameProgMeth;
 
 public class MainCharacter extends Character {
 
-	private int stamina;
 	private int score;
+	private int damage;
 	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
 	public Animation<TextureRegion>[] idleAnimation;
 
@@ -53,17 +53,9 @@ public class MainCharacter extends Character {
 			idleAnimation[i] = new Animation<TextureRegion>(0, IdleSpriteSheet[i]);
 		}
 
-		stamina = 100;
 		score = 0;
 		hp = maxHp = 100;
-	}
-
-	public int getStamina() {
-		return stamina;
-	}
-
-	public void setStamina(int stamina) {
-		this.stamina = stamina;
+		damage = 1;
 	}
 
 	public void addScore(int score) {
@@ -115,20 +107,22 @@ public class MainCharacter extends Character {
 	int sweptAngle = 45;
 	double tempAngle;
 
-	public boolean attack(Enemy enemy) {
+	public int attack(Enemy enemy) {
 		dx = enemy.getPosition().x - position.x - (renderWidth / 2) + (enemy.getRenderWidth() / 2);
 		dy = enemy.getPosition().y - position.y - (renderHeight / 2) + (enemy.getRenderHeight() / 2);
 		ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 		tempAngle = getAngle(enemy);
-		if (ds <= 20) {
+		if (ds <= 25) {
 			if ((roll == 4 && 270 - sweptAngle < tempAngle && tempAngle < 270 + sweptAngle)
 					|| (roll == 5 && 180 - sweptAngle < tempAngle && tempAngle < 180 + sweptAngle)
 					|| (roll == 6 && 0 - sweptAngle < tempAngle && tempAngle < 0 + sweptAngle)
 					|| (roll == 7 && 90 - sweptAngle < tempAngle && tempAngle < 90 + sweptAngle)) {
-				return true;
+				enemy.push(tempAngle);
+				System.out.println(tempAngle);
+				return -damage;
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	private double getAngle(Enemy enemy) {
@@ -137,13 +131,5 @@ public class MainCharacter extends Character {
 			angle += 360;
 		}
 		return angle;
-	}
-
-	private void destroyGhost(final Ghost ghost) {
-		Timer.schedule(new Task() {
-			public void run() {
-				ghost.isDestroyed = true;
-			}
-		}, 5.0f);
 	}
 }

@@ -14,4 +14,7 @@ public class Enemy extends Character implements Destroyable {
 	public void setDestroyed(boolean isDestroyed) {
 		this.isDestroyed = isDestroyed;
 	}
+	
+	public void push(double tempAngle) {
+	}
 }

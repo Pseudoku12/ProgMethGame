@@ -26,16 +26,15 @@ public class Ghost extends Enemy {
 		velocity = new Vector2(0, 0);
 		speed = 20;
 
-		animation = new Animation[4];
+		animation = new Animation[5];
 		roll = 2;
 
 		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("monster/Ghost.png"), widthPixel,
 				heightPixel);
 
-		animation[0] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[0]);
-		animation[1] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[1]);
-		animation[2] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[2]);
-		animation[3] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[3]);
+		for (int i = 0; i < 5; i++) {
+			animation[i] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[i]);
+		}
 
 		this.player = player;
 		prw = player.getRenderWidth();
@@ -49,36 +48,60 @@ public class Ghost extends Enemy {
 	double dx;
 	double dy;
 	double ds;
+	float tempTime = 0;
+	double pushDegree = 0;
+	double timerDegree = 0;
+	int pushForce = 100;
 
 	@Override
 	public void update(float dt) {
-		dx = player.getPosition().x - position.x - (renderWidth / 2) + (prw / 2);
-		dy = player.getPosition().y - position.y - (renderHeight / 2) + (prh / 2);
-		ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-		velocity.x = (float) (dx / ds) * speed;
-		velocity.y = (float) (dy / ds) * speed;
-		velocity.scl(dt);
-		position.add(velocity.x, velocity.y);
-		velocity.scl(1 / dt);
-		if (ds < 5) {
-			player.addHP(-10);
-			if (player.hp <= 0) {
-				isPlayerDead = true;
+		if (hp > 0) {
+			dx = player.getPosition().x - position.x - (renderWidth / 2) + (prw / 2);
+			dy = player.getPosition().y - position.y - (renderHeight / 2) + (prh / 2);
+			ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+			velocity.x = (float) (dx / ds) * speed;
+			velocity.y = (float) (dy / ds) * speed;
+			if (timerDegree > 0) {
+				velocity.x += pushForce * Math.sin(timerDegree) * Math.cos(pushDegree);
+				velocity.y += pushForce * Math.sin(timerDegree) * Math.sin(pushDegree);
+				timerDegree -= Math.toRadians(5);
 			}
-			isDestroyed = true;
-		}
-		if (Math.abs(dy) <= dx) {
-			roll = 1;
-		} else if (Math.abs(dx) <= dy) {
-			roll = 2;
-		} else if (-Math.abs(dy) >= dx) {
-			roll = 3;
-		} else if (-Math.abs(dx) >= dy) {
-			roll = 0;
+			velocity.scl(dt);
+			position.add(velocity.x, velocity.y);
+			velocity.scl(1 / dt);
+			if (ds < 5) {
+				player.addHP(-10);
+				if (player.hp <= 0) {
+					isPlayerDead = true;
+				}
+				isDestroyed = true;
+			}
+			if (Math.abs(dy) <= dx) {
+				roll = 1;
+			} else if (Math.abs(dx) <= dy) {
+				roll = 2;
+			} else if (-Math.abs(dy) >= dx) {
+				roll = 3;
+			} else if (-Math.abs(dx) >= dy) {
+				roll = 0;
+			}
+		} else {
+			roll = 4;
+			if (getAnimation().isAnimationFinished(tempTime)) {
+				isDestroyed = true;
+			} else {
+				tempTime += dt;
+			}
 		}
 	}
 
 	public boolean isPlayerDead() {
 		return isPlayerDead;
+	}
+
+	@Override
+	public void push(double degree) {
+		this.pushDegree = Math.toRadians(degree);
+		this.timerDegree = Math.PI / 2;
 	}
 }

@@ -66,7 +66,7 @@ public class MonsterSpawner {
 	
 	public void checkAttack() {
 		for (int i = 0;i<monsterList.size();i++) {
-			monsterList.get(i).setDestroyed(player.attack(monsterList.get(i)));
+			monsterList.get(i).addHP(player.attack(monsterList.get(i)));
 		}
 	}
 }
