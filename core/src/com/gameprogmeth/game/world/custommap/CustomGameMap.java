@@ -77,7 +77,7 @@ public class CustomGameMap extends GameMap {
 
 		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
 		ghostList = new ArrayList<Ghost>();
-		ghostList.add(new Ghost(colStart * 16, rowStart * 16, 10, mainCharacter));
+		ghostList.add(new Ghost(colStart * 16 + 400, rowStart * 16 + 400, 10, mainCharacter));
 		itemList = new ArrayList<Item>();
 
 		scoreText = "score: 0";
@@ -255,7 +255,9 @@ public class CustomGameMap extends GameMap {
 			mainCharacter.setVelocity(0, 0);
 		}
 		if (Gdx.input.justTouched() && mainCharacter.getStamina() > 0
-				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime) && pauseCounter <= 0) {
+				&& ((mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)
+						&& mainCharacter.getRoll() > 3) || mainCharacter.getRoll() < 4)
+				&& pauseCounter <= 0) {
 			mainCharacter.setVelocity(0, 0);
 			attackAnimationTime = 0;
 
@@ -425,8 +427,11 @@ public class CustomGameMap extends GameMap {
 		GameProgMeth.score += mainCharacter.getScore();
 		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
 		ghostList = new ArrayList<Ghost>();
-		for (int i = 0; i < 10; i++) {
-			ghostList.add(new Ghost((colStart * 16) + i * 20, (rowStart * 16) + (10 - i) * 20, 10, mainCharacter));
+		Random rand = new Random();
+		for (int i = 0; i < level * 3; i++) {
+			int temp = rand.nextInt(360);
+			ghostList.add(new Ghost((int) ((colStart * 16) + Math.sin(Math.toRadians(temp)) * 400),
+					(int) ((rowStart * 16) + Math.cos(Math.toRadians(temp)) * 400), 10, mainCharacter));
 		}
 		itemList = new ArrayList<Item>();
 
