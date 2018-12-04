@@ -31,7 +31,7 @@ public class Ghost extends Character implements Destroyable{
 		animation = new Animation[4];
 		roll = 2;
 
-		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("Ghost.png"), widthPixel,
+		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("monster/Ghost.png"), widthPixel,
 				heightPixel);
 
 		animation[0] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[0]);

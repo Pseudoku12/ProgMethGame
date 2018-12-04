@@ -35,7 +35,7 @@ public class Item extends Character implements Destroyable{
 		this.rollRow = rollRow;
 		this.rollCol = rollCol;
 
-		rollSpriteSheet = TextureRegion.split(new Texture("Stone_Gem_Ladder.png"), widthPixel, heightPixel);
+		rollSpriteSheet = TextureRegion.split(new Texture("resource/Stone_Gem_Ladder.png"), widthPixel, heightPixel);
 
 		this.player = player;
 		prw = player.getRenderWidth();
