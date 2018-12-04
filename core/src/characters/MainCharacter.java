@@ -23,7 +23,7 @@ public class MainCharacter extends Character {
 	public Animation<TextureRegion>[] idleAnimation;
 
 	public MainCharacter(int x, int y, int speed) {
-		animationSpeed = 0.25f;
+		animationSpeed = 0.1f;
 		renderWidth = 63;
 		renderHeight = 63;
 		widthPixel = 126;
@@ -115,12 +115,12 @@ public class MainCharacter extends Character {
 	int sweptAngle = 45;
 	double tempAngle;
 
-	public boolean Attack(Ghost ghost) {
-		dx = ghost.getPosition().x - position.x - (renderWidth / 2) + (ghost.getRenderWidth() / 2);
-		dy = ghost.getPosition().y - position.y - (renderHeight / 2) + (ghost.getRenderHeight() / 2);
+	public boolean attack(Enemy enemy) {
+		dx = enemy.getPosition().x - position.x - (renderWidth / 2) + (enemy.getRenderWidth() / 2);
+		dy = enemy.getPosition().y - position.y - (renderHeight / 2) + (enemy.getRenderHeight() / 2);
 		ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-		tempAngle = getAngle(ghost);
-		if (ds <= 50) {
+		tempAngle = getAngle(enemy);
+		if (ds <= 20) {
 			if ((roll == 4 && 270 - sweptAngle < tempAngle && tempAngle < 270 + sweptAngle)
 					|| (roll == 5 && 180 - sweptAngle < tempAngle && tempAngle < 180 + sweptAngle)
 					|| (roll == 6 && 0 - sweptAngle < tempAngle && tempAngle < 0 + sweptAngle)
@@ -131,9 +131,8 @@ public class MainCharacter extends Character {
 		return false;
 	}
 
-	private double getAngle(Ghost ghost) {
-		float angle = (float) Math
-				.toDegrees(Math.atan2(ghost.getPosition().y - position.y, ghost.getPosition().x - position.x));
+	private double getAngle(Enemy enemy) {
+		float angle = (float) Math.toDegrees(Math.atan2(dy, dx));
 		if (angle < 0) {
 			angle += 360;
 		}

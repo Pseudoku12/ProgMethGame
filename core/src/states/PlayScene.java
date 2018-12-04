@@ -64,7 +64,7 @@ public class PlayScene implements Screen {
 		
 		isPlayState = true;
 
-		staminaBar = TextureRegion.split(new Texture("character/Stamina_Bar.png"), 122, 33);
+		healthBar = TextureRegion.split(new Texture("character/Stamina_Bar.png"), 122, 33);
 
 	}
 

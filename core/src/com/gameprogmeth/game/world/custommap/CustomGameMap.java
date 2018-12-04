@@ -22,17 +22,20 @@ import com.gameprogmeth.game.world.GameMap;
 import com.gameprogmeth.game.world.StoneAndGem;
 import com.gameprogmeth.game.world.TileType;
 
+import characters.Enemy;
 import characters.Ghost;
 import characters.Item;
 import characters.MainCharacter;
+import characters.MonsterSpawner;
 
 public class CustomGameMap extends GameMap {
 
 	private GameProgMeth game;
 
 	public static MainCharacter mainCharacter;
-	public static ArrayList<Ghost> ghostList;
+	private static MonsterSpawner monsterSpawner;
 	private static ArrayList<Item> itemList;
+	private float nextSpawning;
 
 	private float stateTime;
 	private float attackAnimationTime;
@@ -75,15 +78,18 @@ public class CustomGameMap extends GameMap {
 		this.map = data.map;
 
 		batch = new SpriteBatch();
-		tiles = TextureRegion.split(new Texture("resource/GameProgMeth_Tile.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
-		stones = TextureRegion.split(new Texture("resource/Stone_Gem_Ladder.png"), TileType.TILE_SIZE, TileType.TILE_SIZE);
+		tiles = TextureRegion.split(new Texture("resource/GameProgMeth_Tile.png"), TileType.TILE_SIZE,
+				TileType.TILE_SIZE);
+		stones = TextureRegion.split(new Texture("resource/Stone_Gem_Ladder.png"), TileType.TILE_SIZE,
+				TileType.TILE_SIZE);
 
 		findStartPoint();
 
-		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
-		ghostList = new ArrayList<Ghost>();
-		ghostList.add(new Ghost(colStart * 16 + 400, rowStart * 16 + 400, 10, mainCharacter));
+		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 100);
+		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
+		monsterSpawner.spawnMonster(1);
 		itemList = new ArrayList<Item>();
+		nextSpawning = 5;
 
 		scoreText = "score: 0";
 		font = new BitmapFont();
@@ -92,7 +98,7 @@ public class CustomGameMap extends GameMap {
 		scoreBox = new Texture("resource/textBox.png");
 
 		pauseCounter = 0;
-		
+
 		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/StoneDestroyed.mp3"));
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Under_Cover.mp3"));
 		bgMusic.setLooping(true);
@@ -134,13 +140,6 @@ public class CustomGameMap extends GameMap {
 					mainCharacter.getRenderHeight());
 		}
 
-		for (Ghost ghost : ghostList) {
-			if (ghost != null) {
-				batch.draw(ghost.getAnimation().getKeyFrame(stateTime, true), ghost.getPosition().x,
-						ghost.getPosition().y, ghost.getRenderWidth(), ghost.getRenderHeight());
-			}
-		}
-
 		for (Item item : itemList) {
 			if (item != null) {
 				batch.draw(item.getTexture(), item.getPosition().x, item.getPosition().y, item.getRenderWidth(),
@@ -152,6 +151,8 @@ public class CustomGameMap extends GameMap {
 				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
 			mainCharacter.setRoll(mainCharacter.getRoll() - 4);
 		}
+
+		monsterSpawner.render(batch, stateTime);
 		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth() / 3,
 				scoreBox.getHeight() / 3);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -208,31 +209,17 @@ public class CustomGameMap extends GameMap {
 			System.out.println(mainCharacter.getScore());
 		}
 
-		markForRemoved = new ArrayList<Integer>();
-		for (int i = 0; i < ghostList.size(); i++) {
-			if (ghostList.get(i) != null) {
-				ghostList.get(i).update(dt);
-				if (ghostList.get(i).isDestroyed()) {
-					markForRemoved.add(i);
-				}
-			}
+		monsterSpawner.update(dt);
+		if(nextSpawning < stateTime) {
+			monsterSpawner.spawnMonster(1);
+			nextSpawning += 5;
 		}
-		for (int i = markForRemoved.size() - 1; i >= 0; i--) {
-			ghostList.remove(ghostList.get(markForRemoved.get(i)));
-		}
-
-//		if(isDropValue)	{
-//			keep.update(dt);
-//		}
 		stateTime += dt;
 		attackAnimationTime += dt;
 
-		for (Ghost ghost : ghostList) {
-			if (ghost.isPlayerDead()) {
-				dispose();
-				game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
-				break;
-			}
+		if (mainCharacter.getHP() <= 0) {
+			dispose();
+			game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
 		}
 	}
 
@@ -264,22 +251,19 @@ public class CustomGameMap extends GameMap {
 			final Vector2 pos = new Vector2();
 
 			if (mainCharacter.getRoll() == 0) {
-				mainCharacter.setRoll(4);
 				pos.x = (float) (mainCharacter.getPosition().x + 31.5);
-				pos.y = (float) (mainCharacter.getPosition().y + 27);
+				pos.y = (float) (mainCharacter.getPosition().y + 27 - 5);
 			} else if (mainCharacter.getRoll() == 1) {
-				mainCharacter.setRoll(5);
-				pos.x = (float) (mainCharacter.getPosition().x + 25);
+				pos.x = (float) (mainCharacter.getPosition().x + 25 - 5);
 				pos.y = (float) (mainCharacter.getPosition().y + 31.5);
 			} else if (mainCharacter.getRoll() == 2) {
-				mainCharacter.setRoll(6);
-				pos.x = (float) (mainCharacter.getPosition().x + 36.5);
+				pos.x = (float) (mainCharacter.getPosition().x + 36.5 + 5);
 				pos.y = (float) (mainCharacter.getPosition().y + 31.5);
 			} else if (mainCharacter.getRoll() == 3) {
-				mainCharacter.setRoll(7);
 				pos.x = (float) (mainCharacter.getPosition().x + 31.5);
-				pos.y = (float) (mainCharacter.getPosition().y + 37.5);
+				pos.y = (float) (mainCharacter.getPosition().y + 37.5 + 5);
 			}
+			mainCharacter.setRoll(mainCharacter.getRoll() + 4);
 			final StoneAndGem stone = getStoneAndGemByLocation(2, pos.x, pos.y);
 
 			final int col = changeXToCol(pos.x);
@@ -309,15 +293,13 @@ public class CustomGameMap extends GameMap {
 					}, mainCharacter.getAnimationSpeed() * 2);
 
 					checkLadder(col, row);
+					
 				}
-
+				
 			}
+			monsterSpawner.checkAttack();
 		} else {
 			pauseCounter--;
-		}
-
-		for (int i = 0; i < ghostList.size(); i++) {
-			ghostList.get(i).isDestroyed = mainCharacter.Attack(ghostList.get(i));
 		}
 	}
 
@@ -427,16 +409,13 @@ public class CustomGameMap extends GameMap {
 		findStartPoint();
 
 		GameProgMeth.score += mainCharacter.getScore();
-		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 50);
-		ghostList = new ArrayList<Ghost>();
-		Random rand = new Random();
-		for (int i = 0; i < level * 3; i++) {
-			int temp = rand.nextInt(360);
-			ghostList.add(new Ghost((int) ((colStart * 16) + Math.sin(Math.toRadians(temp)) * 400),
-					(int) ((rowStart * 16) + Math.cos(Math.toRadians(temp)) * 400), 10, mainCharacter));
-		}
+		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 100);
+		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
+		monsterSpawner.spawnMonster(level);
 		itemList = new ArrayList<Item>();
-
+		nextSpawning = 5;
+		
+		stateTime = 0;
 	}
 
 	public void getNameMap() {
