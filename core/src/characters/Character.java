@@ -20,6 +20,8 @@ public abstract class Character {
 
 	protected Animation<TextureRegion>[] animation;
 	protected int roll;
+	protected int maxHp;
+	protected int hp;
 
 	public Character() {
 	}
@@ -96,5 +98,13 @@ public abstract class Character {
 		}
 		
 		velocity.scl(1/dt);
+	}
+	
+	public int getHP() {
+		return this.hp;
+	}
+	
+	public void addHP(int hp) {
+		this.hp += hp;
 	}
 }

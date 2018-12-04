@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.gameprogmeth.game.GameProgMeth;
 
-public class Item extends Character {
+public class Item extends Character implements Destroyable{
 
 	private MainCharacter player;
 	private Sprite sprite;

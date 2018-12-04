@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class Ghost extends Character{
+public class Ghost extends Character implements Destroyable{
 	
 	private MainCharacter player;
 	private Sprite sprite;
@@ -14,6 +14,8 @@ public class Ghost extends Character{
 	private boolean isPlayerDead;
 	private double prw;
 	private double prh;
+	
+	public boolean isDestroyed;
 	
 	public Ghost(int x, int y, int speed, MainCharacter player) {
 		animationSpeed = 0.5f;
@@ -42,6 +44,9 @@ public class Ghost extends Character{
 		prh = player.getRenderHeight();
 		
 		isPlayerDead = false;
+		isDestroyed = false;
+		
+		hp = maxHp = 2;
 	}
 
 	double dx;
@@ -58,7 +63,10 @@ public class Ghost extends Character{
 		position.add(velocity.x, velocity.y);
 		velocity.scl(1/dt);
 		if(ds < 10) {
-			isPlayerDead = true;
+			player.addHP(-10);
+			if(player.hp <= 0) {
+				isPlayerDead = true;
+			}
 		}
 		if(Math.abs(dy) <= dx) {
 			roll = 1;
@@ -76,5 +84,10 @@ public class Ghost extends Character{
 	
 	public boolean isPlayerDead() {
 		return isPlayerDead;
+	}
+
+	@Override
+	public boolean isDestroyed() {
+		return isDestroyed;
 	}
 }

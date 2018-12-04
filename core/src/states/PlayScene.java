@@ -33,10 +33,12 @@ public class PlayScene implements Screen {
 	private Texture menuBtn;
 	private Texture pauseTextBox;
 	private Texture pauseBg;
+	private Texture storeBtn;
+	private Texture backBtn;
 	private Sound btnSound;
 	
 
-	private TextureRegion[][] staminaBar;
+	private TextureRegion[][] healthBar;
 
 	private boolean isPauseState;
 	private boolean isStoreState;
@@ -58,6 +60,8 @@ public class PlayScene implements Screen {
 		pauseBtn = new Texture("button/Pause.png");
 		playBtn = new Texture("button/Start.png");
 		menuBtn = new Texture("button/Exit.png");
+		storeBtn = new Texture("button/Store.png");
+		backBtn = new Texture("button/Back.png");
 		pauseTextBox = new Texture("resource/TextBox.png");
 		pauseBg = new Texture("resource/PauseBg.png");
 
@@ -66,7 +70,7 @@ public class PlayScene implements Screen {
 		isPauseState = false;
 		isStoreState = false;
 
-		staminaBar = TextureRegion.split(new Texture("character/Stamina_Bar.png"), 122, 33);
+		healthBar = TextureRegion.split(new Texture("character/Stamina_Bar.png"), 122, 33);
 
 	}
 
@@ -114,6 +118,9 @@ public class PlayScene implements Screen {
 		pauseBg.dispose();
 		pauseBtn.dispose();
 		btnSound.dispose();
+		storeBtn.dispose();
+		backBtn.dispose();
+		
 	}
 
 	public void handleInput() {
@@ -121,18 +128,23 @@ public class PlayScene implements Screen {
 			if (Gdx.input.justTouched()) {
 				if (isOnPauseBtn()) {
 					btnSound.play();
-					isPauseState = false;
+					isPauseState = true;
 					gameMap.setPauseCounter(1);
 					return;
 				}
-
+				if(isOnStoreBtn()) {
+					btnSound.play();
+					isStoreState = true;
+					gameMap.setPauseCounter(1);
+					return;
+				}
 			}
 
-		} else {
+		} else if(isPauseState) {
 			if (Gdx.input.justTouched()) {
 				if (isOnStartBtn()) {
 					btnSound.play();
-					isPauseState = true;
+					isPauseState = false;
 				} else if (isOnMenuBtn()) {
 					btnSound.play();
 //					cam.position.set(new Vector3(0,0,0));
@@ -141,6 +153,8 @@ public class PlayScene implements Screen {
 					game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
 				}
 			}
+		} else if(isStoreState) {
+			
 		}
 
 	}
@@ -166,7 +180,7 @@ public class PlayScene implements Screen {
 					0);
 			cam.update();
 			sb.begin();
-			sb.draw(staminaBar[10 - CustomGameMap.getMainCharacter().getStamina() / 10][0],
+			sb.draw(healthBar[10 - CustomGameMap.getMainCharacter().getHP() / 10][0],
 					gameMap.getMainCharacterPosition().x + GameProgMeth.WIDTH / 8 - 10,
 					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8 + 10, 30f, 8f);
 			sb.draw(pauseBtn,
@@ -175,8 +189,12 @@ public class PlayScene implements Screen {
 					gameMap.getMainCharacterPosition().y + 31.5f + Gdx.graphics.getHeight() / 8 - 10
 							- pauseBtn.getHeight() / 8,
 					pauseBtn.getWidth() / 8, pauseBtn.getHeight() / 8);
+			sb.draw(storeBtn, gameMap.getMainCharacterPosition().x + 31.5f - Gdx.graphics.getWidth() / 8 + 10, 
+					gameMap.getMainCharacterPosition().y + 31.5f + Gdx.graphics.getHeight() / 8 - 10
+							- storeBtn.getHeight() / 8,
+					storeBtn.getWidth() / 8, storeBtn.getHeight() / 8);
 			sb.end();
-		} else {
+		} else if (isPauseState){
 			gameMap.render(cam);
 			sb.begin();
 			sb.draw(pauseBg, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8,
@@ -191,27 +209,48 @@ public class PlayScene implements Screen {
 					gameMap.getMainCharacterPosition().y + 31.5f - menuBtn.getHeight() / 8, menuBtn.getWidth() / 4,
 					menuBtn.getHeight() / 4);
 			sb.end();
+		} else if (isStoreState) {
+			gameMap.render(cam);
+			sb.begin();
+			sb.draw(pauseBg, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8,
+					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8, GameProgMeth.WIDTH / 4,
+					GameProgMeth.HEIGHT / 4);
+			sb.draw(pauseTextBox, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8 + 16, 
+					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8 + 54,
+					(pauseTextBox.getWidth()*3)/2, (pauseTextBox.getHeight()*3)/2);
+			sb.draw(backBtn, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8 + 10,
+					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8 + 10, 
+					backBtn.getWidth()/8, backBtn.getHeight()/8);
+			sb.end();
 		}
 
 	}
 
 	public boolean isOnPauseBtn() {
-		return GameProgMeth.WIDTH - 40 - pauseBtn.getWidth() / 2 <= Gdx.input.getX()
-				&& GameProgMeth.WIDTH - 40 >= Gdx.input.getX() && 40 <= Gdx.input.getY()
+		return  GameProgMeth.WIDTH - 40 - pauseBtn.getWidth() / 2 <= Gdx.input.getX()
+				&& GameProgMeth.WIDTH - 40 >= Gdx.input.getX() 
+				&& 40 <= Gdx.input.getY()
 				&& 40 + pauseBtn.getHeight() / 2 >= Gdx.input.getY();
 	}
 
 	public boolean isOnStartBtn() {
-		return GameProgMeth.WIDTH / 2 - 24 - playBtn.getWidth() <= Gdx.input.getX()
+		return  GameProgMeth.WIDTH / 2 - 24 - playBtn.getWidth() <= Gdx.input.getX()
 				&& GameProgMeth.WIDTH / 2 - 24 >= Gdx.input.getX()
 				&& GameProgMeth.HEIGHT / 2 - playBtn.getHeight() / 2 <= Gdx.input.getY()
 				&& GameProgMeth.HEIGHT / 2 + playBtn.getHeight() / 2 >= Gdx.input.getY();
 	}
 
 	public boolean isOnMenuBtn() {
-		return GameProgMeth.WIDTH / 2 + 24 <= Gdx.input.getX()
+		return  GameProgMeth.WIDTH / 2 + 24 <= Gdx.input.getX()
 				&& GameProgMeth.WIDTH / 2 + 24 + menuBtn.getWidth() >= Gdx.input.getX()
 				&& GameProgMeth.HEIGHT / 2 - menuBtn.getHeight() / 2 <= Gdx.input.getY()
 				&& GameProgMeth.HEIGHT / 2 + menuBtn.getHeight() / 2 >= Gdx.input.getY();
+	}
+	
+	public boolean isOnStoreBtn() {
+		return  40 <= Gdx.input.getX()
+				&& 40 + storeBtn.getWidth()/2 >= Gdx.input.getX() 
+				&& 40 <= Gdx.input.getY()
+				&& 40 + pauseBtn.getHeight() / 2 >= Gdx.input.getY();
 	}
 }
