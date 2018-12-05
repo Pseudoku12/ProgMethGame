@@ -13,6 +13,8 @@ public abstract class Character {
 	protected float renderHeight;
 	protected int widthPixel;
 	protected int heightPixel;
+	
+	protected float stateTime;
 
 	protected Vector2 position;
 	protected Vector2 velocity;
@@ -24,6 +26,7 @@ public abstract class Character {
 	protected int hp;
 
 	public Character() {
+		stateTime = 0;
 	}
 
 	public float getAnimationSpeed() {
@@ -82,6 +85,14 @@ public abstract class Character {
 		this.roll = roll;
 	}
 
+	public float getStateTime() {
+		return stateTime;
+	}
+
+	public void setStateTime(float stateTime) {
+		this.stateTime = stateTime;
+	}
+
 	public Animation<TextureRegion> getAnimation() {
 		return animation[roll];
 	}
@@ -106,5 +117,9 @@ public abstract class Character {
 
 	public void addHP(int hp) {
 		this.hp += hp;
+	}
+	
+	public double getAngle() {
+		return 0;
 	}
 }

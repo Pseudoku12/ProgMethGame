@@ -292,12 +292,20 @@ public class CustomGameMap extends GameMap {
 						}
 					}, mainCharacter.getAnimationSpeed() * 2);
 
-					checkLadder(col, row);
+					Timer.schedule(new Task() {
+						public void run() {
+							checkLadder(col, row);
+						}
+					}, mainCharacter.getAnimationSpeed() * 2);
 					
 				}
 				
 			}
-			monsterSpawner.checkAttack();
+			Timer.schedule(new Task() {
+				public void run() {
+					monsterSpawner.checkAttack();
+				}
+			}, mainCharacter.getAnimationSpeed() * 2);
 		} else {
 			pauseCounter--;
 		}

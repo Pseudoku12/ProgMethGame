@@ -1,10 +1,10 @@
 {
 names: [
 	nnnn
+	ssss
 	A
 	B
 	A
-	NNNNN
 ]
-scores: [ 1330, 500, 300, 140, 120 ]
+scores: [ 1330, 1130, 500, 300, 140 ]
 }
