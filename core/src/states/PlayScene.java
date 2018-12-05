@@ -40,6 +40,7 @@ public class PlayScene implements Screen {
 	private Texture storeBtn;
 	private Texture backBtn;
 	private Texture exchangeBtn;
+	private Texture potion;
 	private Sound btnSound;
 
 	private TextureRegion[][] healthBar;
@@ -47,12 +48,15 @@ public class PlayScene implements Screen {
 
 	private boolean isPauseState;
 	private boolean isStoreState;
+	private boolean isPotionState;
 
 	private int score;
 	private int hammerType;
 	private String shop;
 	private String hammerLabel;
 	private String hammerCost;
+	private String potionLabel;
+	private String potionCost;
 	private BitmapFont fontShop;
 	private BitmapFont fontHammer;
 
@@ -78,11 +82,13 @@ public class PlayScene implements Screen {
 		exchangeBtn = new Texture("button/Exchange.png");
 		pauseTextBox = new Texture("resource/TextBox.png");
 		pauseBg = new Texture("resource/PauseBg.png");
+		potion = new Texture("character/Potion.png");
 
 		btnSound = Gdx.audio.newSound(Gdx.files.internal("music/Click.mp3"));
 
 		isPauseState = false;
 		isStoreState = false;
+		isPotionState = false;
 
 		healthBar = TextureRegion.split(new Texture("character/Stamina_Bar.png"), 122, 33);
 		hammers = TextureRegion.split(new Texture("character/Hammer.png"), 13, 14);
@@ -96,7 +102,9 @@ public class PlayScene implements Screen {
 		shop = "Shop";
 		hammerLabel = "Copper Hammer";
 		hammerCost = "1000";
-
+		potionLabel = "Potion";
+		potionCost = "50";
+		
 		hammerTypeIndex = new ArrayList<String>();
 		hammerTypeIndex.add("Copper");
 		hammerTypeIndex.add("Silver");
@@ -153,7 +161,7 @@ public class PlayScene implements Screen {
 		btnSound.dispose();
 		storeBtn.dispose();
 		backBtn.dispose();
-
+		potion.dispose();
 	}
 
 	public void handleInput() {
@@ -193,14 +201,25 @@ public class PlayScene implements Screen {
 					isStoreState = false;
 				} else if (isOnExchangeBtn()) {
 					btnSound.play();
-					if (CustomGameMap.getMainCharacter().getScore() + GameProgMeth.score >= Integer
-							.parseInt(hammerCost)) {
-						hammerType++;
-						CustomGameMap.getMainCharacter().addScore(-Integer.parseInt(hammerCost));
-						CustomGameMap.getMainCharacter().setDamage(CustomGameMap.getMainCharacter().getDamage() + 1);
-						hammerLabel = hammerTypeIndex.get(hammerType - 1) + " Hammer";
-						hammerCost = Integer.toString(Integer.parseInt(hammerCost) * 2);
+					if(!isPotionState) {
+						if(CustomGameMap.getMainCharacter().getScore() + GameProgMeth.score >= Integer.parseInt(hammerCost)) {
+							hammerType++;
+							CustomGameMap.getMainCharacter().addScore(-Integer.parseInt(hammerCost));
+							CustomGameMap.getMainCharacter().setDamage(CustomGameMap.getMainCharacter().getDamage() + 1);
+							hammerLabel = hammerTypeIndex.get(hammerType - 1) + " Hammer";
+							hammerCost = Integer.toString(Integer.parseInt(hammerCost)*2);
+						}
+					} else {
+						if(CustomGameMap.getMainCharacter().getHP() < 100) {
+							if(CustomGameMap.getMainCharacter().getScore() + GameProgMeth.score >= Integer.parseInt(potionCost)) {
+								CustomGameMap.getMainCharacter().addScore(-Integer.parseInt(potionCost));
+								CustomGameMap.getMainCharacter().addHP(50);
+							}
+						}
 					}
+				} else if(isOnNextBtn()) {
+					btnSound.play();
+					isPotionState = !isPotionState;
 				}
 			}
 		}
@@ -265,28 +284,32 @@ public class PlayScene implements Screen {
 					GameProgMeth.HEIGHT / 4);
 			sb.draw(pauseTextBox, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8 + 16,
 					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8 + 54,
-					(pauseTextBox.getWidth() * 3) / 2, (pauseTextBox.getHeight() * 3) / 2);
-			sb.draw(hammers[0][hammerType], gameMap.getMainCharacterPosition().x + 31.5f - 110,
-					gameMap.getMainCharacterPosition().y + 31.5f - 20, 39, 42);
+					(pauseTextBox.getWidth()*3)/2, (pauseTextBox.getHeight()*3)/2);
 			sb.draw(backBtn, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8 + 10,
-					gameMap.getMainCharacterPosition().y + 31.5f + GameProgMeth.HEIGHT / 8 - 10
-							- backBtn.getHeight() / 8,
-					backBtn.getWidth() / 8, backBtn.getHeight() / 8);
-			sb.draw(exchangeBtn,
-					gameMap.getMainCharacterPosition().x + 31.5f + GameProgMeth.WIDTH / 8 - 10
-							- exchangeBtn.getWidth() / 8,
-					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8 + 10,
-					exchangeBtn.getWidth() / 8, exchangeBtn.getHeight() / 8);
-
-			fontShop.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			fontShop.draw(sb, shop, gameMap.getMainCharacterPosition().x + 31.5f - 30,
-					gameMap.getMainCharacterPosition().y + 31.5f + 70);
-
-			fontHammer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			fontHammer.draw(sb, hammerLabel, gameMap.getMainCharacterPosition().x + 31.5f - 60,
-					gameMap.getMainCharacterPosition().y + 31.5f + 5);
-			fontHammer.draw(sb, hammerCost, gameMap.getMainCharacterPosition().x + 31.5f + 70,
-					gameMap.getMainCharacterPosition().y + 31.5f + 5);
+					gameMap.getMainCharacterPosition().y + 31.5f + GameProgMeth.HEIGHT / 8 - 10 - backBtn.getHeight()/8, 
+					backBtn.getWidth()/8, backBtn.getHeight()/8);
+			sb.draw(exchangeBtn, gameMap.getMainCharacterPosition().x + 31.5f + GameProgMeth.WIDTH/8 - 10 - exchangeBtn.getWidth()/8, 
+					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT/8 + 10,
+					exchangeBtn.getWidth()/8, exchangeBtn.getHeight()/8);
+			sb.draw(storeBtn, gameMap.getMainCharacterPosition().x + 31.5f + GameProgMeth.WIDTH/8 - 20 - storeBtn.getWidth()/4,
+					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT/8 + 10,
+					exchangeBtn.getWidth()/8, exchangeBtn.getHeight()/8);
+			fontShop.setColor(1.0f,1.0f,1.0f,1.0f);
+			fontShop.draw(sb, shop, gameMap.getMainCharacterPosition().x + 31.5f - 30, gameMap.getMainCharacterPosition().y + 31.5f + 70);
+			fontHammer.setColor(1.0f,1.0f,1.0f,1.0f);
+			
+			if(!isPotionState) {
+				sb.draw(hammers[0][hammerType], gameMap.getMainCharacterPosition().x + 31.5f - 110,
+						gameMap.getMainCharacterPosition().y + 31.5f - 20, 39, 42);
+				fontHammer.draw(sb, hammerLabel, gameMap.getMainCharacterPosition().x + 31.5f - 60, gameMap.getMainCharacterPosition().y + 31.5f + 5 );
+				fontHammer.draw(sb, hammerCost, gameMap.getMainCharacterPosition().x + 31.5f + 70, gameMap.getMainCharacterPosition().y + 31.5f + 5 );
+			}
+			else {
+				sb.draw(potion, gameMap.getMainCharacterPosition().x + 31.5f - 110,
+						gameMap.getMainCharacterPosition().y + 31.5f - 20, 39, 42);
+				fontHammer.draw(sb, potionLabel, gameMap.getMainCharacterPosition().x + 31.5f - 20, gameMap.getMainCharacterPosition().y + 31.5f + 5 );
+				fontHammer.draw(sb, potionCost, gameMap.getMainCharacterPosition().x + 31.5f + 70, gameMap.getMainCharacterPosition().y + 31.5f + 5 );
+			}
 			sb.end();
 		}
 
@@ -326,6 +349,13 @@ public class PlayScene implements Screen {
 		return GameProgMeth.WIDTH - 40 - exchangeBtn.getWidth() / 2 <= Gdx.input.getX()
 				&& GameProgMeth.WIDTH - 40 >= Gdx.input.getX()
 				&& GameProgMeth.HEIGHT - 40 - exchangeBtn.getHeight() / 2 <= Gdx.input.getY()
+				&& GameProgMeth.HEIGHT - 40 >= Gdx.input.getY();
+	}
+	
+	public boolean isOnNextBtn() {
+		return 	GameProgMeth.WIDTH - 80 - storeBtn.getWidth() <= Gdx.input.getX()
+				&& GameProgMeth.WIDTH - 80 - storeBtn.getWidth()/2 >= Gdx.input.getX()
+				&& GameProgMeth.HEIGHT - 40 - storeBtn.getHeight()/2 <= Gdx.input.getY()
 				&& GameProgMeth.HEIGHT - 40 >= Gdx.input.getY();
 	}
 }
