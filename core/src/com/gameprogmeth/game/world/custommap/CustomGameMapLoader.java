@@ -26,7 +26,7 @@ public class CustomGameMapLoader {
 				return data;
 			}else {
 				CustomGameMapData data = generateRandomMap (id, name);
-				saveMap(data.id, data.name, data.map);
+//				saveMap(data.id, data.name, data.map);
 				return data;
 			}
 		}
