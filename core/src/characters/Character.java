@@ -13,7 +13,7 @@ public abstract class Character {
 	protected float renderHeight;
 	protected int widthPixel;
 	protected int heightPixel;
-	
+
 	protected float stateTime;
 
 	protected Vector2 position;
@@ -117,8 +117,14 @@ public abstract class Character {
 
 	public void addHP(int hp) {
 		this.hp += hp;
+		if (this.hp < 0) {
+			this.hp = 0;
+		}
+		if (this.hp > maxHp) {
+			this.hp = maxHp;
+		}
 	}
-	
+
 	public double getAngle() {
 		return 0;
 	}

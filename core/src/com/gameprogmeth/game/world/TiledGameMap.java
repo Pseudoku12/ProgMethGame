@@ -74,5 +74,11 @@ public class TiledGameMap extends GameMap{
 		// TODO Auto-generated method stub
 		return mainCharacter.getPosition();
 	}
+
+	@Override
+	public int getStoneAndGemHealth(int col, int row) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

@@ -21,6 +21,8 @@ public abstract class GameMap {
 	
 	public abstract StoneAndGem getStoneAndGemByCoordinate(int layer, int col, int row);
 	
+	public abstract int getStoneAndGemHealth(int col, int row);
+	
 	public abstract int getWidth();
 	public abstract int getHeight();
 	public abstract int getLayer();

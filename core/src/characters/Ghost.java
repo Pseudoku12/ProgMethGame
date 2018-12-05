@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import effects.DamageEffect;
+
 public class Ghost extends Enemy {
 
 	private MainCharacter player;
@@ -55,7 +57,7 @@ public class Ghost extends Enemy {
 	@Override
 	public void update(float dt) {
 		stateTime += dt;
-		
+
 		if (hp > 0) {
 			dx = player.getPosition().x - position.x - (renderWidth / 2) + (prw / 2);
 			dy = player.getPosition().y - position.y - (renderHeight / 2) + (prh / 2);
@@ -72,6 +74,9 @@ public class Ghost extends Enemy {
 			velocity.scl(1 / dt);
 			if (ds < 5) {
 				player.addHP(-10);
+				player.slow();
+				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
+						(int) (player.getPosition().y + player.getRenderHeight() - 15), 10, 1));
 				if (player.hp <= 0) {
 					isPlayerDead = true;
 				}
