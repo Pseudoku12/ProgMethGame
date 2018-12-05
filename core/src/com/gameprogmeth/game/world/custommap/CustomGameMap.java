@@ -111,7 +111,7 @@ public class CustomGameMap extends GameMap {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
-		for (int layer = 1; layer < 4; layer++) {
+		for (int layer = 1; layer < 3; layer++) {
 			for (int row = 0; row < getHeight(); row++) {
 				for (int col = 0; col < getWidth(); col++) {
 					if (layer == 1) {
