@@ -25,6 +25,7 @@ import com.gameprogmeth.game.world.TileType;
 import characters.Enemy;
 import characters.Ghost;
 import characters.Item;
+import characters.ItemSpawner;
 import characters.MainCharacter;
 import characters.MonsterSpawner;
 
@@ -34,15 +35,14 @@ public class CustomGameMap extends GameMap {
 
 	public static MainCharacter mainCharacter;
 	private static MonsterSpawner monsterSpawner;
-	private static ArrayList<Item> itemList;
+	private static ItemSpawner itemSpawner;
 	private float nextSpawning;
 
 	private float stateTime;
 	private float attackAnimationTime;
 	private int level;
-	private int rowStart, colStart, levelToNewName, rowDrop, colDrop, typeDrop;
+	private int rowStart, colStart, levelToNewName;
 	private boolean isDropValue;
-	private KeepingMineral keep;
 
 	private boolean isGameOver;
 	private int pauseCounter;
@@ -88,7 +88,7 @@ public class CustomGameMap extends GameMap {
 		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 100);
 		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
 		monsterSpawner.spawnMonster(1);
-		itemList = new ArrayList<Item>();
+		itemSpawner = new ItemSpawner(mainCharacter);
 		nextSpawning = 5;
 
 		scoreText = "score: 0";
@@ -131,28 +131,8 @@ public class CustomGameMap extends GameMap {
 			}
 		}
 
-		if (mainCharacter.getVelocity().x == 0 && mainCharacter.getVelocity().y == 0 && mainCharacter.getRoll() < 4) {
-			batch.draw(mainCharacter.getIdleAnimation().getKeyFrame(mainCharacter.getStateTime(), false),
-					mainCharacter.getPosition().x, mainCharacter.getPosition().y, mainCharacter.getRenderWidth(),
-					mainCharacter.getRenderHeight());
-		} else {
-			batch.draw(mainCharacter.getAnimation().getKeyFrame(mainCharacter.getStateTime(), true),
-					mainCharacter.getPosition().x, mainCharacter.getPosition().y, mainCharacter.getRenderWidth(),
-					mainCharacter.getRenderHeight());
-		}
-
-		for (Item item : itemList) {
-			if (item != null) {
-				batch.draw(item.getTexture(), item.getPosition().x, item.getPosition().y, item.getRenderWidth(),
-						item.getRenderHeight());
-			}
-		}
-
-		if (mainCharacter.getRoll() < 8 && mainCharacter.getRoll() > 3
-				&& mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())) {
-			mainCharacter.setRoll(mainCharacter.getRoll() - 4);
-		}
-
+		mainCharacter.render(batch);
+		itemSpawner.render(batch);
 		monsterSpawner.render(batch);
 		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth() / 3,
 				scoreBox.getHeight() / 3);
@@ -195,25 +175,11 @@ public class CustomGameMap extends GameMap {
 		mainCharacter.update(dt);
 
 		scoreText = "score: " + (GameProgMeth.score + mainCharacter.getScore());
-
-		ArrayList<Integer> markForRemoved = new ArrayList<Integer>();
-		for (int i = 0; i < itemList.size(); i++) {
-			if (itemList.get(i) != null) {
-				itemList.get(i).update(dt);
-				if (itemList.get(i).isDestroyed()) {
-					markForRemoved.add(i);
-				}
-			}
-		}
-		for (int i = markForRemoved.size() - 1; i >= 0; i--) {
-			itemList.remove(itemList.get(markForRemoved.get(i)));
-			System.out.println(mainCharacter.getScore());
-		}
-
+		itemSpawner.update(dt);
 		monsterSpawner.update(dt);
 		if (nextSpawning < stateTime) {
-			monsterSpawner.spawnMonster(1);
-			nextSpawning += 5;
+			monsterSpawner.spawnMonster((int) (level / 5) + 1);
+			nextSpawning += 10;
 		}
 		stateTime += dt;
 
@@ -269,6 +235,7 @@ public class CustomGameMap extends GameMap {
 
 			final int col = changeXToCol(pos.x);
 			final int row = changeYToRow(pos.y);
+			final int tempHP = getStoneAndGemHealth(col, row);
 
 			if (stone != null) {
 
@@ -282,14 +249,17 @@ public class CustomGameMap extends GameMap {
 
 					Timer.schedule(new Task() {
 						public void run() {
-							destroyStone(col, row, stone.getDestroy());
-							stoneDestroyed.play();
-							dropValueable(stone, col, row);
-							Timer.schedule(new Task() {
-								public void run() {
-									destroyStone(col, row, 100);
-								}
-							}, mainCharacter.getAnimationSpeed() * 2);
+							setStoneAndGemHealth(col, row, tempHP - mainCharacter.getDamage());
+							if (getStoneAndGemHealth(col, row) <= 0) {
+								destroyStone(col, row, stone.getDestroy());
+								stoneDestroyed.play();
+								itemSpawner.dropValueable(stone, col, row);
+								Timer.schedule(new Task() {
+									public void run() {
+										destroyStone(col, row, 100);
+									}
+								}, mainCharacter.getAnimationSpeed() * 2);
+							}
 						}
 					}, mainCharacter.getAnimationSpeed() * 2);
 
@@ -421,7 +391,7 @@ public class CustomGameMap extends GameMap {
 		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 100);
 		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
 		monsterSpawner.spawnMonster(level);
-		itemList = new ArrayList<Item>();
+		itemSpawner = new ItemSpawner(mainCharacter);
 		nextSpawning = 5;
 
 		stateTime = 0;
@@ -452,45 +422,17 @@ public class CustomGameMap extends GameMap {
 		System.out.println(map[2][getHeight() - row - 1][col]);
 	}
 
-	public void dropValueable(StoneAndGem stone, int col, int rol) {
-		typeDrop = 0;
-		int id = stone.getId();
-		Random random = new Random();
-		if (id < StoneAndGem.COPPER_ROCK.getId()) {
-			int canDrop = random.nextInt(50);
-			if (canDrop == 0)
-				typeDrop = StoneAndGem.MINERAL_RAINBOW.getId();
-			else if (canDrop <= 5)
-				typeDrop = StoneAndGem.MINERAL_BLADE.getId();
-			else if (canDrop <= 10)
-				typeDrop = StoneAndGem.MINERAL_BOOK.getId();
-			else if (canDrop <= 15)
-				typeDrop = StoneAndGem.MINERAL_GEAR1.getId();
-			else if (canDrop <= 20)
-				typeDrop = StoneAndGem.MINERAL_GEAR2.getId();
-			else if (canDrop <= 25)
-				typeDrop = StoneAndGem.MINERAL_MASK.getId();
-			else if (canDrop <= 30)
-				typeDrop = StoneAndGem.MINERAL_PAGE.getId();
-			else if (canDrop <= 35)
-				typeDrop = StoneAndGem.MINERAL_RING.getId();
-			else if (canDrop <= 40)
-				typeDrop = StoneAndGem.MINERAL_SPOON.getId();
-			else if (canDrop <= 45)
-				typeDrop = StoneAndGem.MINERAL_STONESLAB.getId();
-			else {
-				isDropValue = false;
-				return;
-			}
-		} else {
-			typeDrop = id + 2;
+	public int getStoneAndGemHealth(int col, int row) {
+		if (row < 0 || row >= getHeight() || col < 0 || col >= getWidth()) {
+			return -1;
 		}
-		rowDrop = rol;
-		colDrop = col;
-		itemList.add(new Item(colDrop * 16, rowDrop * 16, 100, (typeDrop - 1) / 3, (int) ((typeDrop - 1) / 3),
-				(int) ((typeDrop - 1) % 3), mainCharacter));
-		isDropValue = true;
+		return map[3][getHeight() - row - 1][col];
+	}
 
+	public void setStoneAndGemHealth(int col, int row, int HP) {
+		if (!(row < 0 || row >= getHeight() || col < 0 || col >= getWidth())) {
+			map[3][getHeight() - row - 1][col] = HP;
+		}
 	}
 
 	public static MainCharacter getMainCharacter() {

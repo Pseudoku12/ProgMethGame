@@ -26,8 +26,8 @@ public class MonsterSpawner {
 		int temp;
 		int monster;
 		for (int i = 0; i < amount; i++) {
-			temp = rand.nextInt(360);
-			monster = 1;
+			temp = rand.nextInt(2);
+			monster = temp;
 			pos.x = (float) (player.getPosition().x + (Math.cos(Math.toRadians(temp)) * spawnRange));
 			pos.y = (float) (player.getPosition().y + (Math.sin(Math.toRadians(temp)) * spawnRange));
 			if (monster == 0) {
@@ -41,9 +41,16 @@ public class MonsterSpawner {
 	public void render(SpriteBatch batch) {
 		for (Character monster : monsterList) {
 			if (monster != null) {
-				batch.draw(monster.getAnimation().getKeyFrame(monster.getStateTime(), true), monster.getPosition().x,
-						monster.getPosition().y, monster.getRenderWidth() / 2, monster.getRenderHeight() / 2,
-						monster.getRenderWidth(), monster.getRenderHeight(), 1, 1, (float) monster.getAngle() - 90);
+				if (monster instanceof Serpent) {
+					batch.draw(monster.getAnimation().getKeyFrame(monster.getStateTime(), true),
+							monster.getPosition().x, monster.getPosition().y, monster.getRenderWidth() / 2,
+							monster.getRenderHeight() / 2, monster.getRenderWidth(), monster.getRenderHeight(), 1, 1,
+							(float) monster.getAngle() - 90);
+				} else if (monster instanceof Ghost) {
+					batch.draw(monster.getAnimation().getKeyFrame(monster.getStateTime(), true),
+							monster.getPosition().x, monster.getPosition().y, monster.getRenderWidth(),
+							monster.getRenderHeight());
+				}
 			}
 		}
 	}

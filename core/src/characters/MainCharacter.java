@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
@@ -21,7 +22,9 @@ public class MainCharacter extends Character {
 	private int damage;
 	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
 	public Animation<TextureRegion>[] idleAnimation;
-	
+
+	private float slowCounter;
+
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.1f;
 		renderWidth = 63;
@@ -37,8 +40,8 @@ public class MainCharacter extends Character {
 		idleAnimation = new Animation[4];
 		roll = 2;
 
-		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("character/Main Character Walk.png"), widthPixel,
-				heightPixel);
+		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("character/Main Character Walk.png"),
+				widthPixel, heightPixel);
 
 		for (int i = 0; i < 8; i++) {
 			animation[i] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[i]);
@@ -56,6 +59,7 @@ public class MainCharacter extends Character {
 		score = 0;
 		hp = maxHp = 100;
 		damage = 1;
+		slowCounter = 0;
 	}
 
 	public void addScore(int score) {
@@ -70,10 +74,25 @@ public class MainCharacter extends Character {
 		return score;
 	}
 
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
 	@Override
 	public void update(float dt) {
 		stateTime += dt;
-		
+
+		if (slowCounter > 0) {
+			velocity.scl(0.5f);
+			slowCounter -= dt;
+			getAnimation().setFrameDuration(animationSpeed * 2);
+		} else {
+			getAnimation().setFrameDuration(animationSpeed);
+		}
 		velocity.scl(dt);
 		if (isBlockedLeft && velocity.x < 0) {
 			velocity.x = 0;
@@ -98,6 +117,20 @@ public class MainCharacter extends Character {
 		velocity.scl(1 / dt);
 	}
 
+	public void render(SpriteBatch batch) {
+		if (getVelocity().x == 0 && getVelocity().y == 0 && getRoll() < 4) {
+			batch.draw(getIdleAnimation().getKeyFrame(getStateTime(), false), getPosition().x, getPosition().y,
+					getRenderWidth(), getRenderHeight());
+		} else {
+			batch.draw(getAnimation().getKeyFrame(getStateTime(), true), getPosition().x, getPosition().y,
+					getRenderWidth(), getRenderHeight());
+		}
+
+		if (getRoll() < 8 && getRoll() > 3 && getAnimation().isAnimationFinished(getStateTime())) {
+			setRoll(getRoll() - 4);
+		}
+	}
+
 	public Animation<TextureRegion> getIdleAnimation() {
 		return idleAnimation[roll];
 	}
@@ -113,7 +146,7 @@ public class MainCharacter extends Character {
 		dy = enemy.getPosition().y - position.y - (renderHeight / 2) + (enemy.getRenderHeight() / 2);
 		ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 		tempAngle = getAngle();
-		if (ds <= 25) {
+		if (ds <= 25 && enemy.getHP() > 0) {
 			if ((roll == 4 && 270 - sweptAngle < tempAngle && tempAngle < 270 + sweptAngle)
 					|| (roll == 5 && 180 - sweptAngle < tempAngle && tempAngle < 180 + sweptAngle)
 					|| (roll == 6 && 0 - sweptAngle < tempAngle && tempAngle < 0 + sweptAngle)
@@ -133,5 +166,9 @@ public class MainCharacter extends Character {
 			angle += 360;
 		}
 		return angle;
+	}
+
+	public void slow() {
+		slowCounter = 3;
 	}
 }

@@ -72,6 +72,7 @@ public class Ghost extends Enemy {
 			velocity.scl(1 / dt);
 			if (ds < 5) {
 				player.addHP(-10);
+				player.slow();
 				if (player.hp <= 0) {
 					isPlayerDead = true;
 				}

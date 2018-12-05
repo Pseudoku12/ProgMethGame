@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.gameprogmeth.game.GameProgMeth;
+import com.gameprogmeth.game.world.StoneAndGem;
 
-public class Item extends Character implements Destroyable{
+public class Item extends Character implements Destroyable {
 
 	private MainCharacter player;
 	private Sprite sprite;
@@ -21,7 +23,7 @@ public class Item extends Character implements Destroyable{
 	private double prw;
 	private double prh;
 
-	public Item(int x, int y, int speed, int item, int rollRow, int rollCol, MainCharacter player) {
+	public Item(int x, int y, int speed, int item, MainCharacter player) {
 		animationSpeed = 0.5f;
 		renderWidth = 16;
 		renderHeight = 16;
@@ -31,9 +33,6 @@ public class Item extends Character implements Destroyable{
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
 		this.speed = speed;
-
-		this.rollRow = rollRow;
-		this.rollCol = rollCol;
 
 		rollSpriteSheet = TextureRegion.split(new Texture("resource/Stone_Gem_Ladder.png"), widthPixel, heightPixel);
 
@@ -52,8 +51,8 @@ public class Item extends Character implements Destroyable{
 	@Override
 	public void update(float dt) {
 		if (elapsedTime >= 1) {
-			dx = player.getPosition().x - position.x - (renderWidth/2) + (prw/2);
-			dy = player.getPosition().y - position.y - (renderHeight/2) + (prh/2);
+			dx = player.getPosition().x - position.x - (renderWidth / 2) + (prw / 2);
+			dy = player.getPosition().y - position.y - (renderHeight / 2) + (prh / 2);
 			ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 			velocity.x = (float) (dx / ds) * speed;
 			velocity.y = (float) (dy / ds) * speed;
@@ -61,7 +60,7 @@ public class Item extends Character implements Destroyable{
 			position.add(velocity.x, velocity.y);
 			velocity.scl(1 / dt);
 			if (ds < 5) {
-				if(item == 1) {
+				if (item == StoneAndGem.MINERAL_CARROT.getId()) {
 					player.addHP(10);
 				}
 				player.addScore(10);
@@ -73,11 +72,19 @@ public class Item extends Character implements Destroyable{
 
 	}
 
+	public void render(SpriteBatch batch) {
+		batch.draw(getTexture(), getPosition().x, getPosition().y, getRenderWidth(), getRenderHeight());
+	}
+
 	public TextureRegion getTexture() {
-		return rollSpriteSheet[item][2];
+		return rollSpriteSheet[(int)Math.ceil((double)item/(double)3) - 1][(int)(item+2)%3];
 	}
 
 	public boolean isDestroyed() {
 		return isDestroyed;
+	}
+	
+	private void addScore() {
+		
 	}
 }
