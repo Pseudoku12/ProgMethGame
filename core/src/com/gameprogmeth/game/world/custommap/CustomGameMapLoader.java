@@ -26,7 +26,7 @@ public class CustomGameMapLoader {
 				return data;
 			}else {
 				CustomGameMapData data = generateRandomMap (id, name);
-				saveMap(data.id, data.name, data.map);
+//				saveMap(data.id, data.name, data.map);
 				return data;
 			}
 		}
@@ -59,7 +59,7 @@ public class CustomGameMapLoader {
 		CustomGameMapData mapData = new CustomGameMapData();
 		mapData.id = id;
 		mapData.name = name;
-		mapData.map = new int[3][SIZE][SIZE];
+		mapData.map = new int[4][SIZE][SIZE];
 		
 		Random random = new Random();
 
@@ -196,6 +196,7 @@ public class CustomGameMapLoader {
 						else if(a <= 100)	map[1][rowT][colT] = TileType.GROUND_HOLE.getId();
 						
 						a = random.nextInt(100);
+						if(a <= 27)			map[3][rowT][colT] = random.nextInt(2) + 1;
 						if(a <= 3) 			map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK1.getId();
 						else if(a <= 6) 	map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK2.getId();
 						else if(a <= 9) 	map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK3.getId();
@@ -240,6 +241,7 @@ public class CustomGameMapLoader {
 						else if(a <= 100)	map[1][rowT][colT] = TileType.ROCK_GROUND_BIGCIRCLE.getId();
 						
 						a = random.nextInt(100);
+						if(a <= 27)			map[3][rowT][colT] = random.nextInt(3) + 1;
 						if(a <= 2) 			map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK1.getId();
 						else if(a <= 4) 	map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK2.getId();
 						else if(a <= 7) 	map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK3.getId();
@@ -283,6 +285,7 @@ public class CustomGameMapLoader {
 						else if(a <= 100)	map[1][rowT][colT] = TileType.ICE_HOLE.getId();
 						
 						a = random.nextInt(100);
+						if(a <= 22)			map[3][rowT][colT] = random.nextInt(4) + 1;
 						if(a <= 5) 			map[2][rowT][colT] = StoneAndGem.ICE_ROCK1.getId();
 						else if(a <= 10) 	map[2][rowT][colT] = StoneAndGem.ICE_ROCK2.getId();
 						else if(a <= 15) 	map[2][rowT][colT] = StoneAndGem.ICE_ROCK3.getId();
@@ -326,6 +329,7 @@ public class CustomGameMapLoader {
 						else if(a <= 100)	map[1][rowT][colT] = TileType.ROCK_ICE_BIGCIRCLE.getId();
 						
 						a = random.nextInt(100);
+						if(a <= 23)			map[3][rowT][colT] = random.nextInt(5) + 1;
 						if(a <= 5) 			map[2][rowT][colT] = StoneAndGem.ICE_ROCK1.getId();
 						else if(a <= 10) 	map[2][rowT][colT] = StoneAndGem.ICE_ROCK2.getId();
 						else if(a <= 15) 	map[2][rowT][colT] = StoneAndGem.ICE_ROCK3.getId();
@@ -366,6 +370,7 @@ public class CustomGameMapLoader {
 						else if(a <= 100)	map[1][rowT][colT] = TileType.VOLCANO_HOLE.getId();
 						
 						a = random.nextInt(100);
+						if(a <= 27)			map[3][rowT][colT] = random.nextInt(6) + 1;
 						if(a <= 2) 			map[2][rowT][colT] = StoneAndGem.LAVA_ROCK1.getId();
 						else if(a <= 4) 	map[2][rowT][colT] = StoneAndGem.LAVA_ROCK2.getId();
 						else if(a <= 7) 	map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK3.getId();
@@ -412,6 +417,7 @@ public class CustomGameMapLoader {
 						else if(a <= 100)	map[1][rowT][colT] = TileType.ROCK_VOLCANO_BIGCIRCLE.getId();
 						
 						a = random.nextInt(100);
+						if(a <= 28)			map[3][rowT][colT] = random.nextInt(7) + 1;
 						if(a <= 2) 			map[2][rowT][colT] = StoneAndGem.LAVA_ROCK1.getId();
 						else if(a <= 4) 	map[2][rowT][colT] = StoneAndGem.LAVA_ROCK2.getId();
 						else if(a <= 7) 	map[2][rowT][colT] = StoneAndGem.NORMAL_ROCK3.getId();

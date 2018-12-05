@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.foregroundFPS = 60;
 		config.width = GameProgMeth.WIDTH;
 		config.height = GameProgMeth.HEIGHT;
+		config.resizable = false;
 //		config.fullscreen = true;
 		config.forceExit = true;
 		new LwjglApplication(new GameProgMeth(), config);

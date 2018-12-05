@@ -21,7 +21,7 @@ public class MainCharacter extends Character {
 	private int damage;
 	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
 	public Animation<TextureRegion>[] idleAnimation;
-
+	
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.1f;
 		renderWidth = 63;
