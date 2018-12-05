@@ -132,10 +132,11 @@ public class CustomGameMap extends GameMap {
 		}
 
 		if (mainCharacter.getVelocity().x == 0 && mainCharacter.getVelocity().y == 0 && mainCharacter.getRoll() < 4) {
-			batch.draw(mainCharacter.getIdleAnimation().getKeyFrame(stateTime, false), mainCharacter.getPosition().x,
-					mainCharacter.getPosition().y, mainCharacter.getRenderWidth(), mainCharacter.getRenderHeight());
+			batch.draw(mainCharacter.getIdleAnimation().getKeyFrame(mainCharacter.getStateTime(), false),
+					mainCharacter.getPosition().x, mainCharacter.getPosition().y, mainCharacter.getRenderWidth(),
+					mainCharacter.getRenderHeight());
 		} else {
-			batch.draw(mainCharacter.getAnimation().getKeyFrame(attackAnimationTime, true),
+			batch.draw(mainCharacter.getAnimation().getKeyFrame(mainCharacter.getStateTime(), true),
 					mainCharacter.getPosition().x, mainCharacter.getPosition().y, mainCharacter.getRenderWidth(),
 					mainCharacter.getRenderHeight());
 		}
@@ -148,11 +149,11 @@ public class CustomGameMap extends GameMap {
 		}
 
 		if (mainCharacter.getRoll() < 8 && mainCharacter.getRoll() > 3
-				&& mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
+				&& mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())) {
 			mainCharacter.setRoll(mainCharacter.getRoll() - 4);
 		}
 
-		monsterSpawner.render(batch, stateTime);
+		monsterSpawner.render(batch);
 		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth() / 3,
 				scoreBox.getHeight() / 3);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -210,12 +211,11 @@ public class CustomGameMap extends GameMap {
 		}
 
 		monsterSpawner.update(dt);
-		if(nextSpawning < stateTime) {
+		if (nextSpawning < stateTime) {
 			monsterSpawner.spawnMonster(1);
 			nextSpawning += 5;
 		}
 		stateTime += dt;
-		attackAnimationTime += dt;
 
 		if (mainCharacter.getHP() <= 0) {
 			dispose();
@@ -224,7 +224,8 @@ public class CustomGameMap extends GameMap {
 	}
 
 	protected void handleInput() {
-		if (mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)) {
+		if (mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
+				|| mainCharacter.getRoll() < 4) {
 			if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
 				mainCharacter.setRoll(3);
@@ -243,10 +244,10 @@ public class CustomGameMap extends GameMap {
 		} else {
 			mainCharacter.setVelocity(0, 0);
 		}
-		if (Gdx.input.justTouched() && ((mainCharacter.getAnimation().isAnimationFinished(attackAnimationTime)
+		if (Gdx.input.justTouched() && ((mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
 				&& mainCharacter.getRoll() > 3) || mainCharacter.getRoll() < 4) && pauseCounter <= 0) {
 			mainCharacter.setVelocity(0, 0);
-			attackAnimationTime = 0;
+			mainCharacter.setStateTime(0);
 
 			final Vector2 pos = new Vector2();
 
@@ -297,9 +298,9 @@ public class CustomGameMap extends GameMap {
 							checkLadder(col, row);
 						}
 					}, mainCharacter.getAnimationSpeed() * 2);
-					
+
 				}
-				
+
 			}
 			Timer.schedule(new Task() {
 				public void run() {
@@ -422,7 +423,7 @@ public class CustomGameMap extends GameMap {
 		monsterSpawner.spawnMonster(level);
 		itemList = new ArrayList<Item>();
 		nextSpawning = 5;
-		
+
 		stateTime = 0;
 	}
 
