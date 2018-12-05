@@ -37,6 +37,8 @@ public class CustomGameMap extends GameMap {
 	private static MonsterSpawner monsterSpawner;
 	private static ItemSpawner itemSpawner;
 	private float nextSpawning;
+	private int damage;
+	private int hp;
 
 	private float stateTime;
 	private float attackAnimationTime;
@@ -87,9 +89,11 @@ public class CustomGameMap extends GameMap {
 		findStartPoint();
 
 		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 80);
-		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
-		monsterSpawner.spawnMonster(1);
+		this.damage = mainCharacter.getDamage();
+		this.hp = mainCharacter.getHP();
 		itemSpawner = new ItemSpawner(mainCharacter, 1, cam);
+		monsterSpawner = new MonsterSpawner(mainCharacter, 200, 1, this.itemSpawner);
+		monsterSpawner.spawnMonster(1);
 		nextSpawning = 5;
 
 		scoreText = "score: 0";
@@ -174,7 +178,7 @@ public class CustomGameMap extends GameMap {
 		}
 		mainCharacter.update(dt);
 
-		scoreText = "score: " + (GameProgMeth.score + mainCharacter.getScore());
+		updateScore();
 		itemSpawner.update(dt);
 		monsterSpawner.update(dt);
 		if (nextSpawning < stateTime) {
@@ -192,16 +196,16 @@ public class CustomGameMap extends GameMap {
 	protected void handleInput() {
 		if (mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
 				|| mainCharacter.getRoll() < 4) {
-			if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
 				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
 				mainCharacter.setRoll(3);
-			} else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+			} else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 				mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
 				mainCharacter.setRoll(1);
-			} else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+			} else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 				mainCharacter.setVelocity(0, -mainCharacter.getSpeed());
 				mainCharacter.setRoll(0);
-			} else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+			} else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 				mainCharacter.setVelocity(mainCharacter.getSpeed(), 0);
 				mainCharacter.setRoll(2);
 			} else {
@@ -210,8 +214,10 @@ public class CustomGameMap extends GameMap {
 		} else {
 			mainCharacter.setVelocity(0, 0);
 		}
-		if (Gdx.input.justTouched() && ((mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
-				&& mainCharacter.getRoll() > 3) || mainCharacter.getRoll() < 4) && pauseCounter <= 0) {
+		if ((Gdx.input.justTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE))
+				&& ((mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
+						&& mainCharacter.getRoll() > 3) || mainCharacter.getRoll() < 4)
+				&& pauseCounter <= 0) {
 			mainCharacter.setVelocity(0, 0);
 			mainCharacter.setStateTime(0);
 
@@ -253,7 +259,7 @@ public class CustomGameMap extends GameMap {
 							if (getStoneAndGemHealth(col, row) <= 0) {
 								destroyStone(col, row, stone.getDestroy());
 								stoneDestroyed.play();
-								itemSpawner.dropValueable(stone, col, row);
+								itemSpawner.dropValueable(col * 16, row * 16);
 								Timer.schedule(new Task() {
 									public void run() {
 										destroyStone(col, row, 100);
@@ -387,11 +393,15 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
+		damage = mainCharacter.getDamage();
+		hp = mainCharacter.getHP();
 		GameProgMeth.score += mainCharacter.getScore();
 		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 80);
-		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
-		monsterSpawner.spawnMonster(level);
+		mainCharacter.setDamage(damage);
+		mainCharacter.setHP(hp);
 		itemSpawner = new ItemSpawner(mainCharacter, level, cam);
+		monsterSpawner = new MonsterSpawner(mainCharacter, 200, level, this.itemSpawner);
+		monsterSpawner.spawnMonster(level);
 		nextSpawning = 5;
 
 		stateTime = 0;
@@ -441,5 +451,9 @@ public class CustomGameMap extends GameMap {
 
 	public void setPauseCounter(int i) {
 		this.pauseCounter = i;
+	}
+
+	public void updateScore() {
+		scoreText = "score: " + (GameProgMeth.score + mainCharacter.getScore());
 	}
 }

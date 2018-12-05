@@ -17,7 +17,7 @@ public class Ghost extends Enemy {
 	private double prw;
 	private double prh;
 
-	public Ghost(int x, int y, MainCharacter player) {
+	public Ghost(int x, int y, MainCharacter player, int hp) {
 		animationSpeed = 0.25f;
 		renderWidth = 16;
 		renderHeight = 24;
@@ -44,7 +44,7 @@ public class Ghost extends Enemy {
 
 		isPlayerDead = false;
 
-		hp = maxHp = 2;
+		this.hp = maxHp = hp;
 	}
 
 	double dx;

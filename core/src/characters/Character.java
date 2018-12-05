@@ -115,6 +115,10 @@ public abstract class Character {
 		return this.hp;
 	}
 
+	public void setHP(int hp) {
+		this.hp = hp;
+	}
+
 	public void addHP(int hp) {
 		this.hp += hp;
 		if (this.hp < 0) {

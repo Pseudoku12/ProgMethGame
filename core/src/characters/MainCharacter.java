@@ -28,7 +28,9 @@ public class MainCharacter extends Character {
 	private ArrayList<Integer> markForRemoved;
 
 	private float slowCounter;
-
+	private float bleedCounter;
+	private float hitTime;
+	
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.1f;
 		renderWidth = 63;
@@ -66,6 +68,7 @@ public class MainCharacter extends Character {
 		hp = maxHp = 100;
 		damage = 1;
 		slowCounter = 0;
+		bleedCounter = 0;
 	}
 
 	public void addScore(int score) {
@@ -98,6 +101,16 @@ public class MainCharacter extends Character {
 			animationSpeed = 0.2f;
 		} else {
 			animationSpeed = 0.1f;
+		}
+		if (bleedCounter > 0) {
+			if(hitTime <= 0) {
+				this.addHP(-3);
+				this.addEffect(new DamageEffect((int) (this.getPosition().x + (this.getRenderWidth() / 2) - 2),
+						(int) (this.getPosition().y + this.getRenderHeight() - 15), 3, 2, this));
+				hitTime = 1;
+			}
+			bleedCounter -= dt;
+			hitTime -= dt;
 		}
 		getAnimation().setFrameDuration(animationSpeed);
 		velocity.scl(dt);
@@ -203,5 +216,10 @@ public class MainCharacter extends Character {
 	
 	public void addEffect(DamageEffect dmgEff) {
 		dmgEffList.add(dmgEff);
+	}
+	
+	public void bleed() {
+		bleedCounter = 4.1f;
+		hitTime = 1;
 	}
 }

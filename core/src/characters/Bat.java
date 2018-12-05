@@ -17,24 +17,24 @@ public class Bat extends Enemy {
 	private double prw;
 	private double prh;
 
-	public Bat(int x, int y, MainCharacter player) {
-		animationSpeed = 0.25f;
+	public Bat(int x, int y, MainCharacter player, int hp) {
+		animationSpeed = 0.15f;
 		renderWidth = 16;
-		renderHeight = 24;
+		renderHeight = 16;
 		widthPixel = 16;
-		heightPixel = 24;
+		heightPixel = 16;
 
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
-		speed = 20;
+		speed = 30;
 
-		animation = new Animation[5];
-		roll = 2;
+		animation = new Animation[3];
+		roll = 0;
 
 		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("monster/Frost Bat.png"), widthPixel,
 				heightPixel);
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 3; i++) {
 			animation[i] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[i]);
 		}
 
@@ -44,7 +44,7 @@ public class Bat extends Enemy {
 
 		isPlayerDead = false;
 
-		hp = maxHp = 2;
+		this.hp = maxHp = hp;
 	}
 
 	double dx;
@@ -73,26 +73,17 @@ public class Bat extends Enemy {
 			position.add(velocity.x, velocity.y);
 			velocity.scl(1 / dt);
 			if (ds < 5) {
-				player.addHP(-10);
-				player.slow();
-				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
-						(int) (player.getPosition().y + player.getRenderHeight() - 15), 10, 2, player));
+				player.addHP(-5);
+				player.bleed();
+				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 2),
+						(int) (player.getPosition().y + player.getRenderHeight() - 15), 5, 2, player));
 				if (player.hp <= 0) {
 					isPlayerDead = true;
 				}
 				isDestroyed = true;
 			}
-			if (Math.abs(dy) <= dx) {
-				roll = 1;
-			} else if (Math.abs(dx) <= dy) {
-				roll = 2;
-			} else if (-Math.abs(dy) >= dx) {
-				roll = 3;
-			} else if (-Math.abs(dx) >= dy) {
-				roll = 0;
-			}
 		} else {
-			roll = 4;
+			roll = 2;
 			if (getAnimation().isAnimationFinished(stateTime)) {
 				isDestroyed = true;
 			}

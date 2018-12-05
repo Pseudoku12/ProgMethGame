@@ -50,9 +50,8 @@ public class ItemSpawner {
 
 	int typeDrop, rowDrop, colDrop;
 
-	public void dropValueable(StoneAndGem stone, int col, int rol) {
+	public void dropValueable(int x, int y) {
 		typeDrop = -1;
-		int id = stone.getId();
 		Random random = new Random();
 		int canDrop = -1;
 		if (level < 10) {
@@ -119,10 +118,8 @@ public class ItemSpawner {
 		} else if (canDrop <= 8874) {
 			typeDrop = StoneAndGem.MINERAL_RAINBOW.getId();
 		}
-		rowDrop = rol;
-		colDrop = col;
 		if (typeDrop != -1) {
-			itemList.add(new Item(colDrop * 16, rowDrop * 16, 100, typeDrop, player, cam));
+			itemList.add(new Item(x, y, 100, typeDrop, player, cam));
 		}
 	}
 }

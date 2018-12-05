@@ -17,7 +17,7 @@ public class Serpent extends Enemy {
 	private double prw;
 	private double prh;
 
-	public Serpent(int x, int y, MainCharacter player) {
+	public Serpent(int x, int y, MainCharacter player, int hp) {
 		animationSpeed = 0.15f;
 		renderWidth = 16;
 		renderHeight = 16;
@@ -44,7 +44,7 @@ public class Serpent extends Enemy {
 
 		isPlayerDead = false;
 
-		hp = maxHp = 2;
+		this.hp = maxHp = hp;
 	}
 
 	double dx;

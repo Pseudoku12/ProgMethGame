@@ -26,6 +26,7 @@ import com.gameprogmeth.game.world.custommap.CustomGameMap;
 import characters.Character;
 import characters.Ghost;
 import characters.MainCharacter;
+import effects.DamageEffect;
 
 public class PlayScene implements Screen {
 
@@ -59,7 +60,7 @@ public class PlayScene implements Screen {
 	private String potionCost;
 	private BitmapFont fontShop;
 	private BitmapFont fontHammer;
-
+	
 	OrthographicCamera cam;
 	CustomGameMap gameMap;
 
@@ -103,7 +104,7 @@ public class PlayScene implements Screen {
 		hammerLabel = "Copper Hammer";
 		hammerCost = "1000";
 		potionLabel = "Potion";
-		potionCost = "50";
+		potionCost = "300";
 		
 		hammerTypeIndex = new ArrayList<String>();
 		hammerTypeIndex.add("Copper");
@@ -212,11 +213,15 @@ public class PlayScene implements Screen {
 					} else {
 						if(CustomGameMap.getMainCharacter().getHP() < 100) {
 							if(CustomGameMap.getMainCharacter().getScore() + GameProgMeth.score >= Integer.parseInt(potionCost)) {
-								CustomGameMap.getMainCharacter().addScore(-Integer.parseInt(potionCost));
-								CustomGameMap.getMainCharacter().addHP(50);
+								MainCharacter player = CustomGameMap.getMainCharacter();
+								player.addScore(-Integer.parseInt(potionCost));
+								player.addHP(50);
+								player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
+						(int) (player.getPosition().y + player.getRenderHeight() - 15), 50, 3, player));
 							}
 						}
 					}
+					this.gameMap.updateScore();
 				} else if(isOnNextBtn()) {
 					btnSound.play();
 					isPotionState = !isPotionState;
