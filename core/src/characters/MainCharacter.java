@@ -16,12 +16,16 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gameprogmeth.game.GameProgMeth;
 
+import effects.DamageEffect;
+
 public class MainCharacter extends Character {
 
 	private int score;
 	private int damage;
 	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
 	public Animation<TextureRegion>[] idleAnimation;
+	private ArrayList<DamageEffect> dmgEffList;
+	private ArrayList<Integer> markForRemoved;
 
 	private float slowCounter;
 
@@ -56,6 +60,8 @@ public class MainCharacter extends Character {
 			idleAnimation[i] = new Animation<TextureRegion>(0, IdleSpriteSheet[i]);
 		}
 
+		dmgEffList = new ArrayList<DamageEffect>();
+
 		score = 0;
 		hp = maxHp = 100;
 		damage = 1;
@@ -89,10 +95,11 @@ public class MainCharacter extends Character {
 		if (slowCounter > 0) {
 			velocity.scl(0.5f);
 			slowCounter -= dt;
-			getAnimation().setFrameDuration(animationSpeed * 2);
+			animationSpeed = 0.2f;
 		} else {
-			getAnimation().setFrameDuration(animationSpeed);
+			animationSpeed = 0.1f;
 		}
+		getAnimation().setFrameDuration(animationSpeed);
 		velocity.scl(dt);
 		if (isBlockedLeft && velocity.x < 0) {
 			velocity.x = 0;
@@ -115,6 +122,18 @@ public class MainCharacter extends Character {
 		}
 
 		velocity.scl(1 / dt);
+		markForRemoved = new ArrayList<Integer>();
+		for (int i = 0; i < dmgEffList.size(); i++) {
+			if (dmgEffList.get(i) != null) {
+				dmgEffList.get(i).update(dt);
+				if (dmgEffList.get(i).isDestroyed()) {
+					markForRemoved.add(i);
+				}
+			}
+		}
+		for (int i = markForRemoved.size() - 1; i >= 0; i--) {
+			dmgEffList.remove(dmgEffList.get(markForRemoved.get(i)));
+		}
 	}
 
 	public void render(SpriteBatch batch) {
@@ -131,6 +150,14 @@ public class MainCharacter extends Character {
 		}
 	}
 
+	public void renderEffect(SpriteBatch batch) {
+		for (DamageEffect dmgEff : dmgEffList) {
+			if (dmgEff != null) {
+				dmgEff.render(batch);
+			}
+		}
+	}
+	
 	public Animation<TextureRegion> getIdleAnimation() {
 		return idleAnimation[roll];
 	}
@@ -153,6 +180,8 @@ public class MainCharacter extends Character {
 					|| (roll == 7 && 90 - sweptAngle < tempAngle && tempAngle < 90 + sweptAngle)) {
 				enemy.push(tempAngle);
 				enemy.setStateTime(0);
+				dmgEffList.add(new DamageEffect((int) (enemy.getPosition().x + (enemy.getRenderWidth() / 2)),
+						(int) (enemy.getPosition().y + enemy.getRenderHeight() + 10), damage, 0));
 				return -damage;
 			}
 		}
@@ -170,5 +199,9 @@ public class MainCharacter extends Character {
 
 	public void slow() {
 		slowCounter = 3;
+	}
+	
+	public void addEffect(DamageEffect dmgEff) {
+		dmgEffList.add(dmgEff);
 	}
 }

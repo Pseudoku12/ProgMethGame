@@ -1,5 +1,6 @@
 package states;
 
+import java.beans.Customizer;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Game;
@@ -182,7 +183,7 @@ public class PlayScene implements Screen {
 //					cam.position.set(new Vector3(0,0,0));
 					this.dispose();
 //					game.setScreen(new MenuState(game));
-					game.setGameOverScene(CustomGameMap.mainCharacter.getScore());
+					game.setGameOverScene(CustomGameMap.getMainCharacter().getScore());
 				}
 			}
 		} else if(isStoreState) {
@@ -192,8 +193,10 @@ public class PlayScene implements Screen {
 					isStoreState = false;
 				} else if(isOnExchangeBtn()) {
 					btnSound.play();
-					if(CustomGameMap.mainCharacter.getScore() + GameProgMeth.score >= Integer.parseInt(hammerCost)) {
+					if(CustomGameMap.getMainCharacter().getScore() + GameProgMeth.score >= Integer.parseInt(hammerCost)) {
 						hammerType++;
+						CustomGameMap.getMainCharacter().addScore(-Integer.parseInt(hammerCost));
+						CustomGameMap.getMainCharacter().setDamage(CustomGameMap.getMainCharacter().getDamage() + 1);
 						hammerLabel = hammerTypeIndex.get(hammerType - 1) + " Hammer";
 						hammerCost = Integer.toString(Integer.parseInt(hammerCost)*2);
 					}

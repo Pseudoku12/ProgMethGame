@@ -25,15 +25,15 @@ import com.gameprogmeth.game.world.TileType;
 import characters.Enemy;
 import characters.Ghost;
 import characters.Item;
-import characters.ItemSpawner;
 import characters.MainCharacter;
-import characters.MonsterSpawner;
+import spawners.ItemSpawner;
+import spawners.MonsterSpawner;
 
 public class CustomGameMap extends GameMap {
 
 	private GameProgMeth game;
 
-	public static MainCharacter mainCharacter;
+	private static MainCharacter mainCharacter;
 	private static MonsterSpawner monsterSpawner;
 	private static ItemSpawner itemSpawner;
 	private float nextSpawning;
@@ -85,10 +85,10 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
-		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 100);
+		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 100);
 		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
 		monsterSpawner.spawnMonster(1);
-		itemSpawner = new ItemSpawner(mainCharacter);
+		itemSpawner = new ItemSpawner(mainCharacter, 1);
 		nextSpawning = 5;
 
 		scoreText = "score: 0";
@@ -130,10 +130,10 @@ public class CustomGameMap extends GameMap {
 				}
 			}
 		}
-
 		mainCharacter.render(batch);
 		itemSpawner.render(batch);
 		monsterSpawner.render(batch);
+		mainCharacter.renderEffect(batch);
 		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth() / 3,
 				scoreBox.getHeight() / 3);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -388,10 +388,10 @@ public class CustomGameMap extends GameMap {
 		findStartPoint();
 
 		GameProgMeth.score += mainCharacter.getScore();
-		mainCharacter = new MainCharacter(colStart * 16, rowStart * 16, 100);
+		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 100);
 		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
 		monsterSpawner.spawnMonster(level);
-		itemSpawner = new ItemSpawner(mainCharacter);
+		itemSpawner = new ItemSpawner(mainCharacter, level);
 		nextSpawning = 5;
 
 		stateTime = 0;

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import effects.DamageEffect;
+
 public class Serpent extends Enemy {
 
 	private MainCharacter player;
@@ -72,6 +74,8 @@ public class Serpent extends Enemy {
 			velocity.scl(1 / dt);
 			if (ds < 5) {
 				player.addHP(-20);
+				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
+						(int) (player.getPosition().y + player.getRenderHeight() - 15), 20, 1));
 				if (player.hp <= 0) {
 					isPlayerDead = true;
 				}

@@ -1,10 +1,16 @@
-package characters;
+package spawners;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+
+import characters.Character;
+import characters.Enemy;
+import characters.Ghost;
+import characters.MainCharacter;
+import characters.Serpent;
 
 public class MonsterSpawner {
 	private ArrayList<Enemy> monsterList;

@@ -60,10 +60,7 @@ public class Item extends Character implements Destroyable {
 			position.add(velocity.x, velocity.y);
 			velocity.scl(1 / dt);
 			if (ds < 5) {
-				if (item == StoneAndGem.MINERAL_CARROT.getId()) {
-					player.addHP(10);
-				}
-				player.addScore(10);
+				addScore();
 				isDestroyed = true;
 			}
 		} else {
@@ -77,14 +74,70 @@ public class Item extends Character implements Destroyable {
 	}
 
 	public TextureRegion getTexture() {
-		return rollSpriteSheet[(int)Math.ceil((double)item/(double)3) - 1][(int)(item+2)%3];
+		return rollSpriteSheet[(int) Math.ceil((double) item / (double) 3) - 1][(int) (item + 2) % 3];
 	}
 
 	public boolean isDestroyed() {
 		return isDestroyed;
 	}
-	
+
 	private void addScore() {
-		
+		if (item == StoneAndGem.MINERAL_EARTHCRYSTAL.getId()) {
+			player.addScore(50);
+		} else if (item == StoneAndGem.MINERAL_CARROT.getId()) {
+			player.addHP(5);
+		} else if (item == StoneAndGem.MINERAL_PAGE.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_RING.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_BOOK.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_SPOON.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_GEAR1.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_JAR.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_FROZENTEAR.getId()) {
+			player.addScore(50);
+		} else if (item == StoneAndGem.MINERAL_BLADE.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_GEAR2.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_MASK.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_STONESLAB.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_RAINBOW.getId()) {
+			player.addScore(500);
+		} else if (item == StoneAndGem.MINERAL_COPPER1.getId()) {
+			player.addScore(10);
+		} else if (item == StoneAndGem.MINERAL_COPPER2.getId()) {
+			player.addScore(10);
+		} else if (item == StoneAndGem.MINERAL_SILVER1.getId()) {
+			player.addScore(15);
+		} else if (item == StoneAndGem.MINERAL_SILVER2.getId()) {
+			player.addScore(15);
+		} else if (item == StoneAndGem.MINERAL_GOLD1.getId()) {
+			player.addScore(20);
+		} else if (item == StoneAndGem.MINERAL_GOLD2.getId()) {
+			player.addScore(20);
+		} else if (item == StoneAndGem.MINERAL_IRIDIUM1.getId()) {
+			player.addScore(30);
+		} else if (item == StoneAndGem.MINERAL_IRIDIUM2.getId()) {
+			player.addScore(30);
+		} else if (item == StoneAndGem.MINERAL_DIAMOND.getId()) {
+			player.addScore(300);
+		} else if (item == StoneAndGem.MINERAL_RUBY.getId()) {
+			player.addScore(100);
+		} else if (item == StoneAndGem.MINERAL_JADE.getId()) {
+			player.addScore(70);
+		} else if (item == StoneAndGem.MINERAL_TOPAZ.getId()) {
+			player.addScore(70);
+		} else if (item == StoneAndGem.MINERAL_EMERALD.getId()) {
+			player.addScore(70);
+		} else if (item == StoneAndGem.MINERAL_AMETHYST.getId()) {
+			player.addScore(70);
+		}
 	}
 }
