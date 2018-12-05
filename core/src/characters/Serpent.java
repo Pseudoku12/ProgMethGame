@@ -75,7 +75,7 @@ public class Serpent extends Enemy {
 			if (ds < 5) {
 				player.addHP(-20);
 				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
-						(int) (player.getPosition().y + player.getRenderHeight() - 15), 20, 1));
+						(int) (player.getPosition().y + player.getRenderHeight() - 15), 20, 2, player));
 				if (player.hp <= 0) {
 					isPlayerDead = true;
 				}

@@ -10,6 +10,7 @@ import characters.MainCharacter;
 
 public class TiledGameMap extends GameMap{
 
+	private OrthographicCamera cam;
 	private MainCharacter mainCharacter;
 	TiledMap tiledMap;
 	OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -21,8 +22,8 @@ public class TiledGameMap extends GameMap{
 	}
 	
 	@Override
-	public void render(OrthographicCamera camera) {
-		tiledMapRenderer.setView(camera);
+	public void render() {
+		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
 	
 	}

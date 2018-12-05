@@ -3,6 +3,7 @@ package spawners;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gameprogmeth.game.world.StoneAndGem;
 
@@ -14,11 +15,13 @@ public class ItemSpawner {
 	private ArrayList<Integer> markForRemoved;
 	private MainCharacter player;
 	private int level;
+	private OrthographicCamera cam;
 
-	public ItemSpawner(MainCharacter player, int level) {
+	public ItemSpawner(MainCharacter player, int level, OrthographicCamera cam) {
 		itemList = new ArrayList<Item>();
 		this.player = player;
 		this.level = level;
+		this.cam = cam;
 	}
 
 	public void update(float dt) {
@@ -52,7 +55,7 @@ public class ItemSpawner {
 		int id = stone.getId();
 		Random random = new Random();
 		int canDrop = -1;
-		if(level < 10) {
+		if (level < 10) {
 			canDrop = random.nextInt(7250) + 1;
 		} else if (level < 20) {
 			canDrop = random.nextInt(8583) + 1;
@@ -119,7 +122,7 @@ public class ItemSpawner {
 		rowDrop = rol;
 		colDrop = col;
 		if (typeDrop != -1) {
-			itemList.add(new Item(colDrop * 16, rowDrop * 16, 100, typeDrop, player));
+			itemList.add(new Item(colDrop * 16, rowDrop * 16, 100, typeDrop, player, cam));
 		}
 	}
 }

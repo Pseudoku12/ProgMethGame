@@ -181,7 +181,7 @@ public class MainCharacter extends Character {
 				enemy.push(tempAngle);
 				enemy.setStateTime(0);
 				dmgEffList.add(new DamageEffect((int) (enemy.getPosition().x + (enemy.getRenderWidth() / 2)),
-						(int) (enemy.getPosition().y + enemy.getRenderHeight() + 10), damage, 0));
+						(int) (enemy.getPosition().y + enemy.getRenderHeight() + 10), damage, 1, enemy));
 				return -damage;
 			}
 		}

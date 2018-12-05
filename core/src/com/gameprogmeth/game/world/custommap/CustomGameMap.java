@@ -65,8 +65,9 @@ public class CustomGameMap extends GameMap {
 	private Sound stoneDestroyed;
 	private Music bgMusic;
 
-	public CustomGameMap(GameProgMeth game) {
+	public CustomGameMap(GameProgMeth game, OrthographicCamera cam) {
 		this.game = game;
+		this.cam = cam;
 
 		isDropValue = false;
 		level = 1;
@@ -85,10 +86,10 @@ public class CustomGameMap extends GameMap {
 
 		findStartPoint();
 
-		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 100);
+		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 80);
 		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
 		monsterSpawner.spawnMonster(1);
-		itemSpawner = new ItemSpawner(mainCharacter, 1);
+		itemSpawner = new ItemSpawner(mainCharacter, 1, cam);
 		nextSpawning = 5;
 
 		scoreText = "score: 0";
@@ -106,9 +107,8 @@ public class CustomGameMap extends GameMap {
 	}
 
 	@Override
-	public void render(OrthographicCamera camera) {
-		cam = camera;
-		batch.setProjectionMatrix(camera.combined);
+	public void render() {
+		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 
 		for (int layer = 1; layer < 4; layer++) {
@@ -133,11 +133,11 @@ public class CustomGameMap extends GameMap {
 		mainCharacter.render(batch);
 		itemSpawner.render(batch);
 		monsterSpawner.render(batch);
-		mainCharacter.renderEffect(batch);
 		batch.draw(scoreBox, cam.position.x - 157, cam.position.y - 80, scoreBox.getWidth() / 3,
 				scoreBox.getHeight() / 3);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(batch, scoreText, cam.position.x - 150, cam.position.y - 70);
+		mainCharacter.renderEffect(batch);
 		batch.end();
 	}
 
@@ -388,10 +388,10 @@ public class CustomGameMap extends GameMap {
 		findStartPoint();
 
 		GameProgMeth.score += mainCharacter.getScore();
-		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 100);
+		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 80);
 		monsterSpawner = new MonsterSpawner(mainCharacter, 200);
 		monsterSpawner.spawnMonster(level);
-		itemSpawner = new ItemSpawner(mainCharacter, level);
+		itemSpawner = new ItemSpawner(mainCharacter, level, cam);
 		nextSpawning = 5;
 
 		stateTime = 0;

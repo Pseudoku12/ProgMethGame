@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import effects.DamageEffect;
 
-public class Ghost extends Enemy {
+public class Bat extends Enemy {
 
 	private MainCharacter player;
 	private Sprite sprite;
@@ -17,7 +17,7 @@ public class Ghost extends Enemy {
 	private double prw;
 	private double prh;
 
-	public Ghost(int x, int y, MainCharacter player) {
+	public Bat(int x, int y, MainCharacter player) {
 		animationSpeed = 0.25f;
 		renderWidth = 16;
 		renderHeight = 24;
@@ -31,7 +31,7 @@ public class Ghost extends Enemy {
 		animation = new Animation[5];
 		roll = 2;
 
-		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("monster/Ghost.png"), widthPixel,
+		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("monster/Frost Bat.png"), widthPixel,
 				heightPixel);
 
 		for (int i = 0; i < 5; i++) {
@@ -76,7 +76,7 @@ public class Ghost extends Enemy {
 				player.addHP(-10);
 				player.slow();
 				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
-						(int) (player.getPosition().y + player.getRenderHeight() - 15), 10, 2, this));
+						(int) (player.getPosition().y + player.getRenderHeight() - 15), 10, 2, player));
 				if (player.hp <= 0) {
 					isPlayerDead = true;
 				}

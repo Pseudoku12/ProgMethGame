@@ -58,7 +58,7 @@ public class PlayScene implements Screen {
 
 	OrthographicCamera cam;
 	CustomGameMap gameMap;
-	
+
 	private ArrayList<String> hammerTypeIndex;
 
 	public PlayScene(GameProgMeth game) {
@@ -68,7 +68,7 @@ public class PlayScene implements Screen {
 		cam.setToOrtho(false, Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
 		cam.update();
 
-		gameMap = new CustomGameMap(this.game);
+		gameMap = new CustomGameMap(this.game, this.cam);
 
 		pauseBtn = new Texture("button/Pause.png");
 		playBtn = new Texture("button/Start.png");
@@ -80,23 +80,23 @@ public class PlayScene implements Screen {
 		pauseBg = new Texture("resource/PauseBg.png");
 
 		btnSound = Gdx.audio.newSound(Gdx.files.internal("music/Click.mp3"));
-		
+
 		isPauseState = false;
 		isStoreState = false;
 
 		healthBar = TextureRegion.split(new Texture("character/Stamina_Bar.png"), 122, 33);
 		hammers = TextureRegion.split(new Texture("character/Hammer.png"), 13, 14);
 		hammerType = 1;
-		
+
 		fontShop = new BitmapFont();
 		fontShop.getData().setScale(2f);
 		fontHammer = new BitmapFont();
 		fontHammer.getData().setScale(1f);
-		
+
 		shop = "Shop";
 		hammerLabel = "Copper Hammer";
 		hammerCost = "1000";
-		
+
 		hammerTypeIndex = new ArrayList<String>();
 		hammerTypeIndex.add("Copper");
 		hammerTypeIndex.add("Silver");
@@ -153,7 +153,7 @@ public class PlayScene implements Screen {
 		btnSound.dispose();
 		storeBtn.dispose();
 		backBtn.dispose();
-		
+
 	}
 
 	public void handleInput() {
@@ -165,7 +165,7 @@ public class PlayScene implements Screen {
 					gameMap.setPauseCounter(1);
 					return;
 				}
-				if(isOnStoreBtn()) {
+				if (isOnStoreBtn()) {
 					btnSound.play();
 					isStoreState = true;
 					gameMap.setPauseCounter(1);
@@ -173,7 +173,7 @@ public class PlayScene implements Screen {
 				}
 			}
 
-		} else if(isPauseState) {
+		} else if (isPauseState) {
 			if (Gdx.input.justTouched()) {
 				if (isOnStartBtn()) {
 					btnSound.play();
@@ -186,19 +186,20 @@ public class PlayScene implements Screen {
 					game.setGameOverScene(CustomGameMap.getMainCharacter().getScore());
 				}
 			}
-		} else if(isStoreState) {
-			if(Gdx.input.justTouched()) {
-				if(isOnBackBtn()) {
+		} else if (isStoreState) {
+			if (Gdx.input.justTouched()) {
+				if (isOnBackBtn()) {
 					btnSound.play();
 					isStoreState = false;
-				} else if(isOnExchangeBtn()) {
+				} else if (isOnExchangeBtn()) {
 					btnSound.play();
-					if(CustomGameMap.getMainCharacter().getScore() + GameProgMeth.score >= Integer.parseInt(hammerCost)) {
+					if (CustomGameMap.getMainCharacter().getScore() + GameProgMeth.score >= Integer
+							.parseInt(hammerCost)) {
 						hammerType++;
 						CustomGameMap.getMainCharacter().addScore(-Integer.parseInt(hammerCost));
 						CustomGameMap.getMainCharacter().setDamage(CustomGameMap.getMainCharacter().getDamage() + 1);
 						hammerLabel = hammerTypeIndex.get(hammerType - 1) + " Hammer";
-						hammerCost = Integer.toString(Integer.parseInt(hammerCost)*2);
+						hammerCost = Integer.toString(Integer.parseInt(hammerCost) * 2);
 					}
 				}
 			}
@@ -222,7 +223,7 @@ public class PlayScene implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (!isPauseState && !isStoreState) {
-			gameMap.render(cam);
+			gameMap.render();
 			cam.position.set(gameMap.getMainCharacterPosition().x + 31.5f, gameMap.getMainCharacterPosition().y + 31.5f,
 					0);
 			cam.update();
@@ -236,13 +237,13 @@ public class PlayScene implements Screen {
 					gameMap.getMainCharacterPosition().y + 31.5f + Gdx.graphics.getHeight() / 8 - 10
 							- pauseBtn.getHeight() / 8,
 					pauseBtn.getWidth() / 8, pauseBtn.getHeight() / 8);
-			sb.draw(storeBtn, gameMap.getMainCharacterPosition().x + 31.5f - Gdx.graphics.getWidth() / 8 + 10, 
+			sb.draw(storeBtn, gameMap.getMainCharacterPosition().x + 31.5f - Gdx.graphics.getWidth() / 8 + 10,
 					gameMap.getMainCharacterPosition().y + 31.5f + Gdx.graphics.getHeight() / 8 - 10
 							- storeBtn.getHeight() / 8,
 					storeBtn.getWidth() / 8, storeBtn.getHeight() / 8);
 			sb.end();
-		} else if (isPauseState){
-			gameMap.render(cam);
+		} else if (isPauseState) {
+			gameMap.render();
 			sb.begin();
 			sb.draw(pauseBg, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8,
 					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8, GameProgMeth.WIDTH / 4,
@@ -257,73 +258,74 @@ public class PlayScene implements Screen {
 					menuBtn.getHeight() / 4);
 			sb.end();
 		} else if (isStoreState) {
-			gameMap.render(cam);
+			gameMap.render();
 			sb.begin();
 			sb.draw(pauseBg, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8,
 					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8, GameProgMeth.WIDTH / 4,
 					GameProgMeth.HEIGHT / 4);
-			sb.draw(pauseTextBox, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8 + 16, 
+			sb.draw(pauseTextBox, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8 + 16,
 					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8 + 54,
-					(pauseTextBox.getWidth()*3)/2, (pauseTextBox.getHeight()*3)/2);
+					(pauseTextBox.getWidth() * 3) / 2, (pauseTextBox.getHeight() * 3) / 2);
 			sb.draw(hammers[0][hammerType], gameMap.getMainCharacterPosition().x + 31.5f - 110,
 					gameMap.getMainCharacterPosition().y + 31.5f - 20, 39, 42);
 			sb.draw(backBtn, gameMap.getMainCharacterPosition().x + 31.5f - GameProgMeth.WIDTH / 8 + 10,
-					gameMap.getMainCharacterPosition().y + 31.5f + GameProgMeth.HEIGHT / 8 - 10 - backBtn.getHeight()/8, 
-					backBtn.getWidth()/8, backBtn.getHeight()/8);
-			sb.draw(exchangeBtn, gameMap.getMainCharacterPosition().x + 31.5f + GameProgMeth.WIDTH/8 - 10 - exchangeBtn.getWidth()/8, 
-					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT/8 + 10,
-					exchangeBtn.getWidth()/8, exchangeBtn.getHeight()/8);
-			
-			fontShop.setColor(1.0f,1.0f,1.0f,1.0f);
-			fontShop.draw(sb, shop, gameMap.getMainCharacterPosition().x + 31.5f - 30, gameMap.getMainCharacterPosition().y + 31.5f + 70);
-			
-			fontHammer.setColor(1.0f,1.0f,1.0f,1.0f);
-			fontHammer.draw(sb, hammerLabel, gameMap.getMainCharacterPosition().x + 31.5f - 60, gameMap.getMainCharacterPosition().y + 31.5f + 5 );
-			fontHammer.draw(sb, hammerCost, gameMap.getMainCharacterPosition().x + 31.5f + 70, gameMap.getMainCharacterPosition().y + 31.5f + 5 );
+					gameMap.getMainCharacterPosition().y + 31.5f + GameProgMeth.HEIGHT / 8 - 10
+							- backBtn.getHeight() / 8,
+					backBtn.getWidth() / 8, backBtn.getHeight() / 8);
+			sb.draw(exchangeBtn,
+					gameMap.getMainCharacterPosition().x + 31.5f + GameProgMeth.WIDTH / 8 - 10
+							- exchangeBtn.getWidth() / 8,
+					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT / 8 + 10,
+					exchangeBtn.getWidth() / 8, exchangeBtn.getHeight() / 8);
+
+			fontShop.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			fontShop.draw(sb, shop, gameMap.getMainCharacterPosition().x + 31.5f - 30,
+					gameMap.getMainCharacterPosition().y + 31.5f + 70);
+
+			fontHammer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			fontHammer.draw(sb, hammerLabel, gameMap.getMainCharacterPosition().x + 31.5f - 60,
+					gameMap.getMainCharacterPosition().y + 31.5f + 5);
+			fontHammer.draw(sb, hammerCost, gameMap.getMainCharacterPosition().x + 31.5f + 70,
+					gameMap.getMainCharacterPosition().y + 31.5f + 5);
 			sb.end();
 		}
 
 	}
 
 	public boolean isOnPauseBtn() {
-		return  GameProgMeth.WIDTH - 40 - pauseBtn.getWidth() / 2 <= Gdx.input.getX()
-				&& GameProgMeth.WIDTH - 40 >= Gdx.input.getX() 
-				&& 40 <= Gdx.input.getY()
+		return GameProgMeth.WIDTH - 40 - pauseBtn.getWidth() / 2 <= Gdx.input.getX()
+				&& GameProgMeth.WIDTH - 40 >= Gdx.input.getX() && 40 <= Gdx.input.getY()
 				&& 40 + pauseBtn.getHeight() / 2 >= Gdx.input.getY();
 	}
 
 	public boolean isOnStartBtn() {
-		return  GameProgMeth.WIDTH / 2 - 24 - playBtn.getWidth() <= Gdx.input.getX()
+		return GameProgMeth.WIDTH / 2 - 24 - playBtn.getWidth() <= Gdx.input.getX()
 				&& GameProgMeth.WIDTH / 2 - 24 >= Gdx.input.getX()
 				&& GameProgMeth.HEIGHT / 2 - playBtn.getHeight() / 2 <= Gdx.input.getY()
 				&& GameProgMeth.HEIGHT / 2 + playBtn.getHeight() / 2 >= Gdx.input.getY();
 	}
 
 	public boolean isOnMenuBtn() {
-		return  GameProgMeth.WIDTH / 2 + 24 <= Gdx.input.getX()
+		return GameProgMeth.WIDTH / 2 + 24 <= Gdx.input.getX()
 				&& GameProgMeth.WIDTH / 2 + 24 + menuBtn.getWidth() >= Gdx.input.getX()
 				&& GameProgMeth.HEIGHT / 2 - menuBtn.getHeight() / 2 <= Gdx.input.getY()
 				&& GameProgMeth.HEIGHT / 2 + menuBtn.getHeight() / 2 >= Gdx.input.getY();
 	}
-	
+
 	public boolean isOnStoreBtn() {
-		return  40 <= Gdx.input.getX()
-				&& 40 + storeBtn.getWidth()/2 >= Gdx.input.getX() 
-				&& 40 <= Gdx.input.getY()
+		return 40 <= Gdx.input.getX() && 40 + storeBtn.getWidth() / 2 >= Gdx.input.getX() && 40 <= Gdx.input.getY()
 				&& 40 + storeBtn.getHeight() / 2 >= Gdx.input.getY();
 	}
-	
+
 	public boolean isOnBackBtn() {
-		return  40 <= Gdx.input.getX()
-				&& 40 + backBtn.getWidth()/2 >= Gdx.input.getX() 
-				&& 40 <= Gdx.input.getY()
+		return 40 <= Gdx.input.getX() && 40 + backBtn.getWidth() / 2 >= Gdx.input.getX() && 40 <= Gdx.input.getY()
 				&& 40 + backBtn.getHeight() / 2 >= Gdx.input.getY();
 	}
-	
+
 	public boolean isOnExchangeBtn() {
-		return 	GameProgMeth.WIDTH - 40 - exchangeBtn.getWidth() / 2 <= Gdx.input.getX()
+		return GameProgMeth.WIDTH - 40 - exchangeBtn.getWidth() / 2 <= Gdx.input.getX()
 				&& GameProgMeth.WIDTH - 40 >= Gdx.input.getX()
-				&& GameProgMeth.HEIGHT - 40 - exchangeBtn.getHeight()/2 <= Gdx.input.getY()
+				&& GameProgMeth.HEIGHT - 40 - exchangeBtn.getHeight() / 2 <= Gdx.input.getY()
 				&& GameProgMeth.HEIGHT - 40 >= Gdx.input.getY();
 	}
 }
