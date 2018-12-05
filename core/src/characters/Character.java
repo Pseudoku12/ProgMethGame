@@ -85,25 +85,25 @@ public abstract class Character {
 	public Animation<TextureRegion> getAnimation() {
 		return animation[roll];
 	}
-	
+
 	public void update(float dt) {
 		velocity.scl(dt);
 		position.add(velocity.x, velocity.y);
-		
-		if(position.x < 0) {
+
+		if (position.x < 0) {
 			position.x = 0;
 		}
-		if(position.y < 0) {
+		if (position.y < 0) {
 			position.y = 0;
 		}
-		
-		velocity.scl(1/dt);
+
+		velocity.scl(1 / dt);
 	}
-	
+
 	public int getHP() {
 		return this.hp;
 	}
-	
+
 	public void addHP(int hp) {
 		this.hp += hp;
 	}
