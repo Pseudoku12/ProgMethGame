@@ -66,6 +66,8 @@ public class CustomGameMap extends GameMap {
 
 	private Sound stoneDestroyed;
 	private Sound walkSound;
+	private Sound hitGround;
+	private Sound stoneNotDestroyed;
 	private Music bgMusic;
 
 	private boolean isWalkSoundPlay;
@@ -109,6 +111,8 @@ public class CustomGameMap extends GameMap {
 
 		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/StoneDestroyed.mp3"));
 		walkSound = Gdx.audio.newSound(Gdx.files.internal("music/WalkSound.mp3"));
+		hitGround = Gdx.audio.newSound(Gdx.files.internal("music/HitGround.wav"));
+		stoneNotDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/HitStoneNotDestroyed.wav"));
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Under_Cover.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
@@ -291,6 +295,8 @@ public class CustomGameMap extends GameMap {
 										destroyStone(col, row, 100);
 									}
 								}, mainCharacter.getAnimationSpeed() * 2);
+							} else {
+								stoneNotDestroyed.play();
 							}
 						}
 					}, mainCharacter.getAnimationSpeed() * 2);
@@ -303,6 +309,12 @@ public class CustomGameMap extends GameMap {
 
 				}
 
+			} else {
+				Timer.schedule(new Task() {
+					public void run() {
+						hitGround.play();
+					}
+				}, mainCharacter.getAnimationSpeed() * 2);
 			}
 			Timer.schedule(new Task() {
 				public void run() {
@@ -318,6 +330,9 @@ public class CustomGameMap extends GameMap {
 	public void dispose() {
 		bgMusic.dispose();
 		walkSound.dispose();
+		hitGround.dispose();
+		stoneDestroyed.dispose();
+		stoneNotDestroyed.dispose();
 		batch.dispose();
 	}
 
