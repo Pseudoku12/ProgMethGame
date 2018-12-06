@@ -65,15 +65,17 @@ public class CustomGameMap extends GameMap {
 	private BitmapFont font;
 
 	private Sound stoneDestroyed;
-//	private Sound walkSound;
+	private Sound walkSound;
 	private Music bgMusic;
 
+	private boolean isWalkSoundPlay;
+	
 	public CustomGameMap(GameProgMeth game, OrthographicCamera cam) {
 		this.game = game;
 		this.cam = cam;
 
 		isDropValue = false;
-		level = 11;
+		level = 1;
 		levelToNewName = 5;
 		getNameMap();
 		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, name);
@@ -106,7 +108,7 @@ public class CustomGameMap extends GameMap {
 		pauseCounter = 0;
 
 		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/StoneDestroyed.mp3"));
-//		walkSound = Gdx.audio.newSound(Gdx.files.internal("music/WalkSound.mp3"));
+		walkSound = Gdx.audio.newSound(Gdx.files.internal("music/WalkSound.mp3"));
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Under_Cover.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
@@ -200,25 +202,41 @@ public class CustomGameMap extends GameMap {
 				|| mainCharacter.getRoll() < 4) {
 			if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
 				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
-//				walkSound.play();
+				if(!isWalkSoundPlay) {
+					isWalkSoundPlay = true;
+					walkSound.loop();
+				}
 				mainCharacter.setRoll(3);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 				mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
-//				walkSound.play();
+				if(!isWalkSoundPlay) {
+					isWalkSoundPlay = true;
+					walkSound.loop();
+				}
 				mainCharacter.setRoll(1);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 				mainCharacter.setVelocity(0, -mainCharacter.getSpeed());
-//				walkSound.play();
+				if(!isWalkSoundPlay) {
+					isWalkSoundPlay = true;
+					walkSound.loop();
+				}
 				mainCharacter.setRoll(0);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 				mainCharacter.setVelocity(mainCharacter.getSpeed(), 0);
-//				walkSound.play();
+				if(!isWalkSoundPlay) {
+					isWalkSoundPlay = true;
+					walkSound.loop();
+				}
 				mainCharacter.setRoll(2);
 			} else {
 				mainCharacter.setVelocity(0, 0);
+				walkSound.stop();
+				isWalkSoundPlay = false;
 			}
 		} else {
 			mainCharacter.setVelocity(0, 0);
+			walkSound.stop();
+			isWalkSoundPlay = false;
 		}
 		if ((Gdx.input.justTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE))
 				&& ((mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
@@ -299,6 +317,7 @@ public class CustomGameMap extends GameMap {
 	@Override
 	public void dispose() {
 		bgMusic.dispose();
+		walkSound.dispose();
 		batch.dispose();
 	}
 
