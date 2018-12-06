@@ -31,8 +31,7 @@ public class CustomGameMapLoader {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("Alert : System has error!!!");
-			return new CustomGameMapData();
+			return generateRandomMap (id, name);
 		}
 		
 	}

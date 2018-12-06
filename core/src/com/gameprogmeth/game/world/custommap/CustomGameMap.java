@@ -100,7 +100,7 @@ public class CustomGameMap extends GameMap {
 		font = new BitmapFont();
 
 		font.getData().setScale(0.5f);
-		scoreBox = new Texture("resource/textBox.png");
+		scoreBox = new Texture("resource/TextBox.png");
 
 		pauseCounter = 0;
 
@@ -245,7 +245,9 @@ public class CustomGameMap extends GameMap {
 
 			if (stone != null) {
 
-				if (stone.getId() == StoneAndGem.LADDER_GROUND.getId()) {
+				if (stone.getId() == StoneAndGem.LADDER_GROUND.getId() || 
+					stone.getId() == StoneAndGem.LADDER_ICE.getId() ||
+					stone.getId() == StoneAndGem.LADDER_LAVA.getId()) {
 
 					destroyLadder(col, row);
 					toNextLevel();
