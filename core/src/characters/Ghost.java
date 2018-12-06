@@ -1,5 +1,7 @@
 package characters;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -16,6 +18,8 @@ public class Ghost extends Enemy {
 	private boolean isPlayerDead;
 	private double prw;
 	private double prh;
+	private Sound ghostSound;
+	private boolean isPlaySound;
 
 	public Ghost(int x, int y, MainCharacter player, int hp) {
 		animationSpeed = 0.25f;
@@ -45,6 +49,8 @@ public class Ghost extends Enemy {
 		isPlayerDead = false;
 
 		this.hp = maxHp = hp;
+		ghostSound = Gdx.audio.newSound(Gdx.files.internal("music/GhostSound.mp3"));
+		isPlaySound = false;
 	}
 
 	double dx;
@@ -93,6 +99,10 @@ public class Ghost extends Enemy {
 			}
 		} else {
 			roll = 4;
+			if(!isPlaySound) {
+				ghostSound.play();
+				isPlaySound = true;
+			}
 			if (getAnimation().isAnimationFinished(stateTime)) {
 				isDestroyed = true;
 			}
