@@ -1,5 +1,7 @@
 package characters;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -16,6 +18,8 @@ public class Bat extends Enemy {
 	private boolean isPlayerDead;
 	private double prw;
 	private double prh;
+	private Sound batSound;
+	private boolean isSoundPlayed;
 
 	public Bat(int x, int y, MainCharacter player, int hp) {
 		animationSpeed = 0.15f;
@@ -45,6 +49,8 @@ public class Bat extends Enemy {
 		isPlayerDead = false;
 
 		this.hp = maxHp = hp;
+		batSound = Gdx.audio.newSound(Gdx.files.internal("music/BatSound.mp3"));
+		isSoundPlayed = false;
 	}
 
 	double dx;
@@ -84,6 +90,10 @@ public class Bat extends Enemy {
 			}
 		} else {
 			roll = 2;
+			if(!isSoundPlayed) {
+				batSound.play();
+				isSoundPlayed = true;
+			}
 			if (getAnimation().isAnimationFinished(stateTime)) {
 				isDestroyed = true;
 			}

@@ -1,5 +1,7 @@
 package characters;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -16,6 +18,8 @@ public class Serpent extends Enemy {
 	private boolean isPlayerDead;
 	private double prw;
 	private double prh;
+	private Sound serpantSound;
+	private boolean isSoundPlayed; 
 
 	public Serpent(int x, int y, MainCharacter player, int hp) {
 		animationSpeed = 0.15f;
@@ -45,6 +49,8 @@ public class Serpent extends Enemy {
 		isPlayerDead = false;
 
 		this.hp = maxHp = hp;
+		serpantSound = Gdx.audio.newSound(Gdx.files.internal("music/SerpantSound.mp3"));
+		isSoundPlayed = false;
 	}
 
 	double dx;
@@ -83,6 +89,10 @@ public class Serpent extends Enemy {
 			}
 		} else {
 			roll = 1;
+			if(!isSoundPlayed) {
+				serpantSound.play();
+				isSoundPlayed = true;
+			}
 			if (getAnimation().isAnimationFinished(stateTime)) {
 				isDestroyed = true;
 			}

@@ -19,7 +19,7 @@ public class Ghost extends Enemy {
 	private double prw;
 	private double prh;
 	private Sound ghostSound;
-	private boolean isPlaySound;
+	private boolean isSoundPlayed;
 
 	public Ghost(int x, int y, MainCharacter player, int hp) {
 		animationSpeed = 0.25f;
@@ -50,7 +50,7 @@ public class Ghost extends Enemy {
 
 		this.hp = maxHp = hp;
 		ghostSound = Gdx.audio.newSound(Gdx.files.internal("music/GhostSound.mp3"));
-		isPlaySound = false;
+		isSoundPlayed = false;
 	}
 
 	double dx;
@@ -99,9 +99,9 @@ public class Ghost extends Enemy {
 			}
 		} else {
 			roll = 4;
-			if(!isPlaySound) {
+			if(!isSoundPlayed) {
 				ghostSound.play();
-				isPlaySound = true;
+				isSoundPlayed = true;
 			}
 			if (getAnimation().isAnimationFinished(stateTime)) {
 				isDestroyed = true;
