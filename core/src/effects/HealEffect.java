@@ -3,6 +3,7 @@ package effects;
 import java.awt.Transparency;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -21,15 +22,13 @@ public class HealEffect extends Effect{
 	private float renderHeight;
 	private int widthPixel;
 	private int heightPixel;
-
 	private Vector2 pos;
 	private Vector2 staticPos;
 	private Vector2 velocity;
-
 	private float transparency;
 	private float fadingSpeed;
-
 	private Sprite sprite;
+	private Sound healSound;
 
 	public HealEffect(MainCharacter player) {
 		renderWidth = 8;
@@ -45,6 +44,8 @@ public class HealEffect extends Effect{
 		velocity = new Vector2(0, 10);
 		transparency = 1.0f;
 		fadingSpeed = 0.025f;
+		healSound = Gdx.audio.newSound(Gdx.files.internal("music/HealSound.mp3"));
+		healSound.play();
 	}
 
 	public void render(SpriteBatch batch) {

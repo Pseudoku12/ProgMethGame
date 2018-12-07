@@ -6,6 +6,7 @@ import javax.swing.text.Position;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -32,6 +33,7 @@ public class MainCharacter extends Character {
 	private float slowCounter;
 	private float bleedCounter;
 	private float hitTime;
+	private Sound damageSound;
 
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.1f;
@@ -71,6 +73,7 @@ public class MainCharacter extends Character {
 		damage = 1;
 		slowCounter = 0;
 		bleedCounter = 0;
+		damageSound = Gdx.audio.newSound(Gdx.files.internal("music/DamageSound.mp3"));
 	}
 
 	public void addScore(int score) {
@@ -237,5 +240,11 @@ public class MainCharacter extends Character {
 	public void bleed() {
 		bleedCounter = 4.1f;
 		hitTime = 1;
+	}
+	
+	@Override
+	public void addHP(int hp) {
+		super.addHP(hp);
+		if(hp < 0)	damageSound.play();
 	}
 }

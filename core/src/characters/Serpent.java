@@ -19,7 +19,6 @@ public class Serpent extends Enemy {
 	private double prw;
 	private double prh;
 	private Sound serpantSound;
-	private Sound damageSound;
 	private boolean isSoundPlayed; 
 
 	public Serpent(int x, int y, MainCharacter player, int hp) {
@@ -51,7 +50,6 @@ public class Serpent extends Enemy {
 
 		this.hp = maxHp = hp;
 		serpantSound = Gdx.audio.newSound(Gdx.files.internal("music/SerpantSound.mp3"));
-		damageSound = Gdx.audio.newSound(Gdx.files.internal("music/DamageSound.mp3"));
 		isSoundPlayed = false;
 	}
 
@@ -82,7 +80,6 @@ public class Serpent extends Enemy {
 			velocity.scl(1 / dt);
 			if (ds < 5) {
 				player.addHP(-20);
-				damageSound.play();
 				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
 						(int) (player.getPosition().y + player.getRenderHeight() - 15), 20, 2, player));
 				if (player.hp <= 0) {

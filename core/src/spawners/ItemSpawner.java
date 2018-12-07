@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gameprogmeth.game.world.StoneAndGem;
@@ -18,14 +17,13 @@ public class ItemSpawner {
 	private MainCharacter player;
 	private int level;
 	private OrthographicCamera cam;
-	private Sound pickUpSound;
 
 	public ItemSpawner(MainCharacter player, int level, OrthographicCamera cam) {
 		itemList = new ArrayList<Item>();
 		this.player = player;
 		this.level = level;
 		this.cam = cam;
-		pickUpSound = Gdx.audio.newSound(Gdx.files.internal("music/PickUpSound.mp3"));
+		
 	}
 
 	public void update(float dt) {
@@ -40,7 +38,6 @@ public class ItemSpawner {
 		}
 		for (int i = markForRemoved.size() - 1; i >= 0; i--) {
 			itemList.remove(itemList.get(markForRemoved.get(i)));
-			pickUpSound.play();
 			System.out.println(player.getScore());
 		}
 	}
