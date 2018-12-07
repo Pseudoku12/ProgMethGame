@@ -253,60 +253,6 @@ public class CustomGameMap extends GameMap {
 			mainCharacter.setVelocity(0, 0);
 			mainCharacter.setStateTime(0);
 			mainCharacter.setRoll(mainCharacter.getRoll() + 4);
-<<<<<<< HEAD
-=======
-			final StoneAndGem stone = getStoneAndGemByLocation(2, pos.x, pos.y);
-
-			final int col = changeXToCol(pos.x);
-			final int row = changeYToRow(pos.y);
-			final int tempHP = getStoneAndGemHealth(col, row);
-
-			if (stone != null) {
-
-				if (stone.getId() == StoneAndGem.LADDER_GROUND.getId() || 
-					stone.getId() == StoneAndGem.LADDER_ICE.getId() ||
-					stone.getId() == StoneAndGem.LADDER_LAVA.getId()) {
-
-					destroyLadder(col, row);
-					toNextLevel();
-					System.out.println("next level");
-
-				} else {
-
-					Timer.schedule(new Task() {
-						public void run() {
-							setStoneAndGemHealth(col, row, tempHP - mainCharacter.getDamage());
-							if (getStoneAndGemHealth(col, row) <= 0) {
-								destroyStone(col, row, stone.getDestroy());
-								stoneDestroyed.play();
-								itemSpawner.dropValueable(col * 16, row * 16);
-								Timer.schedule(new Task() {
-									public void run() {
-										destroyStone(col, row, 100);
-									}
-								}, mainCharacter.getAnimationSpeed() * 2);
-							} else {
-								stoneNotDestroyed.play();
-							}
-						}
-					}, mainCharacter.getAnimationSpeed() * 2);
-
-					Timer.schedule(new Task() {
-						public void run() {
-							checkLadder(col, row);
-						}
-					}, mainCharacter.getAnimationSpeed() * 2);
-
-				}
-
-			} else {
-				Timer.schedule(new Task() {
-					public void run() {
-						hitGround.play();
-					}
-				}, mainCharacter.getAnimationSpeed() * 2);
-			}
->>>>>>> d5d58d4ee21a4721b6cc692577e85344dd619622
 			Timer.schedule(new Task() {
 				public void run() {
 					checkAttack();
