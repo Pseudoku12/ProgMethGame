@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import characters.Destroyable;
 import characters.MainCharacter;
 
-public class DamageEffect implements Destroyable {
+public class DamageEffect extends Effect{
 	private String damage;
 	private BitmapFont font;
 	private Vector2 pos;
@@ -16,7 +16,6 @@ public class DamageEffect implements Destroyable {
 	private Vector2 velocity;
 	private float fadingSpeed;
 	private float transparency;
-	private boolean isDestroyed;
 	private boolean isAttach;
 	private int color;
 	private characters.Character character;
@@ -69,11 +68,6 @@ public class DamageEffect implements Destroyable {
 			transparency = 0;
 			isDestroyed = true;
 		}
-	}
-
-	@Override
-	public boolean isDestroyed() {
-		return isDestroyed;
 	}
 
 	public void setAttachToCharacter(boolean isAttach) {

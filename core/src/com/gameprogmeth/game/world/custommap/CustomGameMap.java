@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -121,6 +122,8 @@ public class CustomGameMap extends GameMap {
 	@Override
 	public void render() {
 		batch.setProjectionMatrix(cam.combined);
+		batch.enableBlending();
+		batch.setBlendFunction(Gdx.gl20.GL_SRC_ALPHA, Gdx.gl20.GL_ONE_MINUS_SRC_ALPHA);
 		batch.begin();
 
 		for (int layer = 1; layer < 3; layer++) {
@@ -151,6 +154,7 @@ public class CustomGameMap extends GameMap {
 		font.draw(batch, scoreText, cam.position.x - 150, cam.position.y - 70);
 		mainCharacter.renderEffect(batch);
 		batch.end();
+		batch.disableBlending();
 	}
 
 	@Override
@@ -248,77 +252,10 @@ public class CustomGameMap extends GameMap {
 				&& pauseCounter <= 0) {
 			mainCharacter.setVelocity(0, 0);
 			mainCharacter.setStateTime(0);
-
-			final Vector2 pos = new Vector2();
-
-			if (mainCharacter.getRoll() == 0) {
-				pos.x = (float) (mainCharacter.getPosition().x + 31.5);
-				pos.y = (float) (mainCharacter.getPosition().y + 27 - 5);
-			} else if (mainCharacter.getRoll() == 1) {
-				pos.x = (float) (mainCharacter.getPosition().x + 25 - 5);
-				pos.y = (float) (mainCharacter.getPosition().y + 31.5);
-			} else if (mainCharacter.getRoll() == 2) {
-				pos.x = (float) (mainCharacter.getPosition().x + 36.5 + 5);
-				pos.y = (float) (mainCharacter.getPosition().y + 31.5);
-			} else if (mainCharacter.getRoll() == 3) {
-				pos.x = (float) (mainCharacter.getPosition().x + 31.5);
-				pos.y = (float) (mainCharacter.getPosition().y + 37.5 + 5);
-			}
 			mainCharacter.setRoll(mainCharacter.getRoll() + 4);
-			final StoneAndGem stone = getStoneAndGemByLocation(2, pos.x, pos.y);
-
-			final int col = changeXToCol(pos.x);
-			final int row = changeYToRow(pos.y);
-			final int tempHP = getStoneAndGemHealth(col, row);
-
-			if (stone != null) {
-
-				if (stone.getId() == StoneAndGem.LADDER_GROUND.getId() || 
-					stone.getId() == StoneAndGem.LADDER_ICE.getId() ||
-					stone.getId() == StoneAndGem.LADDER_LAVA.getId()) {
-
-					destroyLadder(col, row);
-					toNextLevel();
-					System.out.println("next level");
-
-				} else {
-
-					Timer.schedule(new Task() {
-						public void run() {
-							setStoneAndGemHealth(col, row, tempHP - mainCharacter.getDamage());
-							if (getStoneAndGemHealth(col, row) <= 0) {
-								destroyStone(col, row, stone.getDestroy());
-								stoneDestroyed.play();
-								itemSpawner.dropValueable(col * 16, row * 16);
-								Timer.schedule(new Task() {
-									public void run() {
-										destroyStone(col, row, 100);
-									}
-								}, mainCharacter.getAnimationSpeed() * 2);
-							} else {
-								stoneNotDestroyed.play();
-							}
-						}
-					}, mainCharacter.getAnimationSpeed() * 2);
-
-					Timer.schedule(new Task() {
-						public void run() {
-							checkLadder(col, row);
-						}
-					}, mainCharacter.getAnimationSpeed() * 2);
-
-				}
-
-			} else {
-				Timer.schedule(new Task() {
-					public void run() {
-						hitGround.play();
-					}
-				}, mainCharacter.getAnimationSpeed() * 2);
-			}
 			Timer.schedule(new Task() {
 				public void run() {
-					monsterSpawner.checkAttack();
+					checkAttack();
 				}
 			}, mainCharacter.getAnimationSpeed() * 2);
 		} else {
@@ -497,5 +434,61 @@ public class CustomGameMap extends GameMap {
 
 	public void updateScore() {
 		scoreText = "score: " + (GameProgMeth.score + mainCharacter.getScore());
+	}
+
+	public void checkAttack() {
+
+		final Vector2 pos = new Vector2();
+		if (mainCharacter.getRoll() == 4) {
+			pos.x = (float) (mainCharacter.getPosition().x + 31.5);
+			pos.y = (float) (mainCharacter.getPosition().y + 27 - 5);
+		} else if (mainCharacter.getRoll() == 5) {
+			pos.x = (float) (mainCharacter.getPosition().x + 25 - 5);
+			pos.y = (float) (mainCharacter.getPosition().y + 31.5);
+		} else if (mainCharacter.getRoll() == 6) {
+			pos.x = (float) (mainCharacter.getPosition().x + 36.5 + 5);
+			pos.y = (float) (mainCharacter.getPosition().y + 31.5);
+		} else if (mainCharacter.getRoll() == 7) {
+			pos.x = (float) (mainCharacter.getPosition().x + 31.5);
+			pos.y = (float) (mainCharacter.getPosition().y + 37.5 + 5);
+		}
+
+		final StoneAndGem stone = getStoneAndGemByLocation(2, pos.x, pos.y);
+
+		final int col = changeXToCol(pos.x);
+		final int row = changeYToRow(pos.y);
+		final int tempHP = getStoneAndGemHealth(col, row);
+
+		if (stone != null) {
+
+			if (stone.getId() == StoneAndGem.LADDER_GROUND.getId()) {
+
+				destroyLadder(col, row);
+				toNextLevel();
+				System.out.println("next level");
+
+			} else {
+
+				setStoneAndGemHealth(col, row, tempHP - mainCharacter.getDamage());
+				if (getStoneAndGemHealth(col, row) <= 0) {
+					destroyStone(col, row, stone.getDestroy());
+					stoneDestroyed.play();
+					itemSpawner.dropValueable(col * 16, row * 16);
+					Timer.schedule(new Task() {
+						public void run() {
+							destroyStone(col, row, 100);
+						}
+					}, mainCharacter.getAnimationSpeed() * 2);
+				} else {
+					stoneNotDestroyed.play();
+				}
+			}
+
+			checkLadder(col, row);
+
+		} else {
+			hitGround.play();
+		}
+		monsterSpawner.checkAttack();
 	}
 }

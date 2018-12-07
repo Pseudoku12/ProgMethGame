@@ -102,7 +102,7 @@ public class PlayScene implements Screen {
 
 		shop = "Shop";
 		hammerLabel = "Copper Hammer";
-		hammerCost = "1000";
+		hammerCost = "500";
 		potionLabel = "Potion";
 		potionCost = "300";
 		
@@ -208,7 +208,7 @@ public class PlayScene implements Screen {
 							CustomGameMap.getMainCharacter().addScore(-Integer.parseInt(hammerCost));
 							CustomGameMap.getMainCharacter().setDamage(CustomGameMap.getMainCharacter().getDamage() + 1);
 							hammerLabel = hammerTypeIndex.get(hammerType - 1) + " Hammer";
-							hammerCost = Integer.toString(Integer.parseInt(hammerCost)*2);
+							hammerCost = Integer.toString(Integer.parseInt(hammerCost)+500);
 						}
 					} else {
 						if(CustomGameMap.getMainCharacter().getHP() < 100) {

@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.gameprogmeth.game.GameProgMeth;
 
 import effects.DamageEffect;
+import effects.Effect;
+import effects.HealEffect;
 
 public class MainCharacter extends Character {
 
@@ -24,13 +26,13 @@ public class MainCharacter extends Character {
 	private int damage;
 	public boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
 	public Animation<TextureRegion>[] idleAnimation;
-	private ArrayList<DamageEffect> dmgEffList;
+	private ArrayList<Effect> effList;
 	private ArrayList<Integer> markForRemoved;
 
 	private float slowCounter;
 	private float bleedCounter;
 	private float hitTime;
-	
+
 	public MainCharacter(int x, int y, int speed) {
 		animationSpeed = 0.1f;
 		renderWidth = 63;
@@ -62,7 +64,7 @@ public class MainCharacter extends Character {
 			idleAnimation[i] = new Animation<TextureRegion>(0, IdleSpriteSheet[i]);
 		}
 
-		dmgEffList = new ArrayList<DamageEffect>();
+		effList = new ArrayList<Effect>();
 
 		score = 0;
 		hp = maxHp = 100;
@@ -103,7 +105,7 @@ public class MainCharacter extends Character {
 			animationSpeed = 0.1f;
 		}
 		if (bleedCounter > 0) {
-			if(hitTime <= 0) {
+			if (hitTime <= 0) {
 				this.addHP(-3);
 				this.addEffect(new DamageEffect((int) (this.getPosition().x + (this.getRenderWidth() / 2) - 2),
 						(int) (this.getPosition().y + this.getRenderHeight() - 15), 3, 2, this));
@@ -136,16 +138,16 @@ public class MainCharacter extends Character {
 
 		velocity.scl(1 / dt);
 		markForRemoved = new ArrayList<Integer>();
-		for (int i = 0; i < dmgEffList.size(); i++) {
-			if (dmgEffList.get(i) != null) {
-				dmgEffList.get(i).update(dt);
-				if (dmgEffList.get(i).isDestroyed()) {
+		for (int i = 0; i < effList.size(); i++) {
+			if (effList.get(i) != null) {
+				effList.get(i).update(dt);
+				if (effList.get(i).isDestroyed()) {
 					markForRemoved.add(i);
 				}
 			}
 		}
 		for (int i = markForRemoved.size() - 1; i >= 0; i--) {
-			dmgEffList.remove(dmgEffList.get(markForRemoved.get(i)));
+			effList.remove(effList.get(markForRemoved.get(i)));
 		}
 	}
 
@@ -164,13 +166,13 @@ public class MainCharacter extends Character {
 	}
 
 	public void renderEffect(SpriteBatch batch) {
-		for (DamageEffect dmgEff : dmgEffList) {
-			if (dmgEff != null) {
-				dmgEff.render(batch);
+		for (Effect eff : effList) {
+			if (eff != null) {
+				eff.render(batch);
 			}
 		}
 	}
-	
+
 	public Animation<TextureRegion> getIdleAnimation() {
 		return idleAnimation[roll];
 	}
@@ -193,7 +195,7 @@ public class MainCharacter extends Character {
 					|| (roll == 7 && 90 - sweptAngle < tempAngle && tempAngle < 90 + sweptAngle)) {
 				enemy.push(tempAngle);
 				enemy.setStateTime(0);
-				dmgEffList.add(new DamageEffect((int) (enemy.getPosition().x + (enemy.getRenderWidth() / 2)),
+				effList.add(new DamageEffect((int) (enemy.getPosition().x + (enemy.getRenderWidth() / 2)),
 						(int) (enemy.getPosition().y + enemy.getRenderHeight() + 10), damage, 1, enemy));
 				return -damage;
 			}
@@ -213,11 +215,11 @@ public class MainCharacter extends Character {
 	public void slow() {
 		slowCounter = 3;
 	}
-	
-	public void addEffect(DamageEffect dmgEff) {
-		dmgEffList.add(dmgEff);
+
+	public void addEffect(Effect eff) {
+		effList.add(eff);
 	}
-	
+
 	public void bleed() {
 		bleedCounter = 4.1f;
 		hitTime = 1;

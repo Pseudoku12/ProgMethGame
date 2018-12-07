@@ -13,7 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.gameprogmeth.game.GameProgMeth;
 import com.gameprogmeth.game.world.StoneAndGem;
 
+import effects.CollectedEffect;
 import effects.DamageEffect;
+import effects.HealEffect;
 
 public class Item extends Character implements Destroyable {
 
@@ -153,6 +155,10 @@ public class Item extends Character implements Destroyable {
 					0, player);
 			tempEffect.setAttachToCharacter(true);
 			player.addEffect(tempEffect);
+			player.addEffect(new CollectedEffect(player));
+		}
+		else {
+			player.addEffect(new HealEffect(player));
 		}
 	}
 }
