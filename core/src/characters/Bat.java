@@ -19,6 +19,7 @@ public class Bat extends Enemy {
 	private double prw;
 	private double prh;
 	private Sound batSound;
+	private Sound damageSound;
 	private boolean isSoundPlayed;
 
 	public Bat(int x, int y, MainCharacter player, int hp) {
@@ -50,6 +51,7 @@ public class Bat extends Enemy {
 
 		this.hp = maxHp = hp;
 		batSound = Gdx.audio.newSound(Gdx.files.internal("music/BatSound.mp3"));
+		damageSound = Gdx.audio.newSound(Gdx.files.internal("music/DamageSound.mp3"));
 		isSoundPlayed = false;
 	}
 
@@ -80,6 +82,7 @@ public class Bat extends Enemy {
 			velocity.scl(1 / dt);
 			if (ds < 5) {
 				player.addHP(-5);
+				damageSound.play();
 				player.bleed();
 				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 2),
 						(int) (player.getPosition().y + player.getRenderHeight() - 15), 5, 2, player));
