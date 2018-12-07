@@ -3,6 +3,7 @@ package effects;
 import java.awt.Transparency;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -24,7 +25,8 @@ public class CollectedEffect extends Effect{
 	private boolean isDestroyed;
 	private float stateTime;
 	private int roll;
-
+	private Sound pickUpSound;
+	
 	private Vector2 pos;
 
 	private Animation<TextureRegion>[] animation;
@@ -46,6 +48,8 @@ public class CollectedEffect extends Effect{
 		this.isDestroyed = false;
 		roll = 0;
 		pos = new Vector2(0, 0);
+		pickUpSound = Gdx.audio.newSound(Gdx.files.internal("music/PickUpSound.mp3"));
+		pickUpSound.play();
 	}
 
 	public void render(SpriteBatch batch) {

@@ -19,7 +19,6 @@ public class Ghost extends Enemy {
 	private double prw;
 	private double prh;
 	private Sound ghostSound;
-	private Sound damageSound;
 	private boolean isSoundPlayed;
 
 	public Ghost(int x, int y, MainCharacter player, int hp) {
@@ -51,7 +50,6 @@ public class Ghost extends Enemy {
 
 		this.hp = maxHp = hp;
 		ghostSound = Gdx.audio.newSound(Gdx.files.internal("music/GhostSound.mp3"));
-		damageSound = Gdx.audio.newSound(Gdx.files.internal("music/DamageSound.mp3"));
 		isSoundPlayed = false;
 	}
 
@@ -82,7 +80,6 @@ public class Ghost extends Enemy {
 			velocity.scl(1 / dt);
 			if (ds < 5) {
 				player.addHP(-10);
-				damageSound.play();
 				player.slow();
 				player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
 						(int) (player.getPosition().y + player.getRenderHeight() - 15), 10, 2, this));
