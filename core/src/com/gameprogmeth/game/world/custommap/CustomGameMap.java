@@ -66,8 +66,13 @@ public class CustomGameMap extends GameMap {
 	private BitmapFont font;
 
 	private Sound stoneDestroyed;
+	private Sound walkSound;
+	private Sound hitGround;
+	private Sound stoneNotDestroyed;
 	private Music bgMusic;
 
+	private boolean isWalkSoundPlay;
+	
 	public CustomGameMap(GameProgMeth game, OrthographicCamera cam) {
 		this.game = game;
 		this.cam = cam;
@@ -101,11 +106,14 @@ public class CustomGameMap extends GameMap {
 		font = new BitmapFont();
 
 		font.getData().setScale(0.5f);
-		scoreBox = new Texture("resource/textBox.png");
+		scoreBox = new Texture("resource/TextBox.png");
 
 		pauseCounter = 0;
 
 		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/StoneDestroyed.mp3"));
+		walkSound = Gdx.audio.newSound(Gdx.files.internal("music/WalkSound.mp3"));
+		hitGround = Gdx.audio.newSound(Gdx.files.internal("music/HitGround.wav"));
+		stoneNotDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/HitStoneNotDestroyed.wav"));
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Under_Cover.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
@@ -202,21 +210,41 @@ public class CustomGameMap extends GameMap {
 				|| mainCharacter.getRoll() < 4) {
 			if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
 				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
+				if(!isWalkSoundPlay) {
+					isWalkSoundPlay = true;
+					walkSound.loop();
+				}
 				mainCharacter.setRoll(3);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 				mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
+				if(!isWalkSoundPlay) {
+					isWalkSoundPlay = true;
+					walkSound.loop();
+				}
 				mainCharacter.setRoll(1);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 				mainCharacter.setVelocity(0, -mainCharacter.getSpeed());
+				if(!isWalkSoundPlay) {
+					isWalkSoundPlay = true;
+					walkSound.loop();
+				}
 				mainCharacter.setRoll(0);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 				mainCharacter.setVelocity(mainCharacter.getSpeed(), 0);
+				if(!isWalkSoundPlay) {
+					isWalkSoundPlay = true;
+					walkSound.loop();
+				}
 				mainCharacter.setRoll(2);
 			} else {
 				mainCharacter.setVelocity(0, 0);
+				walkSound.stop();
+				isWalkSoundPlay = false;
 			}
 		} else {
 			mainCharacter.setVelocity(0, 0);
+			walkSound.stop();
+			isWalkSoundPlay = false;
 		}
 		if ((Gdx.input.justTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE))
 				&& ((mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
@@ -225,6 +253,60 @@ public class CustomGameMap extends GameMap {
 			mainCharacter.setVelocity(0, 0);
 			mainCharacter.setStateTime(0);
 			mainCharacter.setRoll(mainCharacter.getRoll() + 4);
+<<<<<<< HEAD
+=======
+			final StoneAndGem stone = getStoneAndGemByLocation(2, pos.x, pos.y);
+
+			final int col = changeXToCol(pos.x);
+			final int row = changeYToRow(pos.y);
+			final int tempHP = getStoneAndGemHealth(col, row);
+
+			if (stone != null) {
+
+				if (stone.getId() == StoneAndGem.LADDER_GROUND.getId() || 
+					stone.getId() == StoneAndGem.LADDER_ICE.getId() ||
+					stone.getId() == StoneAndGem.LADDER_LAVA.getId()) {
+
+					destroyLadder(col, row);
+					toNextLevel();
+					System.out.println("next level");
+
+				} else {
+
+					Timer.schedule(new Task() {
+						public void run() {
+							setStoneAndGemHealth(col, row, tempHP - mainCharacter.getDamage());
+							if (getStoneAndGemHealth(col, row) <= 0) {
+								destroyStone(col, row, stone.getDestroy());
+								stoneDestroyed.play();
+								itemSpawner.dropValueable(col * 16, row * 16);
+								Timer.schedule(new Task() {
+									public void run() {
+										destroyStone(col, row, 100);
+									}
+								}, mainCharacter.getAnimationSpeed() * 2);
+							} else {
+								stoneNotDestroyed.play();
+							}
+						}
+					}, mainCharacter.getAnimationSpeed() * 2);
+
+					Timer.schedule(new Task() {
+						public void run() {
+							checkLadder(col, row);
+						}
+					}, mainCharacter.getAnimationSpeed() * 2);
+
+				}
+
+			} else {
+				Timer.schedule(new Task() {
+					public void run() {
+						hitGround.play();
+					}
+				}, mainCharacter.getAnimationSpeed() * 2);
+			}
+>>>>>>> d5d58d4ee21a4721b6cc692577e85344dd619622
 			Timer.schedule(new Task() {
 				public void run() {
 					checkAttack();
@@ -238,6 +320,10 @@ public class CustomGameMap extends GameMap {
 	@Override
 	public void dispose() {
 		bgMusic.dispose();
+		walkSound.dispose();
+		hitGround.dispose();
+		stoneDestroyed.dispose();
+		stoneNotDestroyed.dispose();
 		batch.dispose();
 	}
 
