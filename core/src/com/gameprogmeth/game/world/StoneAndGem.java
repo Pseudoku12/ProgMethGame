@@ -82,18 +82,16 @@ public enum StoneAndGem {
 	MINERAL_TOPAZ(66,false,"Minral_Topaz",100),
 	MINERAL_EMERALD(69,false,"Minral_Emerald",100),
 	MINERAL_AMETHYST(72,false,"Minral_Amethyst",100);	
-	
-	
+
 	public static final int TILE_SIZE = 16;
-	
+
 	private int id;
 	private String name;
 	private boolean collidable;
 	private int destroy;
-	private static HashMap<Integer,StoneAndGem> stoneMap;
-	 
-	
-	private StoneAndGem(int id, boolean collidable , String name, int destroy) {
+	private static HashMap<Integer, StoneAndGem> stoneMap;
+
+	private StoneAndGem(int id, boolean collidable, String name, int destroy) {
 		this.id = id;
 		this.collidable = collidable;
 		this.name = name;
@@ -111,16 +109,16 @@ public enum StoneAndGem {
 	public boolean isCollidable() {
 		return collidable;
 	}
-	
+
 	public int getDestroy() {
 		return destroy;
 	}
 
 	public static StoneAndGem getStoneAndGemById(int id) {
-		for(StoneAndGem stone : values()) {
-			if(stone.id == id) return stone;
+		for (StoneAndGem stone : values()) {
+			if (stone.id == id)
+				return stone;
 		}
 		return null;
 	}
-	
 }

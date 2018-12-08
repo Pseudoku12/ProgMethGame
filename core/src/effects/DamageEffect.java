@@ -1,14 +1,12 @@
 package effects;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import characters.Destroyable;
-import characters.MainCharacter;
+import characters.Character;
 
-public class DamageEffect extends Effect{
+public class DamageEffect extends Effect {
 	private String damage;
 	private BitmapFont font;
 	private Vector2 pos;
@@ -18,7 +16,7 @@ public class DamageEffect extends Effect{
 	private float transparency;
 	private boolean isAttach;
 	private int color;
-	private characters.Character character;
+	private Character character;
 
 	public DamageEffect(int x, int y, int damage, int color, characters.Character character) {
 		this.damage = Integer.toString(damage);

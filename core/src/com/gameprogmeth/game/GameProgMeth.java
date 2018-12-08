@@ -9,26 +9,24 @@ import states.MenuState;
 import states.PlayScene;
 
 public class GameProgMeth extends Game {
-	
+
 	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 720; 
+	public static final int HEIGHT = 720;
 	public static int score = 0;
 	public static String name;
-	
 	private SpriteBatch batch;
-	
+
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
 		setMenuScene();
-//		setGameOverScene(100);
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 		super.render();
 	}
-	
+
 	public void setPlayScene() {
 		score = 0;
 		setScreen(new PlayScene(this));
@@ -37,23 +35,22 @@ public class GameProgMeth extends Game {
 	public void setMenuScene() {
 		setScreen(new MenuState(this));
 	}
-	
+
 	public void setGameOverScene(int score) {
-		this.score += score;
+		GameProgMeth.score += score;
 		setScreen(new GameOverScene(this));
 	}
-	
+
 	public void setHallOfFameSceneFromMenuScene() {
 		setScreen(new HallOfFameScene(this));
 	}
-	
+
 	public void setHallOfFameSceneFromGameOverScene(String name) {
-		this.name = name;
+		GameProgMeth.name = name;
 		setScreen(new HallOfFameScene(this, name, score));
 	}
-	
+
 	public SpriteBatch getBatch() {
 		return batch;
 	}
-	
 }

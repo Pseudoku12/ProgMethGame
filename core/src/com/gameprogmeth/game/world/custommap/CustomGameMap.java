@@ -1,8 +1,5 @@
 package com.gameprogmeth.game.world.custommap;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
@@ -14,8 +11,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.PauseableThread;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.gameprogmeth.game.GameProgMeth;
@@ -23,9 +18,6 @@ import com.gameprogmeth.game.world.GameMap;
 import com.gameprogmeth.game.world.StoneAndGem;
 import com.gameprogmeth.game.world.TileType;
 
-import characters.Enemy;
-import characters.Ghost;
-import characters.Item;
 import characters.MainCharacter;
 import spawners.ItemSpawner;
 import spawners.MonsterSpawner;
@@ -33,83 +25,58 @@ import spawners.MonsterSpawner;
 public class CustomGameMap extends GameMap {
 
 	private GameProgMeth game;
-
 	private static MainCharacter mainCharacter;
 	private static MonsterSpawner monsterSpawner;
 	private static ItemSpawner itemSpawner;
 	private float nextSpawning;
 	private int damage;
 	private int hp;
-
 	private float stateTime;
-	private float attackAnimationTime;
 	private int level;
 	private int rowStart, colStart, levelToNewName;
-	private boolean isDropValue;
-
-	private boolean isGameOver;
 	private int pauseCounter;
-
-	String id;
-	String name;
-	int[][][] map;
-
+	private String name;
+	private int[][][] map;
 	private SpriteBatch batch;
 	private TextureRegion[][] tiles;
 	private TextureRegion[][] stones;
-
 	private Texture scoreBox;
-
 	private OrthographicCamera cam;
-
 	private String scoreText;
 	private BitmapFont font;
-
 	private Sound stoneDestroyed;
 	private Sound walkSound;
 	private Sound hitGround;
 	private Sound stoneNotDestroyed;
 	private Music bgMusic;
-
 	private boolean isWalkSoundPlay;
-	
+
 	public CustomGameMap(GameProgMeth game, OrthographicCamera cam) {
 		this.game = game;
 		this.cam = cam;
-
-		isDropValue = false;
 		level = 1;
 		levelToNewName = 5;
 		getNameMap();
 		CustomGameMapData data = CustomGameMapLoader.loadMap("level" + level, name);
-
-		this.id = data.id;
 		this.map = data.map;
-
 		batch = new SpriteBatch();
 		tiles = TextureRegion.split(new Texture("resource/GameProgMeth_Tile.png"), TileType.TILE_SIZE,
 				TileType.TILE_SIZE);
 		stones = TextureRegion.split(new Texture("resource/Stone_Gem_Ladder.png"), TileType.TILE_SIZE,
 				TileType.TILE_SIZE);
-
 		findStartPoint();
-
 		mainCharacter = new MainCharacter((int) ((colStart * 16) - 23.5), (int) ((rowStart * 16) - 23.5), 80);
 		this.damage = mainCharacter.getDamage();
 		this.hp = mainCharacter.getHP();
 		itemSpawner = new ItemSpawner(mainCharacter, 1, cam);
-		monsterSpawner = new MonsterSpawner(mainCharacter, 200, 1, this.itemSpawner);
+		monsterSpawner = new MonsterSpawner(mainCharacter, 200, 1, CustomGameMap.itemSpawner);
 		monsterSpawner.spawnMonster(1);
 		nextSpawning = 5;
-
 		scoreText = "score: 0";
 		font = new BitmapFont();
-
 		font.getData().setScale(0.5f);
 		scoreBox = new Texture("resource/TextBox.png");
-
 		pauseCounter = 0;
-
 		stoneDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/StoneDestroyed.mp3"));
 		walkSound = Gdx.audio.newSound(Gdx.files.internal("music/WalkSound.mp3"));
 		hitGround = Gdx.audio.newSound(Gdx.files.internal("music/HitGround.wav"));
@@ -123,9 +90,8 @@ public class CustomGameMap extends GameMap {
 	public void render() {
 		batch.setProjectionMatrix(cam.combined);
 		batch.enableBlending();
-		batch.setBlendFunction(Gdx.gl20.GL_SRC_ALPHA, Gdx.gl20.GL_ONE_MINUS_SRC_ALPHA);
+		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		batch.begin();
-
 		for (int layer = 1; layer < 3; layer++) {
 			for (int row = 0; row < getHeight(); row++) {
 				for (int col = 0; col < getWidth(); col++) {
@@ -210,28 +176,28 @@ public class CustomGameMap extends GameMap {
 				|| mainCharacter.getRoll() < 4) {
 			if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
 				mainCharacter.setVelocity(0, mainCharacter.getSpeed());
-				if(!isWalkSoundPlay) {
+				if (!isWalkSoundPlay) {
 					isWalkSoundPlay = true;
 					walkSound.loop();
 				}
 				mainCharacter.setRoll(3);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 				mainCharacter.setVelocity(-mainCharacter.getSpeed(), 0);
-				if(!isWalkSoundPlay) {
+				if (!isWalkSoundPlay) {
 					isWalkSoundPlay = true;
 					walkSound.loop();
 				}
 				mainCharacter.setRoll(1);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 				mainCharacter.setVelocity(0, -mainCharacter.getSpeed());
-				if(!isWalkSoundPlay) {
+				if (!isWalkSoundPlay) {
 					isWalkSoundPlay = true;
 					walkSound.loop();
 				}
 				mainCharacter.setRoll(0);
 			} else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 				mainCharacter.setVelocity(mainCharacter.getSpeed(), 0);
-				if(!isWalkSoundPlay) {
+				if (!isWalkSoundPlay) {
 					isWalkSoundPlay = true;
 					walkSound.loop();
 				}
@@ -284,8 +250,6 @@ public class CustomGameMap extends GameMap {
 		if (col < 0 || col >= getWidth() || row < 0 || row >= getHeight()) {
 			return null;
 		}
-//		TileTypeMap tileTypeMap = new TileTypeMap();
-//		return tileTypeMap.getTileTypeById(map[layer][getHeight() - row - 1][col]);
 		return TileType.getTileTypeById(map[layer][getHeight() - row - 1][col]);
 	}
 
@@ -306,12 +270,9 @@ public class CustomGameMap extends GameMap {
 
 	@Override
 	public StoneAndGem getStoneAndGemByCoordinate(int layer, int col, int row) {
-		// TODO Auto-generated method stub
 		if (col < 0 || col >= getWidth() || row < 0 || row >= getHeight()) {
 			return null;
 		}
-//		TileTypeMap tileTypeMap = new TileTypeMap();
-//		return tileTypeMap.getTileTypeById(map[layer][getHeight() - row - 1][col]);
 		return StoneAndGem.getStoneAndGemById(map[layer][getHeight() - row - 1][col]);
 	}
 
@@ -326,8 +287,6 @@ public class CustomGameMap extends GameMap {
 			return;
 		}
 		map[2][getHeight() - row - 1][col] = val;
-//		System.out.println("Stone Destroy!!!");
-//		System.out.println(map[2][getHeight() - row - 1][col]);
 	}
 
 	public void checkLadder(int col, int row) {
@@ -362,16 +321,11 @@ public class CustomGameMap extends GameMap {
 	}
 
 	public void toNextLevel() {
-
 		level += 1;
 		getNameMap();
 		CustomGameMapData newdata = CustomGameMapLoader.loadMap("level" + level, name);
-
-		this.id = newdata.id;
 		this.map = newdata.map;
-
 		findStartPoint();
-
 		damage = mainCharacter.getDamage();
 		hp = mainCharacter.getHP();
 		GameProgMeth.score += mainCharacter.getScore();
@@ -379,10 +333,9 @@ public class CustomGameMap extends GameMap {
 		mainCharacter.setDamage(damage);
 		mainCharacter.setHP(hp);
 		itemSpawner = new ItemSpawner(mainCharacter, level, cam);
-		monsterSpawner = new MonsterSpawner(mainCharacter, 200, level, this.itemSpawner);
+		monsterSpawner = new MonsterSpawner(mainCharacter, 200, level, CustomGameMap.itemSpawner);
 		monsterSpawner.spawnMonster(level);
 		nextSpawning = 5;
-
 		stateTime = 0;
 	}
 

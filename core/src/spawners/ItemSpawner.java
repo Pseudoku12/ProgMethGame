@@ -3,7 +3,6 @@ package spawners;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gameprogmeth.game.world.StoneAndGem;
@@ -23,7 +22,6 @@ public class ItemSpawner {
 		this.player = player;
 		this.level = level;
 		this.cam = cam;
-		
 	}
 
 	public void update(float dt) {
