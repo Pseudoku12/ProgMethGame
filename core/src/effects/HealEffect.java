@@ -1,7 +1,5 @@
 package effects;
 
-import java.awt.Transparency;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -31,8 +29,8 @@ public class HealEffect extends Effect{
 	private Sound healSound;
 
 	public HealEffect(MainCharacter player) {
-		renderWidth = 16;
-		renderHeight = 16;
+		renderWidth = 8;
+		renderHeight = 8;
 		widthPixel = 16;
 		heightPixel = 16;
 
@@ -43,7 +41,7 @@ public class HealEffect extends Effect{
 		staticPos = new Vector2(0, 0);
 		velocity = new Vector2(0, 10);
 		transparency = 1.0f;
-		fadingSpeed = 0.03f;
+		fadingSpeed = 0.025f;
 		healSound = Gdx.audio.newSound(Gdx.files.internal("music/HealSound.mp3"));
 		healSound.play();
 	}
@@ -55,8 +53,8 @@ public class HealEffect extends Effect{
 	}
 
 	public void update(float dt) {
-		this.pos.set(player.getPosition().x + player.getRenderWidth() / 2 - renderWidth / 2,
-				player.getPosition().y + player.getRenderHeight() / 2 - renderHeight / 2);
+		this.pos.set(player.getPosition().x + player.getRenderWidth() / 2 - renderWidth,
+				player.getPosition().y + player.getRenderHeight() / 2 - renderHeight);
 		velocity.scl(dt);
 		staticPos.add(velocity);
 		velocity.scl(1/dt);

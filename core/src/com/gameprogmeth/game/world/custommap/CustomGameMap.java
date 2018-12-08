@@ -163,30 +163,30 @@ public class CustomGameMap extends GameMap {
 		if (map[2][(int) (getHeight()
 				- (mainCharacter.getPosition().y + 36.5) / 16)][(int) ((mainCharacter.getPosition().x + 31.5)
 						/ 16)] != 100) {
-			mainCharacter.isBlockedUp = true;
+			mainCharacter.setBlockedUp(true);
 		} else {
-			mainCharacter.isBlockedUp = false;
+			mainCharacter.setBlockedUp(false);
 		}
 		if (map[2][(int) (getHeight()
 				- (mainCharacter.getPosition().y + 28) / 16)][(int) ((mainCharacter.getPosition().x + 31.5)
 						/ 16)] != 100) {
-			mainCharacter.isBlockedDown = true;
+			mainCharacter.setBlockedDown(true);
 		} else {
-			mainCharacter.isBlockedDown = false;
+			mainCharacter.setBlockedDown(false);
 		}
 		if (map[2][(int) (getHeight()
 				- (mainCharacter.getPosition().y + 31.5) / 16)][(int) ((mainCharacter.getPosition().x + 26)
 						/ 16)] != 100) {
-			mainCharacter.isBlockedLeft = true;
+			mainCharacter.setBlockedLeft(true);
 		} else {
-			mainCharacter.isBlockedLeft = false;
+			mainCharacter.setBlockedLeft(false);
 		}
 		if (map[2][(int) (getHeight()
 				- (mainCharacter.getPosition().y + 31.5) / 16)][(int) ((mainCharacter.getPosition().x + 35.5)
 						/ 16)] != 100) {
-			mainCharacter.isBlockedRight = true;
+			mainCharacter.setBlockedRight(true);
 		} else {
-			mainCharacter.isBlockedRight = false;
+			mainCharacter.setBlockedRight(false);
 		}
 		mainCharacter.update(dt);
 

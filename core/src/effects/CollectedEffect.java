@@ -1,7 +1,5 @@
 package effects;
 
-import java.awt.Transparency;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
