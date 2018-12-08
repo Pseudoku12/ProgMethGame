@@ -39,7 +39,7 @@
   </class>  
   <interface id="5" language="java" name="characters.Destroyable" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/characters/Destroyable.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="949" y="529"/>    
+    <position height="-1" width="-1" x="751" y="511"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="effects.CollectedEffect" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/effects/CollectedEffect.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="882" y="1100"/>    
+    <position height="-1" width="-1" x="724" y="1012"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="effects.Effect" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/effects/Effect.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="926" y="730"/>    
+    <position height="-1" width="-1" x="730" y="702"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="effects.DamageEffect" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/effects/DamageEffect.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1192" y="1070"/>    
+    <position height="-1" width="-1" x="962" y="1024"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="effects.HealEffect" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/effects/HealEffect.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1184" y="695"/>    
+    <position height="-1" width="-1" x="992" y="665"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -111,7 +111,7 @@
   </class>  
   <class id="13" language="java" name="spawners.ItemSpawner" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/spawners/ItemSpawner.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1213" y="1449"/>    
+    <position height="-1" width="-1" x="1069" y="1379"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -120,7 +120,7 @@
   </class>  
   <class id="14" language="java" name="spawners.MonsterSpawner" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/spawners/MonsterSpawner.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="846" y="1452"/>    
+    <position height="-1" width="-1" x="752" y="1376"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

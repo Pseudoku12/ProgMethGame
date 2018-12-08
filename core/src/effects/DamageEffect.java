@@ -9,7 +9,6 @@ import characters.Character;
 public class DamageEffect extends Effect {
 	private String damage;
 	private BitmapFont font;
-	private Vector2 pos;
 	private Vector2 staticPos;
 	private Vector2 velocity;
 	private float fadingSpeed;

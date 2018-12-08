@@ -18,10 +18,8 @@ public class CollectedEffect extends Effect {
 	private float renderHeight;
 	private int widthPixel;
 	private int heightPixel;
-	private boolean isDestroyed;
 	private float stateTime;
 	private Sound pickUpSound;
-	private Vector2 pos;
 	private Animation<TextureRegion> animation;
 
 	public CollectedEffect(MainCharacter player) {

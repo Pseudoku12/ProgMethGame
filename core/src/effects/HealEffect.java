@@ -16,7 +16,6 @@ public class HealEffect extends Effect {
 	private float renderHeight;
 	private int widthPixel;
 	private int heightPixel;
-	private Vector2 pos;
 	private Vector2 staticPos;
 	private Vector2 velocity;
 	private float transparency;
