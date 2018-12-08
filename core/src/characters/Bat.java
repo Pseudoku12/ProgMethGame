@@ -1,64 +1,30 @@
 package characters;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 
 import effects.DamageEffect;
 
 public class Bat extends Enemy {
 
-	private MainCharacter player;
-	private Sprite sprite;
-	private TextureRegion[][] rollSpriteSheet;
-	private boolean isPlayerDead;
-	private double prw;
-	private double prh;
-	private Sound batSound;
-	private boolean isSoundPlayed;
-
 	public Bat(int x, int y, MainCharacter player, int hp) {
+		super(x, y, player, hp);
 		animationSpeed = 0.15f;
 		renderWidth = 16;
 		renderHeight = 16;
 		widthPixel = 16;
 		heightPixel = 16;
-
-		position = new Vector2(x, y);
-		velocity = new Vector2(0, 0);
 		speed = 30;
-
 		animation = new Animation[3];
 		roll = 0;
-
-		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("monster/Frost Bat.png"), widthPixel,
-				heightPixel);
-
+		rollSpriteSheet = TextureRegion.split(new Texture("monster/Frost Bat.png"), widthPixel, heightPixel);
 		for (int i = 0; i < 3; i++) {
 			animation[i] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[i]);
 		}
-
-		this.player = player;
-		prw = player.getRenderWidth();
-		prh = player.getRenderHeight();
-
-		isPlayerDead = false;
-
-		this.hp = maxHp = hp;
-		batSound = Gdx.audio.newSound(Gdx.files.internal("music/BatSound.mp3"));
-		isSoundPlayed = false;
+		enemySound = Gdx.audio.newSound(Gdx.files.internal("music/BatSound.mp3"));
 	}
-
-	double dx;
-	double dy;
-	double ds;
-	double pushDegree = 0;
-	double timerDegree = 0;
-	int pushForce = 100;
 
 	@Override
 	public void update(float dt) {
@@ -90,23 +56,13 @@ public class Bat extends Enemy {
 			}
 		} else {
 			roll = 2;
-			if(!isSoundPlayed) {
-				batSound.play();
+			if (!isSoundPlayed) {
+				enemySound.play();
 				isSoundPlayed = true;
 			}
 			if (getAnimation().isAnimationFinished(stateTime)) {
 				isDestroyed = true;
 			}
 		}
-	}
-
-	public boolean isPlayerDead() {
-		return isPlayerDead;
-	}
-
-	@Override
-	public void push(double degree) {
-		this.pushDegree = Math.toRadians(degree);
-		this.timerDegree = Math.PI / 2;
 	}
 }

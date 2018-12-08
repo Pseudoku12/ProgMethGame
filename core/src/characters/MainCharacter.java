@@ -25,17 +25,14 @@ public class MainCharacter extends Character {
 
 	private int score;
 	private int damage;
-	private boolean isBlockedLeft, isBlockedRight, isBlockedUp, isBlockedDown;
+	private boolean[] blocked;
 	private Animation<TextureRegion>[] idleAnimation;
 	private ArrayList<Effect> effList;
 	private ArrayList<Integer> markForRemoved;
 
-	private double dx;
-	private double dy;
-	private double ds;
 	private int sweptAngle = 45;
 	private double tempAngle;
-	
+
 	private float slowCounter;
 	private float bleedCounter;
 	private float hitTime;
@@ -73,7 +70,7 @@ public class MainCharacter extends Character {
 		}
 
 		effList = new ArrayList<Effect>();
-
+		blocked = new boolean[4];
 		score = 0;
 		hp = maxHp = 100;
 		damage = 1;
@@ -101,37 +98,17 @@ public class MainCharacter extends Character {
 	public int getDamage() {
 		return damage;
 	}
-	
-	public boolean isBlockedLeft() {
-		return isBlockedLeft;
+
+	public boolean isBlocked(int i) {
+		if (i < 0)
+			i = 0;
+		else if (i > 3)
+			i = 3;
+		return blocked[i];
 	}
 
-	public void setBlockedLeft(boolean isBlockedLeft) {
-		this.isBlockedLeft = isBlockedLeft;
-	}
-
-	public boolean isBlockedRight() {
-		return isBlockedRight;
-	}
-
-	public void setBlockedRight(boolean isBlockedRight) {
-		this.isBlockedRight = isBlockedRight;
-	}
-
-	public boolean isBlockedUp() {
-		return isBlockedUp;
-	}
-
-	public void setBlockedUp(boolean isBlockedUp) {
-		this.isBlockedUp = isBlockedUp;
-	}
-
-	public boolean isBlockedDown() {
-		return isBlockedDown;
-	}
-
-	public void setBlockedDown(boolean isBlockedDown) {
-		this.isBlockedDown = isBlockedDown;
+	public void setBlocked(boolean blocked, int i) {
+		this.blocked[i] = blocked;
 	}
 
 	@Override
@@ -157,16 +134,16 @@ public class MainCharacter extends Character {
 		}
 		getAnimation().setFrameDuration(animationSpeed);
 		velocity.scl(dt);
-		if (isBlockedLeft && velocity.x < 0) {
+		if (blocked[1] && velocity.x < 0) {
 			velocity.x = 0;
 		}
-		if (isBlockedRight && velocity.x >= 0) {
+		if (blocked[2] && velocity.x >= 0) {
 			velocity.x = 0;
 		}
-		if (isBlockedUp && velocity.y >= 0) {
+		if (blocked[3] && velocity.y >= 0) {
 			velocity.y = 0;
 		}
-		if (isBlockedDown && velocity.y < 0) {
+		if (blocked[0] && velocity.y < 0) {
 			velocity.y = 0;
 		}
 		position.add(velocity.x, velocity.y);
@@ -273,10 +250,11 @@ public class MainCharacter extends Character {
 		bleedCounter = 4.1f;
 		hitTime = 1;
 	}
-	
+
 	@Override
 	public void addHP(int hp) {
 		super.addHP(hp);
-		if(hp < 0)	damageSound.play();
+		if (hp < 0)
+			damageSound.play();
 	}
 }

@@ -21,12 +21,6 @@ public class GameProgMeth extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		setMenuScene();
-//		setGameOverScene(100);
-	}
-
-	@Override
-	public void render () {
-		super.render();
 	}
 	
 	public void setPlayScene() {

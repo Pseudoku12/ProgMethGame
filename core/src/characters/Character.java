@@ -13,17 +13,17 @@ public abstract class Character {
 	protected float renderHeight;
 	protected int widthPixel;
 	protected int heightPixel;
-
 	protected float stateTime;
-
 	protected Vector2 position;
 	protected Vector2 velocity;
 	protected float speed;
-
 	protected Animation<TextureRegion>[] animation;
 	protected int roll;
 	protected int maxHp;
 	protected int hp;
+	protected double dx;
+	protected double dy;
+	protected double ds;
 
 	public Character() {
 		stateTime = 0;

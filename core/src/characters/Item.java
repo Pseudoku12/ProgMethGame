@@ -20,15 +20,14 @@ import effects.HealEffect;
 public class Item extends Character implements Destroyable {
 
 	private MainCharacter player;
-	private Sprite sprite;
 	private TextureRegion[][] rollSpriteSheet;
-	private int item, rollRow, rollCol;
+	private int item;
 	private boolean isDestroyed;
 	private float elapsedTime;
 	private double prw;
 	private double prh;
 	private OrthographicCamera cam;
-
+	
 	public Item(int x, int y, int speed, int item, MainCharacter player, OrthographicCamera cam) {
 		animationSpeed = 0.5f;
 		renderWidth = 16;
@@ -50,10 +49,6 @@ public class Item extends Character implements Destroyable {
 		this.isDestroyed = false;
 		this.elapsedTime = 0;
 	}
-
-	double dx;
-	double dy;
-	double ds;
 
 	@Override
 	public void update(float dt) {
