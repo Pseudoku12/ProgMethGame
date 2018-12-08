@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="halloffame.HallOfFameData" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/halloffame/HallOfFameData.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="505" y="81"/>    
+    <position height="-1" width="-1" x="507" y="83"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="halloffame.HallOfFameLoader" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/halloffame/HallOfFameLoader.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="509" y="236"/>    
+    <position height="-1" width="-1" x="510" y="251"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -89,11 +89,11 @@
     <end type="TARGET" refId="8"/>  
   </realization>  
   <realization id="11">    
-    <end type="SOURCE" refId="7"/>    
+    <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="8"/>  
   </realization>  
   <realization id="12">    
-    <end type="SOURCE" refId="6"/>    
+    <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="8"/>  
   </realization>  
   <realization id="13">    

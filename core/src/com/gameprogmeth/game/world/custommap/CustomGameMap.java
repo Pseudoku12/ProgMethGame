@@ -48,6 +48,7 @@ public class CustomGameMap extends GameMap {
 	private Sound walkSound;
 	private Sound hitGround;
 	private Sound stoneNotDestroyed;
+	private Sound nextLevelSound;
 	private Music bgMusic;
 	private boolean isWalkSoundPlay;
 
@@ -81,6 +82,7 @@ public class CustomGameMap extends GameMap {
 		walkSound = Gdx.audio.newSound(Gdx.files.internal("music/WalkSound.mp3"));
 		hitGround = Gdx.audio.newSound(Gdx.files.internal("music/HitGround.wav"));
 		stoneNotDestroyed = Gdx.audio.newSound(Gdx.files.internal("music/HitStoneNotDestroyed.wav"));
+		nextLevelSound = Gdx.audio.newSound(Gdx.files.internal("music/NextLevelSound.mp3"));
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Under_Cover.mp3"));
 		bgMusic.setLooping(true);
 		bgMusic.play();
@@ -224,6 +226,7 @@ public class CustomGameMap extends GameMap {
 		hitGround.dispose();
 		stoneDestroyed.dispose();
 		stoneNotDestroyed.dispose();
+		nextLevelSound.dispose();
 		batch.dispose();
 	}
 
@@ -309,6 +312,7 @@ public class CustomGameMap extends GameMap {
 	}
 
 	public void toNextLevel() {
+		nextLevelSound.play();
 		level += 1;
 		getNameMap();
 		CustomGameMapData newdata = CustomGameMapLoader.loadMap("level" + level, name);

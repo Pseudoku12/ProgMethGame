@@ -37,26 +37,17 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <class id="5" language="java" name="com.gameprogmeth.game.world.TileTypeMap" project="GameProgMeth-core" 
-    file="/GameProgMeth-core/src/com/gameprogmeth/game/world/TileTypeMap.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="222" y="596"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="6" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMap" project="GameProgMeth-core" 
+  <class id="5" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMap" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/custommap/CustomGameMap.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="629" y="1069"/>    
+    <position height="-1" width="-1" x="622" y="1073"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMapData" 
+  <class id="6" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMapData" 
     project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/custommap/CustomGameMapData.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -67,7 +58,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMapLoader" 
+  <class id="7" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMapLoader" 
     project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/custommap/CustomGameMapLoader.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -78,21 +69,21 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="com.gameprogmeth.game.world.custommap.Triple" project="GameProgMeth-core" 
+  <class id="8" language="java" name="com.gameprogmeth.game.world.custommap.Triple" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/custommap/Triple.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="340" y="-27"/>    
+    <position height="-1" width="-1" x="335" y="-18"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="10">    
+  <generalization id="9">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
-  <generalization id="11">    
-    <end type="SOURCE" refId="6"/>    
+  <generalization id="10">    
+    <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
