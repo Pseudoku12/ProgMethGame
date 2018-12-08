@@ -96,7 +96,7 @@ public class PlayScene implements Screen {
 		hammerType = 1;
 
 		fontShop = new BitmapFont();
-		fontShop.getData().setScale(2f);
+		fontShop.getData().setScale(1.5f);
 		fontHammer = new BitmapFont();
 		fontHammer.getData().setScale(1f);
 
@@ -300,7 +300,7 @@ public class PlayScene implements Screen {
 					gameMap.getMainCharacterPosition().y + 31.5f - GameProgMeth.HEIGHT/8 + 10,
 					exchangeBtn.getWidth()/8, exchangeBtn.getHeight()/8);
 			fontShop.setColor(1.0f,1.0f,1.0f,1.0f);
-			fontShop.draw(sb, shop, gameMap.getMainCharacterPosition().x + 31.5f - 30, gameMap.getMainCharacterPosition().y + 31.5f + 70);
+			fontShop.draw(sb, shop, gameMap.getMainCharacterPosition().x + 31.5f - 20, gameMap.getMainCharacterPosition().y + 31.5f + 70);
 			fontHammer.setColor(1.0f,1.0f,1.0f,1.0f);
 			
 			if(!isPotionState) {
