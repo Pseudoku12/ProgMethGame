@@ -2,17 +2,15 @@ package effects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import characters.Destroyable;
 import characters.MainCharacter;
 
-public class CollectedEffect extends Effect{
+public class CollectedEffect extends Effect {
 
 	private MainCharacter player;
 	private float animationSpeed;
@@ -22,12 +20,9 @@ public class CollectedEffect extends Effect{
 	private int heightPixel;
 	private boolean isDestroyed;
 	private float stateTime;
-	private int roll;
 	private Sound pickUpSound;
-	
 	private Vector2 pos;
-
-	private Animation<TextureRegion>[] animation;
+	private Animation<TextureRegion> animation;
 
 	public CollectedEffect(MainCharacter player) {
 		animationSpeed = 0.1f;
@@ -35,29 +30,24 @@ public class CollectedEffect extends Effect{
 		renderHeight = 8;
 		widthPixel = 8;
 		heightPixel = 8;
-
 		TextureRegion[][] rollSpriteSheet = TextureRegion.split(new Texture("effect/collected.png"), widthPixel,
 				heightPixel);
-		animation = new Animation[1];
-		for (int i = 0; i < 1; i++) {
-			animation[i] = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[i]);
-		}
+		animation = new Animation<TextureRegion>(animationSpeed, rollSpriteSheet[0]);
 		this.player = player;
 		this.isDestroyed = false;
-		roll = 0;
 		pos = new Vector2(0, 0);
 		pickUpSound = Gdx.audio.newSound(Gdx.files.internal("music/PickUpSound.mp3"));
 		pickUpSound.play();
 	}
 
 	public void render(SpriteBatch batch) {
-		batch.draw(animation[roll].getKeyFrame(stateTime, true), pos.x, pos.y, renderWidth, renderHeight);
+		batch.draw(animation.getKeyFrame(stateTime, true), pos.x, pos.y, renderWidth, renderHeight);
 	}
 
 	public void update(float dt) {
 		this.pos = new Vector2(player.getPosition().x + player.getRenderWidth() / 2 - renderWidth / 2,
 				player.getPosition().y + player.getRenderHeight() / 2 - renderHeight / 2);
-		if (animation[roll].isAnimationFinished(stateTime)) {
+		if (animation.isAnimationFinished(stateTime)) {
 			isDestroyed = true;
 		}
 		stateTime += dt;

@@ -8,36 +8,34 @@ import com.badlogic.gdx.math.Vector2;
 
 import characters.MainCharacter;
 
-public class TiledGameMap extends GameMap{
+public class TiledGameMap extends GameMap {
 
 	private OrthographicCamera cam;
 	private MainCharacter mainCharacter;
 	TiledMap tiledMap;
 	OrthogonalTiledMapRenderer tiledMapRenderer;
-	
+
 	public TiledGameMap() {
 		tiledMap = new TmxMapLoader().load("map.tmx");
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-		
 	}
-	
+
 	@Override
 	public void render() {
 		tiledMapRenderer.setView(cam);
 		tiledMapRenderer.render();
-	
 	}
 
 	@Override
 	public void update(float delta) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		tiledMap.dispose();
-		
+
 	}
 
 	@Override
@@ -81,5 +79,5 @@ public class TiledGameMap extends GameMap{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 }
