@@ -66,17 +66,4 @@ public class Serpent extends Enemy {
 			}
 		}
 	}
-
-	public boolean isPlayerDead() {
-		return isPlayerDead;
-	}
-
-	@Override
-	public double getAngle() {
-		float angle = (float) Math.toDegrees(Math.atan2(dy, dx));
-		if (angle < 0) {
-			angle += 360;
-		}
-		return angle;
-	}
 }
