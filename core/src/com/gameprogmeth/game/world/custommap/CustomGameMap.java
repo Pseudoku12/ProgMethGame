@@ -267,10 +267,6 @@ public class CustomGameMap extends GameMap {
 		return StoneAndGem.getStoneAndGemById(map[layer][getHeight() - row - 1][col]);
 	}
 
-	public MainCharacter getMainmainCharacter() {
-		return mainCharacter;
-	}
-
 	public void destroyStone(int col, int row, int val) {
 		if (map[2][getHeight() - row - 1][col] == StoneAndGem.LADDER_GROUND.getId()
 				|| map[2][getHeight() - row - 1][col] == StoneAndGem.LADDER_ICE.getId()
