@@ -326,7 +326,6 @@ public class CustomGameMap extends GameMap {
 		mainCharacter.setHP(hp);
 		itemSpawner = new ItemSpawner(mainCharacter, level, cam);
 		monsterSpawner = new MonsterSpawner(mainCharacter, 200, level, CustomGameMap.itemSpawner);
-		monsterSpawner.spawnMonster(level);
 		nextSpawning = 5;
 		stateTime = 0;
 	}
