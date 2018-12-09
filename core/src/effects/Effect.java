@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import characters.Destroyable;
 
-public class Effect implements Destroyable {
+public abstract class Effect implements Destroyable {
 	protected boolean isDestroyed;
 	protected Vector2 pos;
 
@@ -13,13 +13,9 @@ public class Effect implements Destroyable {
 		isDestroyed = false;
 	}
 
-	public void render(SpriteBatch batch) {
+	public abstract void render(SpriteBatch batch);
 
-	}
-
-	public void update(float dt) {
-
-	}
+	public abstract void update(float dt);
 
 	public boolean isDestroyed() {
 		return isDestroyed;
