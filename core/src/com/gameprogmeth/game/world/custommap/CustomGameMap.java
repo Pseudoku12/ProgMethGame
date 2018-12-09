@@ -404,7 +404,9 @@ public class CustomGameMap extends GameMap {
 
 		if (stone != null) {
 
-			if (stone.getId() == StoneAndGem.LADDER_GROUND.getId()) {
+			if (stone.getId() == StoneAndGem.LADDER_GROUND.getId() ||
+				stone.getId() == StoneAndGem.LADDER_ICE.getId()	||
+				stone.getId() == StoneAndGem.LADDER_LAVA.getId()) {
 
 				destroyLadder(col, row);
 				toNextLevel();
