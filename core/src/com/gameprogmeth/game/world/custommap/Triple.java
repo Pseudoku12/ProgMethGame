@@ -28,10 +28,4 @@ public class Triple implements Comparable<Triple> {
 		}
 		return -1;
 	}
-
-	@Override
-	public String toString() {
-		return "Triple [value=" + value + ", coX=" + coX + ", coY=" + coY + "]";
-	}
-
 }

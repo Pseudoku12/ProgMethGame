@@ -50,10 +50,4 @@ public class CollectedEffect extends Effect {
 		}
 		stateTime += dt;
 	}
-
-	@Override
-	public boolean isDestroyed() {
-		return isDestroyed;
-	}
-
 }

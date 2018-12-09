@@ -3,7 +3,7 @@
   realizations="true" associations="false" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="com.gameprogmeth.game.world.GameMap" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/GameMap.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="249" y="256"/>    
+    <position height="-1" width="-1" x="245" y="267"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -19,25 +19,16 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <class id="3" language="java" name="com.gameprogmeth.game.world.TiledGameMap" project="GameProgMeth-core" 
-    file="/GameProgMeth-core/src/com/gameprogmeth/game/world/TiledGameMap.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="657" y="260"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <enumeration id="4" language="java" name="com.gameprogmeth.game.world.TileType" project="GameProgMeth-core" 
+  <enumeration id="3" language="java" name="com.gameprogmeth.game.world.TileType" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/TileType.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="205" y="1163"/>    
+    <position height="-1" width="-1" x="223" y="1010"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <class id="5" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMap" project="GameProgMeth-core" 
+  <class id="4" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMap" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/custommap/CustomGameMap.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="622" y="1073"/>    
@@ -47,29 +38,29 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMapData" 
+  <class id="5" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMapData" 
     project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/custommap/CustomGameMapData.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="703" y="-20"/>    
+    <position height="-1" width="-1" x="950" y="4"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMapLoader" 
+  <class id="6" language="java" name="com.gameprogmeth.game.world.custommap.CustomGameMapLoader" 
     project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/custommap/CustomGameMapLoader.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1363" y="502"/>    
+    <position height="-1" width="-1" x="639" y="320"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="com.gameprogmeth.game.world.custommap.Triple" project="GameProgMeth-core" 
+  <class id="7" language="java" name="com.gameprogmeth.game.world.custommap.Triple" project="GameProgMeth-core" 
     file="/GameProgMeth-core/src/com/gameprogmeth/game/world/custommap/Triple.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="335" y="-18"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -78,14 +69,23 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
+  <interface id="8" language="java" name="java.lang.Comparable" project="GameProgMeth-core" 
+    file="C:/Program Files/Java/jre-10.0.2/lib/jrt-fs.jar" binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="617" y="2"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
   <generalization id="9">    
-    <end type="SOURCE" refId="3"/>    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
-  <generalization id="10">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
+  <realization id="10">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

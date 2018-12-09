@@ -14,7 +14,6 @@ public abstract class Effect implements Destroyable {
 	}
 
 	public abstract void render(SpriteBatch batch);
-
 	public abstract void update(float dt);
 
 	public boolean isDestroyed() {

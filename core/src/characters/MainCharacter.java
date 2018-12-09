@@ -14,16 +14,14 @@ import effects.Effect;
 
 public class MainCharacter extends Character {
 
+	private static final int SWEPTANGLE = 45;
 	private int score;
 	private int damage;
 	private boolean[] blocked;
 	private Animation<TextureRegion>[] idleAnimation;
 	private ArrayList<Effect> effList;
 	private ArrayList<Integer> markForRemoved;
-
-	private int sweptAngle = 45;
 	private double tempAngle;
-
 	private float slowCounter;
 	private float bleedCounter;
 	private float hitTime;
@@ -206,10 +204,10 @@ public class MainCharacter extends Character {
 		tempAngle = getAngle();
 		ds = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 		if (ds <= 30 && enemy.getHP() > 0) {
-			if ((roll == 4 && 270 - sweptAngle < tempAngle && tempAngle < 270 + sweptAngle)
-					|| (roll == 5 && 180 - sweptAngle < tempAngle && tempAngle < 180 + sweptAngle)
-					|| (roll == 6 && 0 - sweptAngle < tempAngle && tempAngle < 0 + sweptAngle)
-					|| (roll == 7 && 90 - sweptAngle < tempAngle && tempAngle < 90 + sweptAngle)) {
+			if ((roll == 4 && 270 - SWEPTANGLE < tempAngle && tempAngle < 270 + SWEPTANGLE)
+					|| (roll == 5 && 180 - SWEPTANGLE < tempAngle && tempAngle < 180 + SWEPTANGLE)
+					|| (roll == 6 && 0 - SWEPTANGLE < tempAngle && tempAngle < 0 + SWEPTANGLE)
+					|| (roll == 7 && 90 - SWEPTANGLE < tempAngle && tempAngle < 90 + SWEPTANGLE)) {
 				enemy.push(tempAngle);
 				enemy.setStateTime(0);
 				effList.add(new DamageEffect((int) (enemy.getPosition().x + (enemy.getRenderWidth() / 2)),

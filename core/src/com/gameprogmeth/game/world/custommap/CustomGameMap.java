@@ -161,7 +161,7 @@ public class CustomGameMap extends GameMap {
 		}
 	}
 
-	protected void handleInput() {
+	public void handleInput() {
 		if (mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
 				|| mainCharacter.getRoll() < 4) {
 			if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
@@ -351,9 +351,7 @@ public class CustomGameMap extends GameMap {
 	}
 
 	public void destroyLadder(int col, int row) {
-		System.out.println(map[2][getHeight() - row - 1][col]);
 		map[2][getHeight() - row - 1][col] = 0;
-		System.out.println(map[2][getHeight() - row - 1][col]);
 	}
 
 	public int getStoneAndGemHealth(int col, int row) {
