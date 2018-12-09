@@ -15,7 +15,7 @@ public class Item extends Character implements Destroyable {
 
 	private MainCharacter player;
 	private TextureRegion[][] rollSpriteSheet;
-	private int item;
+	private int id;
 	private boolean isDestroyed;
 	private float elapsedTime;
 	private double prw;
@@ -38,7 +38,7 @@ public class Item extends Character implements Destroyable {
 		this.player = player;
 		prw = player.getRenderWidth();
 		prh = player.getRenderHeight();
-		this.item = item;
+		this.id = item;
 		this.cam = cam;
 		this.isDestroyed = false;
 		this.elapsedTime = 0;
@@ -70,7 +70,7 @@ public class Item extends Character implements Destroyable {
 	}
 
 	public TextureRegion getTexture() {
-		return rollSpriteSheet[(int) Math.ceil((double) item / (double) 3) - 1][(int) (item + 2) % 3];
+		return rollSpriteSheet[(int) Math.ceil((double) id / (double) 3) - 1][(int) (id + 2) % 3];
 	}
 
 	public boolean isDestroyed() {
@@ -79,67 +79,67 @@ public class Item extends Character implements Destroyable {
 
 	private void addScore() {
 		int tempScore = 0;
-		if (item == StoneAndGem.MINERAL_EARTHCRYSTAL.getId()) {
+		if (id == StoneAndGem.MINERAL_EARTHCRYSTAL.getId()) {
 			tempScore = 50;
-		} else if (item == StoneAndGem.MINERAL_CARROT.getId()) {
+		} else if (id == StoneAndGem.MINERAL_CARROT.getId()) {
 			player.addHP(5);
 			player.addEffect(new DamageEffect((int) (player.getPosition().x + (player.getRenderWidth() / 2) - 6),
 					(int) (player.getPosition().y + player.getRenderHeight() - 15), 5, 3, player));
-		} else if (item == StoneAndGem.MINERAL_PAGE.getId()) {
+		} else if (id == StoneAndGem.MINERAL_PAGE.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_RING.getId()) {
+		} else if (id == StoneAndGem.MINERAL_RING.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_BOOK.getId()) {
+		} else if (id == StoneAndGem.MINERAL_BOOK.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_SPOON.getId()) {
+		} else if (id == StoneAndGem.MINERAL_SPOON.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_GEAR1.getId()) {
+		} else if (id == StoneAndGem.MINERAL_GEAR1.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_JAR.getId()) {
+		} else if (id == StoneAndGem.MINERAL_JAR.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_FROZENTEAR.getId()) {
+		} else if (id == StoneAndGem.MINERAL_FROZENTEAR.getId()) {
 			tempScore = 50;
-		} else if (item == StoneAndGem.MINERAL_BLADE.getId()) {
+		} else if (id == StoneAndGem.MINERAL_BLADE.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_GEAR2.getId()) {
+		} else if (id == StoneAndGem.MINERAL_GEAR2.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_MASK.getId()) {
+		} else if (id == StoneAndGem.MINERAL_MASK.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_STONESLAB.getId()) {
+		} else if (id == StoneAndGem.MINERAL_STONESLAB.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_RAINBOW.getId()) {
+		} else if (id == StoneAndGem.MINERAL_RAINBOW.getId()) {
 			tempScore = 500;
-		} else if (item == StoneAndGem.MINERAL_COPPER1.getId()) {
+		} else if (id == StoneAndGem.MINERAL_COPPER1.getId()) {
 			tempScore = 10;
-		} else if (item == StoneAndGem.MINERAL_COPPER2.getId()) {
+		} else if (id == StoneAndGem.MINERAL_COPPER2.getId()) {
 			tempScore = 10;
-		} else if (item == StoneAndGem.MINERAL_SILVER1.getId()) {
+		} else if (id == StoneAndGem.MINERAL_SILVER1.getId()) {
 			tempScore = 15;
-		} else if (item == StoneAndGem.MINERAL_SILVER2.getId()) {
+		} else if (id == StoneAndGem.MINERAL_SILVER2.getId()) {
 			tempScore = 15;
-		} else if (item == StoneAndGem.MINERAL_GOLD1.getId()) {
+		} else if (id == StoneAndGem.MINERAL_GOLD1.getId()) {
 			tempScore = 20;
-		} else if (item == StoneAndGem.MINERAL_GOLD2.getId()) {
+		} else if (id == StoneAndGem.MINERAL_GOLD2.getId()) {
 			tempScore = 20;
-		} else if (item == StoneAndGem.MINERAL_IRIDIUM1.getId()) {
+		} else if (id == StoneAndGem.MINERAL_IRIDIUM1.getId()) {
 			tempScore = 30;
-		} else if (item == StoneAndGem.MINERAL_IRIDIUM2.getId()) {
+		} else if (id == StoneAndGem.MINERAL_IRIDIUM2.getId()) {
 			tempScore = 30;
-		} else if (item == StoneAndGem.MINERAL_DIAMOND.getId()) {
+		} else if (id == StoneAndGem.MINERAL_DIAMOND.getId()) {
 			tempScore = 300;
-		} else if (item == StoneAndGem.MINERAL_RUBY.getId()) {
+		} else if (id == StoneAndGem.MINERAL_RUBY.getId()) {
 			tempScore = 100;
-		} else if (item == StoneAndGem.MINERAL_JADE.getId()) {
+		} else if (id == StoneAndGem.MINERAL_JADE.getId()) {
 			tempScore = 70;
-		} else if (item == StoneAndGem.MINERAL_TOPAZ.getId()) {
+		} else if (id == StoneAndGem.MINERAL_TOPAZ.getId()) {
 			tempScore = 70;
-		} else if (item == StoneAndGem.MINERAL_EMERALD.getId()) {
+		} else if (id == StoneAndGem.MINERAL_EMERALD.getId()) {
 			tempScore = 70;
-		} else if (item == StoneAndGem.MINERAL_AMETHYST.getId()) {
+		} else if (id == StoneAndGem.MINERAL_AMETHYST.getId()) {
 			tempScore = 70;
 		}
 		player.addScore(tempScore);
-		if (item != StoneAndGem.MINERAL_CARROT.getId()) {
+		if (id != StoneAndGem.MINERAL_CARROT.getId()) {
 			DamageEffect tempEffect = new DamageEffect((int) cam.position.x - 135, (int) cam.position.y - 55, tempScore,
 					0, player);
 			tempEffect.setAttachToCharacter(true);
