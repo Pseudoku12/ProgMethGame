@@ -35,8 +35,8 @@ public class MonsterSpawner {
 		int temp;
 		int monster;
 		for (int i = 0; i < amount; i++) {
-			temp = rand.nextInt(3);
-			monster = temp;
+			temp = rand.nextInt(360);
+			monster = rand.nextInt(3);
 			pos.x = (float) (player.getPosition().x + (Math.cos(Math.toRadians(temp)) * spawnRange));
 			pos.y = (float) (player.getPosition().y + (Math.sin(Math.toRadians(temp)) * spawnRange));
 			if (monster == 0) {
