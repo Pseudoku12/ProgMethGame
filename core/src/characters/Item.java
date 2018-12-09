@@ -22,7 +22,7 @@ public class Item extends Character implements Destroyable {
 	private double prh;
 	private OrthographicCamera cam;
 
-	public Item(int x, int y, int speed, int item, MainCharacter player, OrthographicCamera cam) {
+	public Item(int x, int y, int speed, int id, MainCharacter player, OrthographicCamera cam) {
 		animationSpeed = 0.5f;
 		renderWidth = 16;
 		renderHeight = 16;
@@ -38,7 +38,7 @@ public class Item extends Character implements Destroyable {
 		this.player = player;
 		prw = player.getRenderWidth();
 		prh = player.getRenderHeight();
-		this.id = item;
+		this.id = id;
 		this.cam = cam;
 		this.isDestroyed = false;
 		this.elapsedTime = 0;
