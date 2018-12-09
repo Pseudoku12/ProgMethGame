@@ -53,9 +53,9 @@ public class ItemSpawner {
 		typeDrop = -1;
 		Random random = new Random();
 		int canDrop = -1;
-		if (level < 10) {
+		if (level < 11) {
 			canDrop = random.nextInt(7250) + 1;
-		} else if (level < 20) {
+		} else if (level < 21) {
 			canDrop = random.nextInt(8583) + 1;
 		} else {
 			canDrop = random.nextInt(8874) + 1;

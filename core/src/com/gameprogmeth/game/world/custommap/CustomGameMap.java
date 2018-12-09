@@ -322,6 +322,7 @@ public class CustomGameMap extends GameMap {
 		mainCharacter.setHP(hp);
 		itemSpawner = new ItemSpawner(mainCharacter, level, cam);
 		monsterSpawner = new MonsterSpawner(mainCharacter, 200, level, CustomGameMap.itemSpawner);
+		monsterSpawner.spawnMonster((level % 5) + 1);
 		nextSpawning = 5;
 		stateTime = 0;
 	}
@@ -399,9 +400,8 @@ public class CustomGameMap extends GameMap {
 
 		if (stone != null) {
 
-			if (stone.getId() == StoneAndGem.LADDER_GROUND.getId() ||
-				stone.getId() == StoneAndGem.LADDER_ICE.getId()	||
-				stone.getId() == StoneAndGem.LADDER_LAVA.getId()) {
+			if (stone.getId() == StoneAndGem.LADDER_GROUND.getId() || stone.getId() == StoneAndGem.LADDER_ICE.getId()
+					|| stone.getId() == StoneAndGem.LADDER_LAVA.getId()) {
 
 				destroyLadder(col, row);
 				toNextLevel();
