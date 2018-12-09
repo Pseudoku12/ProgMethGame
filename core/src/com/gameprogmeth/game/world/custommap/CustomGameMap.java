@@ -161,7 +161,7 @@ public class CustomGameMap extends GameMap {
 		}
 	}
 
-	protected void handleInput() {
+	public void handleInput() {
 		if (mainCharacter.getAnimation().isAnimationFinished(mainCharacter.getStateTime())
 				|| mainCharacter.getRoll() < 4) {
 			if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {

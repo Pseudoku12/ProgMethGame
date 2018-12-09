@@ -15,7 +15,7 @@ public class ItemSpawner {
 	private ArrayList<Integer> markForRemoved;
 	private MainCharacter player;
 	private int level;
-	private int typeDrop, rowDrop, colDrop;
+	private int typeDrop;
 	private OrthographicCamera cam;
 
 	public ItemSpawner(MainCharacter player, int level, OrthographicCamera cam) {
